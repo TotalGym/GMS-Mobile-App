@@ -6,4 +6,9 @@ class Payment {
   DateTime paymentDate;
 
   Payment(this.id, this.amount, this.status, this.dueDate, this.paymentDate);
+
+  /** 
+   * To Do 
+   * mapping functionality
+   */
 }

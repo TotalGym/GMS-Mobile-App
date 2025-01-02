@@ -1,18 +1,17 @@
 import 'package:gmn/models/attendance.dart';
-import 'package:gmn/models/membership.dart';
-import 'package:gmn/models/program.dart';
-import 'package:gmn/models/trainee_progress_inctance.dart';
+import 'package:gmn/models/trainee/membership.dart';
+import 'package:gmn/models/trainee/trainee_progress_inctance.dart';
 
 class Trainee {
-  late String  id;
+  late String id;
   late MemberShip memberShip;
   late List<String> selectedProgramsIDs = [];
   late List<Attendance> attendance = [];
   late TraineeProgressInstance progress;
- late String name;
- late String email;
- late String phoneNumber;
- late String gender;
+  late String name;
+  late String email;
+  late String phoneNumber;
+  late String gender;
 
   Trainee(
     this.id,
@@ -26,36 +25,25 @@ class Trainee {
     this.gender = "Undefined",
   });
 
-
   Trainee.fromMap(Map<String, dynamic> map) {
     id = map["ID"];
     memberShip = MemberShip(
       DateTime(map["Membership"]["StartDate"]),
-      DateTime(map["Membership"]["EndDate"])
-      );
-    selectedProgramsIDs = map["SelectedPrograms"];
-    // attendance = getAttendanceList(map["Attendance"]);
-    attendance = getAttendanceList(map["Attendance"]);
-    progress = TraineeProgressInstance(
-        map["Progress"]["Milestones"],
-        map["Progress"]["matrics"]
+      DateTime(map["Membership"]["EndDate"]),
     );
-    name = "name";// map["Name"] ?? "Unknown Trainee";
+    selectedProgramsIDs = map["SelectedPrograms"];
+    attendance = Attendance.getAttendanceList(
+      map["Attendance"],
+    );
+    progress = TraineeProgressInstance(
+      map["Progress"]["Milestones"],
+      map["Progress"]["Metrics"],
+    );
+    name = map["Name"] ?? "Unknown Trainee";
     email = map["Contact"]["Email"] ?? "NA";
     phoneNumber = map["Contact"]["PhoneNumber"] ?? "NA";
     gender = map["Gender"] ?? "Undefined";
   }
-
-  List<Attendance> getAttendanceList(Map<String,dynamic> attendanceMap){
-
-     List<Attendance> attendaceList = attendanceMap.map((e) {
-      return Attendance.fromMap(e);
-    }).toList();
-    List<Attendance> attendanceList;
-    attendance.add(Attendance(date, status))
-    return [];
-  }
-
 
   Map<String, dynamic> toMap() {
     return {
@@ -70,10 +58,10 @@ class Trainee {
     };
   }
 
-    @override
-    String toString() {
-      return "\nTrainee name: $name,\nEmail: $email\nMembership:\n ${memberShip.toString()}"
-          "\nPrograms: $selectedPrograms";
-    }
+  @override
+  String toString() {
+    return "\nTrainee name: $name,\nEmail: $email\nMembership:\n ${memberShip.toString()}"
+        "\nPrograms: $selectedProgramsIDs"
+        "\nAttendace Details:\n $attendance";
   }
 }
