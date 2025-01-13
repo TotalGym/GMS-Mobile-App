@@ -5,14 +5,14 @@ class Attendance {
   Attendance(this.date, this.status);
 
   Attendance.fromMap(Map<String, dynamic> attendace) {
-    date = DateTime(attendace["Date"]);
-    status = attendace["Status"];
+    date = DateTime(attendace["date"]);
+    status = attendace["status"];
   }
 
   Map<String, dynamic> toMap() {
     return {
-      "Date": date,
-      "Status": status,
+      "date": date,
+      "status": status,
     };
   }
 

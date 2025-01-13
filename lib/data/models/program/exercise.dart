@@ -6,7 +6,9 @@ class Exercise {
   Exercise(this.name, this.sets, this.repetitions);
 
   Exercise.fromMap(Map<String, dynamic> map) {
-    name = map[]
+    name = map["name"];
+    sets = map["sets"];
+    repetitions = map["repetisions"];
   }
 
   static List<Exercise> getExercisesList(

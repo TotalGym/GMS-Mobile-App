@@ -1,6 +1,6 @@
-import 'package:gmn/models/attendance.dart';
-import 'package:gmn/models/trainee/membership.dart';
-import 'package:gmn/models/trainee/trainee_progress_inctance.dart';
+import 'package:gmn/data/models/attendance.dart';
+import 'package:gmn/data/models/trainee/membership.dart';
+import 'package:gmn/data/models/trainee/trainee_progress_inctance.dart';
 
 class Trainee {
   late String id;
@@ -26,35 +26,35 @@ class Trainee {
   });
 
   Trainee.fromMap(Map<String, dynamic> map) {
-    id = map["ID"];
+    id = map["id"];
     memberShip = MemberShip(
-      DateTime(map["Membership"]["StartDate"]),
-      DateTime(map["Membership"]["EndDate"]),
+      DateTime(map["membership"]["mtartDate"]),
+      DateTime(map["membership"]["endDate"]),
     );
-    selectedProgramsIDs = map["SelectedPrograms"];
+    selectedProgramsIDs = map["selectedPrograms"];
     attendance = Attendance.getAttendanceList(
-      map["Attendance"],
+      map["attendance"],
     );
     progress = TraineeProgressInstance(
-      map["Progress"]["Milestones"],
-      map["Progress"]["Metrics"],
+      map["progress"]["milestones"],
+      map["progress"]["metrics"],
     );
-    name = map["Name"] ?? "Unknown Trainee";
-    email = map["Contact"]["Email"] ?? "NA";
-    phoneNumber = map["Contact"]["PhoneNumber"] ?? "NA";
-    gender = map["Gender"] ?? "Undefined";
+    name = map["name"] ?? "Unknown Trainee";
+    email = map["contact"]["email"] ?? "NA";
+    phoneNumber = map["contact"]["phoneNumber"] ?? "NA";
+    gender = map["gender"] ?? "Undefined";
   }
 
   Map<String, dynamic> toMap() {
     return {
-      "ID": id,
-      "Name": name,
-      "Contact": {"Email": email, "PhoneNumber": phoneNumber},
-      "Gender": gender,
-      "Membership": memberShip,
-      "Attendance": attendance,
-      "SelectedPrograms": selectedProgramsIDs,
-      "Progress": progress
+      "id": id,
+      "name": name,
+      "contact": {"email": email, "phoneNumber": phoneNumber},
+      "gender": gender,
+      "membership": memberShip,
+      "attendance": attendance,
+      "selectedPrograms": selectedProgramsIDs,
+      "progress": progress
     };
   }
 

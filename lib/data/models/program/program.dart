@@ -1,5 +1,5 @@
-import 'package:gmn/models/exercise.dart';
-import 'package:gmn/models/trainee/trainee.dart';
+import 'package:gmn/data/models/program/exercise.dart';
+import 'package:gmn/data/models/trainee/trainee.dart';
 
 class Program {
   late String id;
@@ -16,12 +16,23 @@ class Program {
       this.registeredTrainees});
 
   Program.fromMap(Map<String, dynamic> map) {
-    id = map["ID"];
-    exercises = Exercise.getExercisesList(map["Exercises"]);
-    description = map["Description"];
-    image = map["Image"];
-    schedual = map["Schedule"];
-    registeredTrainees = map["RegisteredTrainees"];
+    id = map["id"];
+    exercises = Exercise.getExercisesList(map["exercises"]);
+    description = map["description"];
+    image = map["image"];
+    schedual = map["schedule"];
+    registeredTrainees = map["registeredTrainees"];
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      "id": id,
+      "exercises": exercises,
+      "description": description,
+      "image": image,
+      "schedule": schedual,
+      "registeredTrainees": registeredTrainees,
+    };
   }
 
   @override

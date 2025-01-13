@@ -1,6 +1,5 @@
-import 'package:gmn/models/attendance.dart';
-import 'package:gmn/models/staf/payroll.dart';
-import 'package:gmn/models/trainee/membership.dart';
+import 'package:gmn/data/models/attendance.dart';
+import 'package:gmn/data/models/staf/payroll.dart';
 
 class Trainer {
   late String id;
@@ -22,23 +21,23 @@ class Trainer {
   });
 
   Trainer.fromMap(Map<String, dynamic> map) {
-    id = map["ID"];
-    name = map["Name"] ?? "Unknown Trainer";
-    role = map["Role"] ?? "Trainer";
-    attendance = Attendance.getAttendanceList(map["Attendance"]);
-    payroll = Payroll.fromMap(map["Payroll"]);
-    email = map["Contact"]["Email"] ?? "NA";
-    phoneNumber = map["Contact"]["PhoneNumber"] ?? "NA";
+    id = map["id"];
+    name = map["name"] ?? "Unknown Trainer";
+    role = map["role"] ?? "Trainer";
+    attendance = Attendance.getAttendanceList(map["attendance"]);
+    payroll = Payroll.fromMap(map["payroll"]);
+    email = map["contact"]["email"] ?? "NA";
+    phoneNumber = map["contact"]["phoneNumber"] ?? "NA";
   }
 
   Map<String, dynamic> toMap() {
     return {
-      "ID": id,
-      "Name": name,
-      "Role": role,
-      "Contact": {"Email": email, "PhoneNumber": phoneNumber},
-      "Attendance": attendance,
-      "Payroll": payroll.toMap()
+      "id": id,
+      "name": name,
+      "role": role,
+      "contact": {"email": email, "phoneNumber": phoneNumber},
+      "attendance": attendance,
+      "payroll": payroll.toMap()
     };
   }
 
