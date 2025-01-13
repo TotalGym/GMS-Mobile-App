@@ -1,4 +1,5 @@
 class Exercise {
+  late String id;
   late String name;
   late String sets;
   late int repetitions;
@@ -6,6 +7,7 @@ class Exercise {
   Exercise(this.name, this.sets, this.repetitions);
 
   Exercise.fromMap(Map<String, dynamic> map) {
+    id = map["_id"];
     name = map["name"];
     sets = map["sets"];
     repetitions = map["repetisions"];
@@ -13,11 +15,11 @@ class Exercise {
 
   static List<Exercise> getExercisesList(
       List<Map<String, dynamic>> exerciseMap) {
-    List<Exercise> attendaceList = exerciseMap.map((e) {
+    List<Exercise> exercisesList = exerciseMap.map((e) {
       return Exercise.fromMap(e);
     }).toList();
 
-    return attendaceList;
+    return exercisesList;
   }
 
   @override

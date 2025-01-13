@@ -10,7 +10,7 @@ class Payroll {
     salary = map["salary"];
     bonus = map["bonus"];
     deduction = map["deductions"];
-    payDay = DateTime(map["date"]);
+    payDay = DateTime(map["payDate"]);
   }
 
   Map<String, dynamic> toMap() {

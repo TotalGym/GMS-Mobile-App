@@ -26,9 +26,9 @@ class Trainee {
   });
 
   Trainee.fromMap(Map<String, dynamic> map) {
-    id = map["id"];
+    id = map["_id"];
     memberShip = MemberShip(
-      DateTime(map["membership"]["mtartDate"]),
+      DateTime(map["membership"]["startDate"]),
       DateTime(map["membership"]["endDate"]),
     );
     selectedProgramsIDs = map["selectedPrograms"];

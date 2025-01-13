@@ -16,7 +16,7 @@ class Program {
       this.registeredTrainees});
 
   Program.fromMap(Map<String, dynamic> map) {
-    id = map["id"];
+    id = map["_id"];
     exercises = Exercise.getExercisesList(map["exercises"]);
     description = map["description"];
     image = map["image"];

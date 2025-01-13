@@ -1,10 +1,12 @@
 class Attendance {
+  late String id;
   late DateTime date;
   late String? status;
 
   Attendance(this.date, this.status);
 
   Attendance.fromMap(Map<String, dynamic> attendace) {
+    id = attendace["_id"];
     date = DateTime(attendace["date"]);
     status = attendace["status"];
   }

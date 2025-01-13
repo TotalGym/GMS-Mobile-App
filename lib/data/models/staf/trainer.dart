@@ -21,7 +21,7 @@ class Trainer {
   });
 
   Trainer.fromMap(Map<String, dynamic> map) {
-    id = map["id"];
+    id = map["_id"];
     name = map["name"] ?? "Unknown Trainer";
     role = map["role"] ?? "Trainer";
     attendance = Attendance.getAttendanceList(map["attendance"]);
