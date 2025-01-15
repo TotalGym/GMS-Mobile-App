@@ -2,6 +2,8 @@ import 'package:gmn/data/models/program/exercise.dart';
 import 'package:gmn/data/models/trainee/trainee.dart';
 
 class Program {
+  static String mName = "program";
+
   late String id;
   late List<Exercise>? exercises = [];
   late String description;

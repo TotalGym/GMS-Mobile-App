@@ -3,6 +3,8 @@ import 'package:gmn/data/models/trainee/membership.dart';
 import 'package:gmn/data/models/trainee/trainee_progress_inctance.dart';
 
 class Trainee {
+  static String mName = "trainee";
+
   late String id;
   late MemberShip memberShip;
   late List<String> selectedProgramsIDs = [];

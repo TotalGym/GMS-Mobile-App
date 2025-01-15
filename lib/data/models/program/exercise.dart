@@ -1,4 +1,6 @@
 class Exercise {
+  static String mName = "exercise";
+
   late String id;
   late String name;
   late String sets;

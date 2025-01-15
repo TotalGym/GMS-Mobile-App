@@ -1,9 +1,8 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:gmn/data/models/trainee/trainee.dart';
 import 'package:gmn/data/network/api.dart';
-
-import '../models/trainee/trainee.dart';
 
 class DioHelper {
   DioHelper._();
@@ -22,7 +21,7 @@ class DioHelper {
       };
 
       Response response = await dio.get(
-        '${ApiEndPoints.trainee}6773ebf159f9ad7d493331bc',
+        '${ApiHelper.link(modelName: Trainee.mName)}/6773ebf159f9ad7d493331bc',
 
         // options: buildCacheOptions(const Duration(days: 1),
         // maxStale: const Duration(days: 3))
