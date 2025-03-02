@@ -18,9 +18,8 @@ class Attendance {
     };
   }
 
-  static List<Attendance> getAttendanceList(
-      List<Map<String, dynamic>> attendanceMap) {
-    List<Attendance> attendaceList = attendanceMap.map((e) {
+  static List getAttendanceList(attendanceMap) {
+    List attendaceList = attendanceMap.map((e) {
       return Attendance.fromMap(e);
     }).toList();
 

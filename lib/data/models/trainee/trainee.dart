@@ -1,69 +1,50 @@
 import 'package:gmn/data/models/attendance.dart';
-import 'package:gmn/data/models/trainee/membership.dart';
-import 'package:gmn/data/models/trainee/trainee_progress_inctance.dart';
 
 class Trainee {
+  static String profile = "profile";
   static String mName = "trainee";
 
-  late String id;
-  late MemberShip memberShip;
-  late List<String> selectedProgramsIDs = [];
-  late List<Attendance> attendance = [];
-  late TraineeProgressInstance progress;
+  late List attendance = [];
   late String name;
   late String email;
   late String phoneNumber;
-  late String gender;
+  late String role;
+  late String status;
 
-  Trainee(
-    this.id,
-    this.memberShip,
-    this.selectedProgramsIDs,
-    this.attendance,
-    this.progress, {
-    this.name = "Unknown Trainee",
-    this.email = "NA",
-    this.phoneNumber = "NA",
-    this.gender = "Undefined",
-  });
+  Trainee(this.attendance,
+      {this.name = "Unknown Trainee",
+      this.email = "NA",
+      this.phoneNumber = "NA",
+      this.role = 'Trainee',
+      this.status = 'new'});
 
   Trainee.fromMap(Map<String, dynamic> map) {
-    id = map["_id"];
-    memberShip = MemberShip(
-      DateTime(map["membership"]["startDate"]),
-      DateTime(map["membership"]["endDate"]),
-    );
-    selectedProgramsIDs = map["selectedPrograms"];
-    attendance = Attendance.getAttendanceList(
-      map["attendance"],
-    );
-    progress = TraineeProgressInstance(
-      map["progress"]["milestones"],
-      map["progress"]["metrics"],
-    );
-    name = map["name"] ?? "Unknown Trainee";
-    email = map["contact"]["email"] ?? "NA";
-    phoneNumber = map["contact"]["phoneNumber"] ?? "NA";
-    gender = map["gender"] ?? "Undefined";
+    if (map.isNotEmpty) {
+      attendance = Attendance.getAttendanceList(
+        map["attendance"] ?? [{}],
+      );
+
+      name = map["name"] ?? "Unknown Trainee";
+      email = map["email"] ?? "NA";
+      phoneNumber = map["contact"]["phoneNumber"] ?? "NA";
+      role = map["role"] ?? "Trainee";
+      status = map["status"] ?? "new";
+    }
   }
 
   Map<String, dynamic> toMap() {
     return {
-      "id": id,
       "name": name,
+      "email": email,
       "contact": {"email": email, "phoneNumber": phoneNumber},
-      "gender": gender,
-      "membership": memberShip,
+      "role": role,
+      "status": status,
       "attendance": attendance,
-      "selectedPrograms": selectedProgramsIDs,
-      "progress": progress
     };
   }
 
   @override
   String toString() {
-    return "\nTrainee name: $name,\nEmail: $email\nMembership:\n ${memberShip.toString()}"
-        "\nPrograms: $selectedProgramsIDs"
-        "\nAttendace Details:\n $attendance";
+    return "\nTrainee name: $name,\nEmail: $email\nAttendace Details:\n $attendance";
   }
 }

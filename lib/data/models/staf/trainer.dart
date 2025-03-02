@@ -5,7 +5,7 @@ class Trainer {
   late String id;
   late String name;
   late String role;
-  late List<Attendance> attendance = [];
+  late List attendance = [];
   late String email;
   late String phoneNumber;
   late Payroll payroll;
