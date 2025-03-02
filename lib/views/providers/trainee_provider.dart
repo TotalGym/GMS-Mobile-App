@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/widgets.dart';
 import 'package:gmn/data/models/trainee/trainee.dart';
 // import 'package:gmn/data/network/dio_helper.dart';

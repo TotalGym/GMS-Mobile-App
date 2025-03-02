@@ -24,6 +24,7 @@ class DioHelper {
       //     "This is the target link: ${ApiHelper.link(modelName: model)} from the get method withing dio_helper");
       Response response = await dio.get(ApiHelper.link(modelName: model));
 
+      // ignore: avoid_print
       print("Data is: ${response.data['data']} inside get withing dio_helper");
       return response.data;
     } catch (e) {

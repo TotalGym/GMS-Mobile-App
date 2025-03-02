@@ -16,6 +16,7 @@ class TraineeRepo {
     log(data['data'].toString());
     log("inside TraineeRepo->getTrainee after");
 
+    //ignore: avoid_print
     print("trainee_repo-> return value is: ${Trainee.fromMap(data['data'])}");
 
     return Trainee.fromMap(data['data']);

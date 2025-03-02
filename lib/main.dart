@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gmn/data/repositories/trainee_repo.dart';
+import 'package:gmn/views/providers/program_provider.dart';
+import 'package:gmn/views/providers/store_provider.dart';
 import 'package:gmn/views/providers/trainee_provider.dart';
 import 'package:gmn/views/screens/home.dart';
 import 'package:provider/provider.dart';
@@ -14,10 +15,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // DioHelper.io.getTrainee("", "");
-    TraineeRepo something = TraineeRepo();
-    // something.getTrainee();
-
     return ScreenUtilInit(
       child: MultiProvider(
         providers: [
