@@ -1,29 +1,32 @@
 import 'package:gmn/data/models/program/exercise.dart';
-import 'package:gmn/data/models/trainee/trainee.dart';
 
 class Program {
-  static String mName = "program";
+  static String mName = "programs";
 
-  late String id;
-  late List<Exercise>? exercises = [];
-  late String description;
-  late String image;
-  late List<Map<String, dynamic>> schedual = [];
-  late List<Trainee>? registeredTrainees = [];
+  String? id;
+  List<Exercise>? exercises = [];
+  String? description;
+  num? monthlyPrice;
+  num? annualPrice;
+  String? image;
+  List? schedual = [];
 
-  Program(this.id, this.schedual,
-      {this.exercises,
-      this.description = 'No Description',
-      this.image = 'No source available',
-      this.registeredTrainees});
+  Program(
+    this.id,
+    this.schedual, {
+    this.exercises,
+    this.description = 'No Description',
+    this.image = 'No source available',
+  });
 
   Program.fromMap(Map<String, dynamic> map) {
     id = map["_id"];
     exercises = Exercise.getExercisesList(map["exercises"]);
     description = map["description"];
+    monthlyPrice = map["monthlyPrice"];
+    annualPrice = map["annuallyPrice"];
     image = map["image"];
     schedual = map["schedule"];
-    registeredTrainees = map["registeredTrainees"];
   }
 
   Map<String, dynamic> toMap() {
@@ -33,7 +36,6 @@ class Program {
       "description": description,
       "image": image,
       "schedule": schedual,
-      "registeredTrainees": registeredTrainees,
     };
   }
 
