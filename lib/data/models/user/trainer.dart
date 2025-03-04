@@ -1,5 +1,5 @@
 import 'package:gmn/data/models/attendance.dart';
-import 'package:gmn/data/models/staf/payroll.dart';
+import 'package:gmn/data/models/user/payroll.dart';
 
 class Trainer {
   late String id;

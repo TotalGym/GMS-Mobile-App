@@ -5,11 +5,14 @@ import 'package:gmn/data/repositories/trainee_repo.dart';
 
 class TraineeProvider extends ChangeNotifier {
   late Trainee trainees = Trainee([]);
+
   // late String response = "nothing yet";
   getTrainee() async {
     trainees = await TraineeRepo().getTrainee();
     notifyListeners();
   }
+
+  getUser() async {}
 
   // getAnyResponse() async {
   //   response = await TraineeRepo().getAnyResponse();

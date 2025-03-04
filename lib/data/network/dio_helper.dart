@@ -13,12 +13,12 @@ class DioHelper {
     ),
   );
 
-  Future<Map<String, dynamic>> get({
-    token = "",
-    model = "",
-    id = "",
-  }) async {
-    dio.options.headers.addAll({'Authorization': '$token'});
+  Future<Map<String, dynamic>> get(
+    String token,
+    String model,
+    String id,
+  ) async {
+    dio.options.headers.addAll({'Authorization': token});
     try {
       // print(
       //     "This is the target link: ${ApiHelper.link(modelName: model)} from the get method withing dio_helper");
@@ -33,7 +33,30 @@ class DioHelper {
     }
   }
 
-  // Future<String> post() {}
+  Future<Map> post(String token, Map body, String model) async {
+    dio.options.headers.addAll({'Authorization': token});
+
+    try {
+      //ignore: avoid_print
+      print(
+          "This is the target link: ${ApiHelper.link(modelName: model)} from the post method withing dio_helper");
+
+      Response response =
+          await dio.post(ApiHelper.link(modelName: model), data: body);
+
+      // ignore: avoid_print
+      print("responce is: $response. inside post withing dio_helper");
+      if (response.data["success"] == true) {
+        return response.data;
+      } else {
+        return {};
+      }
+    } catch (e) {
+      log("Get Function failed to get responce: $e");
+      return Future(() => {});
+    }
+  }
+
   // Future<String> put() {}
   // Future<String> delete() {}
 

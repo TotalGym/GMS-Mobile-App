@@ -1,7 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:gmn/views/providers/program_provider.dart';
-import 'package:gmn/views/providers/trainee_provider.dart';
+import 'package:gmn/views/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
@@ -11,55 +9,55 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<TraineeProvider>(context, listen: false).getTrainee();
-    Provider.of<ProgramProvider>(context, listen: false).getAllPrograms();
-    // context.read<TraineeProvider>().getTrainee();
+    Provider.of<UserProvider>(context).checkIfLoggedIn();
+    //ignore: avoid_print
+    print(
+        "this is from build and this is the token: ${Provider.of<UserProvider>(context).token}");
+    // Provider.of<TraineeProvider>(context, listen: false).getTrainee();
+    // Provider.of<ProgramProvider>(context, listen: false).getAllPrograms();
     // return Consumer<TraineeProvider>(builder: (context, value, child) {
     // value.getTrainee();
+    // context.read<UserProvider>().getUser("moha5gmail.com", 'moh123');
+    // Provider.of<UserProvider>(context, listen: false)
+    //     .logUserIn("moha5@gmail.com", 'moh123');
+    // SharePreferencesHelper();
+
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(top: 100),
         child: Column(
+          // mainAxisAlignment: MainAxisAlignment.start,
+          // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Consumer<ProgramProvider>(
-              builder: (context, provider, child) {
-                if (provider.programs != null) {
-                  return Column(
-                    children: [
-                      Text(provider.programs.toString()),
-                      SizedBox(
-                        height: 150,
-                        width: 150,
-                        child: CachedNetworkImage(
-                          imageUrl:
-                              "https://thebrandhopper.com/wp-content/uploads/2021/10/Product-Innovation.jpg",
-                          progressIndicatorBuilder:
-                              (context, url, downloadProgress) =>
-                                  CircularProgressIndicator(
-                                      value: downloadProgress.progress),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
-                        ),
-                      ),
-                    ],
-                  );
-                } else {
-                  return const CircularProgressIndicator();
-                }
-              },
-            ),
-            ElevatedButton(
-              onPressed: () {
-                context.read<TraineeProvider>().getTrainee();
-              },
-              child: Container(
-                decoration: const BoxDecoration(color: Colors.black),
-                child: const SizedBox(
-                  height: 100,
-                  width: 200,
-                ),
-              ),
-            )
+            Consumer<UserProvider>(
+                builder: (context, provider, child) => Text(
+                    "${provider.user != null ? provider.user!.email : ""}")),
+
+            Consumer<UserProvider>(
+                builder: (context, provider, child) => Text(
+                    "${provider.user != null ? provider.token : "token did not found"}")),
+
+            // SizedBox(
+            //   height: 150,
+            //   width: 150,
+            //   child: CachedNetworkImage(
+            //     imageUrl:
+            //         "https://thebrandhopper.com/wp-content/uploads/2021/10/Product-Innovation.jpg",
+            //     progressIndicatorBuilder:
+            //         (context, url, downloadProgress) =>
+            //             CircularProgressIndicator(
+            //                 value: downloadProgress.progress),
+            //     errorWidget: (context, url, error) =>
+            //         const Icon(Icons.error),
+            //   ),
+            // ),
+            // ListView.builder(
+            //   itemBuilder: (context, index) {
+            //     return const Text('data');
+            //   },
+            //   itemCount: 100,
+            //   scrollDirection: Axis.vertical,
+            // )
           ],
         ),
       ),

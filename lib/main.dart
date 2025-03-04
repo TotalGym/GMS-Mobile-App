@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gmn/values/app_router.dart';
 import 'package:gmn/views/providers/program_provider.dart';
 import 'package:gmn/views/providers/store_provider.dart';
 import 'package:gmn/views/providers/trainee_provider.dart';
-import 'package:gmn/views/screens/home.dart';
+import 'package:gmn/views/providers/user_provider.dart';
+import 'package:gmn/views/screens/onboarding.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
 }
 
@@ -21,15 +23,17 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => TraineeProvider()),
           ChangeNotifierProvider(create: (context) => StoreProvider()),
           ChangeNotifierProvider(create: (context) => ProgramProvider()),
+          ChangeNotifierProvider(create: (context) => UserProvider()),
         ],
         child: MaterialApp(
+          navigatorKey: AppRouter.navKey,
           debugShowCheckedModeBanner: false,
           title: 'Gym Management System',
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          home: const Home(title: 'Home Page'),
+          home: OnboardingScreen(),
         ),
       ),
     );

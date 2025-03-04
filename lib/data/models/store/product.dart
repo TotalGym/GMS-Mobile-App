@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 class Product {
   static String mName = "store";
 
