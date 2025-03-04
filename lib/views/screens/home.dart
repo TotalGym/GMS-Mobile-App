@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:gmn/values/app_router.dart';
+import 'package:gmn/views/providers/coach_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/auth/log_in.dart';
+import 'package:gmn/views/screens/coach/all_trainees.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
@@ -88,6 +90,49 @@ class Home extends StatelessWidget {
                     "From profile phone is: ${provider.traineeProfile != null ? provider.traineeProfile!.phoneNumber : "No phone"}"),
                 Text(
                     "From profile attendence is: ${provider.traineeProfile != null ? provider.traineeProfile!.attendance : "No attendance"}"),
+                if (provider.user!.role == "Coach")
+                  InkWell(
+                    onTap: () async {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const Dialog(
+                              backgroundColor: Colors.transparent,
+                              child: Center(child: CircularProgressIndicator()),
+                            );
+                          });
+                      await Provider.of<CoachProvider>(context, listen: false)
+                          .getAllTrainees(provider.token);
+                      await Future.delayed(const Duration(seconds: 2));
+                      AppRouter.popFromWidget();
+                      AppRouter.navigateToWidget(const TraineesIndex());
+
+                      // ignore: use_build_context_synchronously
+
+                      // // ignore: use_build_context_synchronously
+                      // Provider.of<UserProvider>(context, listen: false)
+                      //         .isLoggedIn!
+                      //     ? AppRouter.navigateWithReplacemtnToWidget(
+                      //         const Home())
+                      //     : AppRouter.navigateWithReplacemtnToWidget(
+                      //         const LogIn());
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: 150.sp,
+                      padding: EdgeInsets.all(12.sp),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8.sp)),
+                          color: Colors.blue[800]),
+                      child: Text(
+                        "All Trainees",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14.sp,
+                            color: Colors.white),
+                      ),
+                    ),
+                  ),
 
                 // SizedBox(
                 //   height: 150,

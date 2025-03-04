@@ -13,4 +13,20 @@ class TraineeRepo {
 
     return trainee;
   }
+
+  Future<List<Trainee>> getAllTrainees(String token) async {
+    Map data = await DioHelper.io.get(token, Trainee.mName, '', '');
+
+    log("trainee_repo -> getAllTrainees data from get is: $data");
+
+    List traineesMapList = data['data']['results'];
+
+    List<Trainee> trainees = traineesMapList.map((e) {
+      return Trainee.fromMap(e);
+    }).toList();
+
+    log("trainee_repo -> getAllTainees: $trainees");
+
+    return trainees;
+  }
 }

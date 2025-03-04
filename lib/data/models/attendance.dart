@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 class Attendance {
   late String id;
   late DateTime date;
@@ -7,7 +9,7 @@ class Attendance {
 
   Attendance.fromMap(Map<String, dynamic> attendace) {
     id = attendace["_id"];
-    date = DateTime(attendace["date"]);
+    date = DateTime.parse(attendace["date"]);
     status = attendace["status"];
   }
 
@@ -18,11 +20,11 @@ class Attendance {
     };
   }
 
-  static List getAttendanceList(attendanceMap) {
-    List attendaceList = attendanceMap.map((e) {
+  static List getAttendanceList(List? attendaceMapsList) {
+    if (attendaceMapsList == null) return [];
+    List attendaceList = attendaceMapsList.map((e) {
       return Attendance.fromMap(e);
     }).toList();
-
     return attendaceList;
   }
 

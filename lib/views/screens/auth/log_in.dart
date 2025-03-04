@@ -25,8 +25,16 @@ class _LogInState extends State<LogIn> {
           const Text("LogIn"),
           InkWell(
             onTap: () async {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return const Dialog(
+                      backgroundColor: Colors.transparent,
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                  });
               await Provider.of<UserProvider>(context, listen: false)
-                  .logUserIn("moha5@gmail.com", 'admin123');
+                  .logUserIn("test@test.com", 'test123');
 
               // ignore: use_build_context_synchronously
               Provider.of<UserProvider>(context, listen: false).isLoggedIn!

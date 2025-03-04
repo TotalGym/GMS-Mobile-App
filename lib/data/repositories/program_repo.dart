@@ -23,11 +23,6 @@ class ProgramRepo {
     List programMapList = data['data']['results'];
 
     List<Program> programs = programMapList.map((e) {
-      //ignore: avoid_log
-      log("program_repo-> return value is: $e");
-
-      //ignore: avoid_log
-      log("program_repo-> return value as product is: ${Program.fromMap(e)}");
       return Program.fromMap(e);
     }).toList();
 
