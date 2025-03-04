@@ -13,11 +13,4 @@ class TraineeProvider extends ChangeNotifier {
   }
 
   getUser() async {}
-
-  // getAnyResponse() async {
-  //   response = await TraineeRepo().getAnyResponse();
-  //   print(
-  //       "response is: ${response.toString()} inside the proivders's get any responde");
-  //   // notifyListeners();
-  // }
 }

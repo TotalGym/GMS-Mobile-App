@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 class AppRouter {
@@ -11,7 +13,8 @@ class AppRouter {
   }
 
   static navigateWithReplacemtnToWidget(Widget widget) {
-    print('navigating ');
+    //ignore: avoid_log
+    log('navigating ');
     Navigator.of(navKey.currentContext!)
         .pushReplacement(MaterialPageRoute(builder: (context) {
       return widget;

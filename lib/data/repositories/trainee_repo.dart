@@ -7,22 +7,22 @@ class TraineeRepo {
   Future<Trainee> getTrainee() async {
     log("inside TraineeRepo->getTrainee");
     Map<String, dynamic> data = await DioHelper.io.get(
-      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YWIzMjlmZmExYmUxNTY3MDgyMDI3ZiIsInJvbGUiOiJUcmFpbmVlIiwiaWF0IjoxNzQwODIyNTgyLCJleHAiOjE3NDE0MjczODJ9.DJ9jNiT4rJGsU2urlOCP5OPTgJImM0KBkFdWF0HGVC4",
-      Trainee.profile,
-      "nothing",
-    );
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YWIzMjlmZmExYmUxNTY3MDgyMDI3ZiIsInJvbGUiOiJUcmFpbmVlIiwiaWF0IjoxNzQwODIyNTgyLCJleHAiOjE3NDE0MjczODJ9.DJ9jNiT4rJGsU2urlOCP5OPTgJImM0KBkFdWF0HGVC4",
+        Trainee.profile,
+        "nothing",
+        '');
 
     log(data['data'].toString());
     log("inside TraineeRepo->getTrainee after");
 
-    //ignore: avoid_print
-    print("trainee_repo-> return value is: ${Trainee.fromMap(data['data'])}");
+    //ignore: avoid_log
+    log("trainee_repo-> return value is: ${Trainee.fromMap(data['data'])}");
 
     return Trainee.fromMap(data['data']);
   }
 
   // Future<String> getAnyResponse() async {
-  //   print("inside TraineeRepo->getAnyResponse");
+  //   log("inside TraineeRepo->getAnyResponse");
   //   Map<String, dynamic> data = await DioHelper.io.get(
   //     token:
   //         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YWIzMjlmZmExYmUxNTY3MDgyMDI3ZiIsInJvbGUiOiJUcmFpbmVlIiwiaWF0IjoxNzQwODIyNTgyLCJleHAiOjE3NDE0MjczODJ9.DJ9jNiT4rJGsU2urlOCP5OPTgJImM0KBkFdWF0HGVC4",
@@ -30,8 +30,8 @@ class TraineeRepo {
   //     id: "nothing",
   //   );
 
-  //   print("Data is: ${data.toString()} inside trainee_repo-> get any response");
-  //   print("inside TraineeRepo->getAnyResponse after calleing get from dio");
+  //   log("Data is: ${data.toString()} inside trainee_repo-> get any response");
+  //   log("inside TraineeRepo->getAnyResponse after calleing get from dio");
 
   //   return data.toString();
   // }

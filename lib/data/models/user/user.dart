@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:gmn/data/models/user/auth.dart';
 import 'package:gmn/data/repositories/shared_preferences_helper.dart';
 
@@ -19,7 +21,7 @@ class User {
       role = userData["role"];
       id = userData["id"];
     } catch (e) {
-      //
+      log("Did not create a user in User.fromMap. Error: $e", level: 0);
     }
   }
 
@@ -35,14 +37,26 @@ class User {
     return user;
   }
 
-  User(String token) {
-    _user(token);
-  }
-
-  _user(String token) async {
+  static getUser(String token) async {
     Map userMap = await Auth().user(token);
-    User.fromMap(userMap);
+    log("User-> getUser userMap: ${userMap.toString()}");
+
+    User user = User.fromMap(userMap);
+    log("User-> getUser user: ${user.email}");
+
+    return user;
   }
 
-  Future getUser() async {}
+  static logOut() async {
+    await SharedPreferencesHelper.instance.deleteTokenFromGlobal();
+  }
+
+  chagePassword(String oldPassword, String newPssword) async {
+    Auth().changePassword(
+      token!,
+      oldPassword,
+      newPssword,
+      id,
+    );
+  }
 }

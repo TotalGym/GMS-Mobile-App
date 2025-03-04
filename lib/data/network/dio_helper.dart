@@ -9,23 +9,22 @@ class DioHelper {
 
   Dio dio = Dio(
     BaseOptions(
-      headers: {'Content-Type': 'application/json'},
-    ),
+        // headers: {'Content-Type': 'application/json'},
+        ),
   );
 
   Future<Map<String, dynamic>> get(
-    String token,
-    String model,
-    String id,
-  ) async {
-    dio.options.headers.addAll({'Authorization': token});
+      String token, String model, String id, String queryParameters) async {
+    dio.options.headers.addAll({'Authorization': "Bearer $token"});
     try {
-      // print(
-      //     "This is the target link: ${ApiHelper.link(modelName: model)} from the get method withing dio_helper");
+      // ignore: avoid_log
+      log("dioHelper->get headers: ${dio.options.headers.toString()}");
+      // ignore: avoid_log
+      log("This is the target link: ${ApiHelper.link(modelName: model)} from the get method withing dio_helper");
       Response response = await dio.get(ApiHelper.link(modelName: model));
 
-      // ignore: avoid_print
-      print("Data is: ${response.data['data']} inside get withing dio_helper");
+      // ignore: avoid_log
+      log("Data is: ${response.data['data']} inside get withing dio_helper");
       return response.data;
     } catch (e) {
       log("Get Function failed to get responce: $e");
@@ -33,19 +32,19 @@ class DioHelper {
     }
   }
 
-  Future<Map> post(String token, Map body, String model) async {
-    dio.options.headers.addAll({'Authorization': token});
+  Future<Map> post(
+      String token, Map body, String model, String queryParameters) async {
+    dio.options.headers.addAll({'Authorization': "Bearer $token"});
 
     try {
-      //ignore: avoid_print
-      print(
-          "This is the target link: ${ApiHelper.link(modelName: model)} from the post method withing dio_helper");
+      //ignore: avoid_log
+      log("This is the target link: ${ApiHelper.link(modelName: model)} from the post method withing dio_helper");
 
       Response response =
           await dio.post(ApiHelper.link(modelName: model), data: body);
 
-      // ignore: avoid_print
-      print("responce is: $response. inside post withing dio_helper");
+      // ignore: avoid_log
+      log("responce is: $response. inside post withing dio_helper");
       if (response.data["success"] == true) {
         return response.data;
       } else {
@@ -53,6 +52,30 @@ class DioHelper {
       }
     } catch (e) {
       log("Get Function failed to get responce: $e");
+      return Future(() => {});
+    }
+  }
+
+  Future<Map> put(
+      String token, Map body, String model, String queryParameters) async {
+    dio.options.headers.addAll({'Authorization': "Bearer $token"});
+
+    try {
+      //ignore: avoid_log
+      log("This is the target link: ${ApiHelper.link(modelName: model)} from the put method withing dio_helper");
+
+      Response response =
+          await dio.put(ApiHelper.link(modelName: model), data: body);
+
+      // ignore: avoid_log
+      log("responce is: $response. inside post withing dio_helper");
+      if (response.data["success"] == true) {
+        return response.data;
+      } else {
+        return {};
+      }
+    } catch (e) {
+      log("put Function failed to get responce: $e");
       return Future(() => {});
     }
   }

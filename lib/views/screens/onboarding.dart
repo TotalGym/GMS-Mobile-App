@@ -1,4 +1,8 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:gmn/values/app_router.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/auth/log_in.dart';
 import 'package:gmn/views/screens/home.dart';
@@ -8,7 +12,6 @@ import 'package:provider/provider.dart';
 class OnboardingScreen extends StatefulWidget {
   OnboardingScreen({super.key});
 
-  bool isLoggedIn = false;
   @override
   State<StatefulWidget> createState() {
     return _Onboarding();
@@ -16,11 +19,25 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _Onboarding extends State<OnboardingScreen> {
+  bool? isLoggedIn;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (isLoggedIn == null) {
+      isLoggedIn = context.watch<UserProvider>().isLoggedIn;
+      Future.delayed(const Duration(seconds: 4), () {
+        if (mounted) {
+          AppRouter.navigateWithReplacemtnToWidget(
+              isLoggedIn! ? const Home() : const LogIn());
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     context.read<UserProvider>().checkIfLoggedIn();
-    widget.isLoggedIn = context.watch<UserProvider>().isLoggedIn;
-
-    return widget.isLoggedIn ? const Home() : LogIn();
+    return const Scaffold(body: Center(child: CircularProgressIndicator()));
   }
 }

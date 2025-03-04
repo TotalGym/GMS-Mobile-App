@@ -14,6 +14,11 @@ class SharedPreferencesHelper {
     _sp!.setString("token", token);
   }
 
+  deleteTokenFromGlobal() async {
+    await getSharePreferencesInstance();
+    _sp!.remove("token");
+  }
+
   Future<String?>? getTokenFromGlobal() async {
     await getSharePreferencesInstance();
     return _sp!.getString("token");
