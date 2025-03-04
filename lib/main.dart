@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gmn/values/app_router.dart';
 import 'package:gmn/views/providers/program_provider.dart';
 import 'package:gmn/views/providers/store_provider.dart';
-import 'package:gmn/views/providers/trainee_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/onboarding.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +19,6 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       child: MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (context) => TraineeProvider()),
           ChangeNotifierProvider(create: (context) => StoreProvider()),
           ChangeNotifierProvider(create: (context) => ProgramProvider()),
           ChangeNotifierProvider(create: (context) => UserProvider()),

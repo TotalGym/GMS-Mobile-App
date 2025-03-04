@@ -39,10 +39,6 @@ class Home extends StatelessWidget {
               children: [
                 Text(
                     "Email is: ${provider.user != null ? provider.user!.email : "No Email"}"),
-
-                Text(
-                    "Token is: ${provider.user != null ? provider.token : "token did not found"}"),
-
                 Text(
                     "id is: ${provider.user != null ? provider.user!.id : "No id"}"),
                 InkWell(
@@ -87,7 +83,11 @@ class Home extends StatelessWidget {
                           color: Colors.white),
                     ),
                   ),
-                )
+                ),
+                Text(
+                    "From profile phone is: ${provider.traineeProfile != null ? provider.traineeProfile!.phoneNumber : "No phone"}"),
+                Text(
+                    "From profile attendence is: ${provider.traineeProfile != null ? provider.traineeProfile!.attendance : "No attendance"}"),
 
                 // SizedBox(
                 //   height: 150,
