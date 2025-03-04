@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 class Attendance {
   late String id;
   late DateTime date;

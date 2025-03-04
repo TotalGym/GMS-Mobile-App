@@ -1,4 +1,5 @@
 import 'dart:async';
+// ignore: unused_import
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class OnboardingScreen extends StatefulWidget {
-  OnboardingScreen({super.key});
+  const OnboardingScreen({super.key});
 
   @override
   State<StatefulWidget> createState() {

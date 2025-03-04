@@ -1,6 +1,7 @@
 import 'package:gmn/data/models/program/exercise.dart';
+import 'package:gmn/data/models/program_store_interface.dart';
 
-class Program {
+class Program implements ProgramStore {
   static String mName = "programs";
 
   String? id;
@@ -21,7 +22,7 @@ class Program {
 
   Program.fromMap(Map<String, dynamic> map) {
     id = map["_id"];
-    exercises = Exercise.getExercisesList(map["exercises"]);
+    exercises = Exercise.getExercisesList(map["exercises"] ?? []);
     description = map["description"];
     monthlyPrice = map["monthlyPrice"];
     annualPrice = map["annuallyPrice"];

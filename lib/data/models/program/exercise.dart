@@ -15,12 +15,15 @@ class Exercise {
     repetitions = map["repetitions"];
   }
 
-  static List<Exercise> getExercisesList(List exerciseMap) {
-    List<Exercise> exercisesList = exerciseMap.map((e) {
-      return Exercise.fromMap(e);
-    }).toList();
+  static List<Exercise>? getExercisesList(List? exerciseMap) {
+    if (exerciseMap != null) {
+      List<Exercise> exercisesList = exerciseMap.map((e) {
+        return Exercise.fromMap(e);
+      }).toList();
 
-    return exercisesList;
+      return exercisesList;
+    }
+    return null;
   }
 
   @override

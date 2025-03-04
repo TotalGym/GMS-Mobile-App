@@ -4,15 +4,12 @@ import 'package:gmn/data/models/program/program.dart';
 import 'package:gmn/data/network/dio_helper.dart';
 
 class ProgramRepo {
-  Future<List<Program>> getAllPrograms() async {
+  Future<List<Program>> getAllPrograms(String token) async {
     //ignore: avoid_log
     log("inside programRepo->getAllPrograms");
 
-    Map<String, dynamic> data = await DioHelper.io.get(
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YWIzMjlmZmExYmUxNTY3MDgyMDI3ZiIsInJvbGUiOiJUcmFpbmVlIiwiaWF0IjoxNzQwODIyNTgyLCJleHAiOjE3NDE0MjczODJ9.DJ9jNiT4rJGsU2urlOCP5OPTgJImM0KBkFdWF0HGVC4",
-        Program.mName,
-        "nothing",
-        '');
+    Map<String, dynamic> data =
+        await DioHelper.io.get(token, Program.mName, "nothing", '');
 
     //ignore: avoid_log
     log(data['data']['results'].toString());

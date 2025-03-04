@@ -4,15 +4,12 @@ import 'package:gmn/data/models/store/product.dart';
 import 'package:gmn/data/network/dio_helper.dart';
 
 class StoreRepo {
-  Future<List<Product>> getAllProducts() async {
+  Future<List<Product>> getAllProducts(String token) async {
     //ignore: avoid_log
     log("inside StoreRep->getProducts");
 
-    Map<String, dynamic> data = await DioHelper.io.get(
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YWIzMjlmZmExYmUxNTY3MDgyMDI3ZiIsInJvbGUiOiJUcmFpbmVlIiwiaWF0IjoxNzQwODIyNTgyLCJleHAiOjE3NDE0MjczODJ9.DJ9jNiT4rJGsU2urlOCP5OPTgJImM0KBkFdWF0HGVC4",
-        Product.mName,
-        "nothing",
-        '');
+    Map<String, dynamic> data =
+        await DioHelper.io.get(token, Product.mName, "nothing", '');
 
     //ignore: avoid_log
     log(data['data']['results'].toString());

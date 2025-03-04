@@ -1,6 +1,4 @@
-import 'dart:developer';
-
-import 'package:gmn/data/models/attendance.dart';
+import 'package:gmn/data/models/user/extentions/attendance.dart';
 
 class Trainee {
   static String profile = "profile";
@@ -10,6 +8,7 @@ class Trainee {
   List? attendance = [];
   String? name;
   String? email;
+  String? contactEmail;
   String? phoneNumber;
   String? role;
   String? status;
@@ -25,6 +24,7 @@ class Trainee {
       attendance = Attendance.getAttendanceList(map["attendance"]);
       name = map["name"] ?? "Name unknown";
       email = map["email"] ?? "NA";
+      contactEmail = map["contact"]["email"];
       phoneNumber = map["contact"]["phoneNumber"] ?? "NA";
       role = map["role"] ?? "Trainee";
       status = map["status"] ?? "new";
@@ -58,7 +58,7 @@ class Trainee {
 
   @override
   String toString() {
-    return "\nTrainee name: $name,\nEmail: $email\nAttendace Details:\n $attendance\n"
+    return "\nTrainee name: $name,\nEmail: $contactEmail\nAttendace Details:\n $attendance\n"
         "role: $role\nGender: $gender";
   }
 }

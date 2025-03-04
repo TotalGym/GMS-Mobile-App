@@ -1,10 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:gmn/values/app_router.dart';
 import 'package:gmn/views/providers/coach_provider.dart';
+import 'package:gmn/views/providers/program_store_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/auth/log_in.dart';
 import 'package:gmn/views/screens/coach/all_trainees.dart';
@@ -106,16 +105,6 @@ class Home extends StatelessWidget {
                       await Future.delayed(const Duration(seconds: 2));
                       AppRouter.popFromWidget();
                       AppRouter.navigateToWidget(const TraineesIndex());
-
-                      // ignore: use_build_context_synchronously
-
-                      // // ignore: use_build_context_synchronously
-                      // Provider.of<UserProvider>(context, listen: false)
-                      //         .isLoggedIn!
-                      //     ? AppRouter.navigateWithReplacemtnToWidget(
-                      //         const Home())
-                      //     : AppRouter.navigateWithReplacemtnToWidget(
-                      //         const LogIn());
                     },
                     child: Container(
                       alignment: Alignment.center,
@@ -133,6 +122,39 @@ class Home extends StatelessWidget {
                       ),
                     ),
                   ),
+                InkWell(
+                  onTap: () async {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return const Dialog(
+                            backgroundColor: Colors.transparent,
+                            child: Center(child: CircularProgressIndicator()),
+                          );
+                        });
+                    await Provider.of<ProgramStoreProvider>(context,
+                            listen: false)
+                        .getHomeState(provider.token!);
+                    await Future.delayed(const Duration(seconds: 2));
+                    AppRouter.popFromWidget();
+                    AppRouter.navigateToWidget(const TraineesIndex());
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: 150.sp,
+                    padding: EdgeInsets.all(12.sp),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(8.sp)),
+                        color: Colors.yellow[900]),
+                    child: Text(
+                      "Home",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14.sp,
+                          color: Colors.white),
+                    ),
+                  ),
+                ),
 
                 // SizedBox(
                 //   height: 150,
