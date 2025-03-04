@@ -25,7 +25,13 @@ class DioHelper {
 
       // ignore: avoid_log
       log("Data is: ${response.data['data']} inside get withing dio_helper");
-      return response.data;
+
+      Map<String, dynamic>? data = response.data;
+      if (data != null) {
+        return data;
+      } else {
+        throw Exception("Did not get a responce from the server");
+      }
     } catch (e) {
       log("Get Function failed to get responce: $e");
       return Future(() => {});

@@ -20,24 +20,33 @@ class OnboardingScreen extends StatefulWidget {
 
 class _Onboarding extends State<OnboardingScreen> {
   bool? isLoggedIn;
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<UserProvider>().checkIfLoggedIn();
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    isLoggedIn = context.watch<UserProvider>().isLoggedIn;
 
-    if (isLoggedIn == null) {
-      isLoggedIn = context.watch<UserProvider>().isLoggedIn;
-      Future.delayed(const Duration(seconds: 4), () {
+    Future.delayed(
+      const Duration(seconds: 4),
+      () {
         if (mounted) {
-          AppRouter.navigateWithReplacemtnToWidget(
-              isLoggedIn! ? const Home() : const LogIn());
+          isLoggedIn == null
+              ? AppRouter.navigateWithReplacemtnToWidget(const LogIn())
+              : AppRouter.navigateWithReplacemtnToWidget(
+                  isLoggedIn! ? const Home() : const LogIn());
         }
-      });
-    }
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    context.read<UserProvider>().checkIfLoggedIn();
     return const Scaffold(body: Center(child: CircularProgressIndicator()));
   }
 }
