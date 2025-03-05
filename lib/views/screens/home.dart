@@ -31,7 +31,8 @@ class Home extends StatelessWidget {
     //     .logUserIn("moha5@gmail.com", 'moh123');
     // SharePreferencesHelper();
 
-    context.read<NotificationProvider>().getNotifications(user!.token!);
+    // nessessary to do:
+    // context.read<NotificationProvider>().getNotifications(user!.token!);
 
     return Scaffold(
       body: Padding(
@@ -99,13 +100,15 @@ class Home extends StatelessWidget {
                       showDialog(
                           context: context,
                           builder: (context) {
-                            return const Dialog(
-                              backgroundColor: Colors.transparent,
-                              child: Center(child: CircularProgressIndicator()),
+                            return const Center(
+                              child: Dialog(
+                                backgroundColor: Colors.transparent,
+                                child: CircularProgressIndicator(),
+                              ),
                             );
                           });
                       await Provider.of<CoachProvider>(context, listen: false)
-                          .getAllTrainees(provider.token);
+                          .getAllTrainees(provider.token!);
                       await Future.delayed(const Duration(seconds: 2));
                       AppRouter.popFromWidget();
                       AppRouter.navigateToWidget(const TraineesIndex());
@@ -131,9 +134,11 @@ class Home extends StatelessWidget {
                     showDialog(
                         context: context,
                         builder: (context) {
-                          return const Dialog(
-                            backgroundColor: Colors.transparent,
-                            child: Center(child: CircularProgressIndicator()),
+                          return const Center(
+                            child: Dialog(
+                              backgroundColor: Colors.transparent,
+                              child: CircularProgressIndicator(),
+                            ),
                           );
                         });
                     await Provider.of<ProgramStoreProvider>(context,
@@ -159,14 +164,62 @@ class Home extends StatelessWidget {
                     ),
                   ),
                 ),
+                InkWell(
+                  onTap: () async {
+                    showDialog(
+                        barrierColor: Colors.transparent,
+                        context: context,
+                        builder: (context) {
+                          return SizedBox(
+                            height: 20.sp,
+                            width: 20.sp,
+                            child: const Dialog(
+                              elevation: 0,
+                              backgroundColor: Colors.transparent,
+                              child: Center(child: CircularProgressIndicator()),
+                            ),
+                          );
+                        });
+                    await context.read<CoachProvider>().loadAll(user!.token!);
+
+                    await Future.delayed(const Duration(seconds: 2));
+                    AppRouter.popFromWidget();
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: 150.sp,
+                    padding: EdgeInsets.all(12.sp),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(8.sp)),
+                        color: Colors.yellow[900]),
+                    child: Text(
+                      "I'm a coach 💪",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14.sp,
+                          color: Colors.white),
+                    ),
+                  ),
+                ),
                 Consumer<NotificationProvider>(
-                    builder: (context, notificationProvider, child) {
-                  int notificationsCount =
-                      notificationProvider.notificationsCount;
+                    builder: (context, provider, child) {
+                  int notificationsCount = provider.notificationsCount;
                   return notificationsCount > 0
                       ? Text("Notifications: $notificationsCount")
                       : const SizedBox();
-                })
+                }),
+                Consumer<CoachProvider>(builder: (context, provider, child) {
+                  int equipmentCount = provider.equipmentsCount;
+                  return equipmentCount > 0
+                      ? Text("Equipments count: $equipmentCount")
+                      : const SizedBox();
+                }),
+                Consumer<CoachProvider>(builder: (context, provider, child) {
+                  int traineesCount = provider.traineesCount;
+                  return traineesCount > 0
+                      ? Text("Trainees count: $traineesCount")
+                      : const SizedBox();
+                }),
 
                 // SizedBox(
                 //   height: 150,

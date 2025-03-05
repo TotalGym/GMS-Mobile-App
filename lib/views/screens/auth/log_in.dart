@@ -30,9 +30,11 @@ class _LogInState extends State<LogIn> {
               showDialog(
                   context: context,
                   builder: (context) {
-                    return const Dialog(
-                      backgroundColor: Colors.transparent,
-                      child: Center(child: CircularProgressIndicator()),
+                    return const Center(
+                      child: Dialog(
+                        backgroundColor: Colors.transparent,
+                        child: CircularProgressIndicator(),
+                      ),
                     );
                   });
               await Provider.of<UserProvider>(context, listen: false)

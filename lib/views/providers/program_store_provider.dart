@@ -4,8 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:gmn/data/models/content/program/program.dart';
 import 'package:gmn/data/models/content/program_store_interface.dart';
 import 'package:gmn/data/models/content/store/product.dart';
-import 'package:gmn/data/repositories/program_repo.dart';
-import 'package:gmn/data/repositories/store_repo.dart';
+import 'package:gmn/data/repositories/content/program_repo.dart';
+import 'package:gmn/data/repositories/content/store_repo.dart';
 
 class ProgramStoreProvider extends ChangeNotifier {
   List<Program>? programs;

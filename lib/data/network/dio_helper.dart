@@ -7,21 +7,21 @@ class DioHelper {
   DioHelper._();
   static DioHelper io = DioHelper._();
 
-  Dio dio = Dio(
+  final Dio _dio = Dio(
     BaseOptions(
-        // headers: {'Content-Type': 'application/json'},
-        ),
+      headers: {'Content-Type': 'application/json'},
+    ),
   );
 
   Future<Map<String, dynamic>> get(
       String token, String model, String id, String queryParameters) async {
-    dio.options.headers.addAll({'Authorization': "Bearer $token"});
+    _dio.options.headers.addAll({'Authorization': "Bearer $token"});
     try {
       // ignore: avoid_log
-      log("dioHelper->get headers: ${dio.options.headers.toString()}");
+      log("_dioHelper->get headers: ${_dio.options.headers.toString()}");
       // ignore: avoid_log
-      log("This is the target link: ${ApiHelper.link(modelName: model)} from the get method withing dio_helper");
-      Response response = await dio.get(ApiHelper.link(modelName: model));
+      log("This is the target link: ${ApiHelper.link(modelName: model)} from the get method withing _dio_helper");
+      Response response = await _dio.get(ApiHelper.link(modelName: model));
 
       // ignore: avoid_log
       log("DioHelper-> get Data is: ${response.data['data']}");
@@ -40,17 +40,17 @@ class DioHelper {
 
   Future<Map> post(
       String token, Map body, String model, String queryParameters) async {
-    dio.options.headers.addAll({'Authorization': "Bearer $token"});
+    _dio.options.headers.addAll({'Authorization': "Bearer $token"});
 
     try {
       //ignore: avoid_log
-      log("This is the target link: ${ApiHelper.link(modelName: model)} from the post method withing dio_helper");
+      log("This is the target link: ${ApiHelper.link(modelName: model)} from the post method withing _dio_helper");
 
       Response response =
-          await dio.post(ApiHelper.link(modelName: model), data: body);
+          await _dio.post(ApiHelper.link(modelName: model), data: body);
 
       // ignore: avoid_log
-      log("responce is: $response. inside post withing dio_helper");
+      log("responce is: $response. inside post withing _dio_helper");
       if (response.data["success"] == true) {
         return response.data;
       } else {
@@ -64,17 +64,17 @@ class DioHelper {
 
   Future<Map> put(
       String token, Map body, String model, String queryParameters) async {
-    dio.options.headers.addAll({'Authorization': "Bearer $token"});
+    _dio.options.headers.addAll({'Authorization': "Bearer $token"});
 
     try {
       //ignore: avoid_log
-      log("This is the target link: ${ApiHelper.link(modelName: model)} from the put method withing dio_helper");
+      log("This is the target link: ${ApiHelper.link(modelName: model)} from the put method withing _dio_helper");
 
       Response response =
-          await dio.put(ApiHelper.link(modelName: model), data: body);
+          await _dio.put(ApiHelper.link(modelName: model), data: body);
 
       // ignore: avoid_log
-      log("responce is: $response. inside post withing dio_helper");
+      log("responce is: $response. inside post withing _dio_helper");
       if (response.data["success"] == true) {
         return response.data;
       } else {
@@ -93,14 +93,14 @@ class DioHelper {
   // // Future<Trainee>
   // Future<String> getTrainee(String userAccessToken, userId) async {
   //   try {
-  //     Dio dio = Dio();
-  //     dio.options.headers = {
+  //     Dio _dio = Dio();
+  //     _dio.options.headers = {
   //       'Authorization':
   //           'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NzI5Mjg4YTQ2YjkwYmVkNjQzMmIyMyIsInJvbGUiOiJTdXBlckFkbWluIiwiaWF0IjoxNzM1OTAyNTg0fQ.yECXTKYcYaQBHWfgN_lz7s8kDCkzzBlvC6zHj9bW_3o',
   //       'Content-Type': 'application/json'
   //     };
 
-  //     Response response = await dio.get(
+  //     Response response = await _dio.get(
   //       '${ApiHelper.link(modelName: Trainee.mName)}/6773ebf159f9ad7d493331bc',
 
   //       //  options:cache buildCacheOptions(const Duration(days: 1),
@@ -113,12 +113,12 @@ class DioHelper {
   //       data = [];
   //     } else {
   //       data = response.data;
-  //       log('in get customer in dio the responst .data is : ${data}');
+  //       log('in get customer in _dio the responst .data is : ${data}');
   //     }
   //     log(data.toString());
   //   } catch (e) {
   //     log(e.toString());
-  //     log('dio_helper.43 | error in getTrainee');
+  //     log('_dio_helper.43 | error in getTrainee');
   //     return (e.toString());
   //   }
   //   // return Trainee
