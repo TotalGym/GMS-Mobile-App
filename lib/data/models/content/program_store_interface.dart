@@ -6,7 +6,7 @@ abstract class ProgramStore {
   static const mName = "home";
 
   static getHomeState(String token) async {
-    Map response = await DioHelper.io.get(token, mName, '', 'queryParameters');
+    Map response = await DioHelper.io.get(token, mName, '', {});
     Map data = response["data"];
     List programsMapList = data["programs"];
     List productsMapList = data["products"];

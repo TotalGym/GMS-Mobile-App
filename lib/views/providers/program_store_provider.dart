@@ -14,12 +14,12 @@ class ProgramStoreProvider extends ChangeNotifier {
   List<ProgramStore>? homeState;
 
   Future<void> getAllProducts(String token) async {
-    products = await StoreRepo().getAllProducts(token);
+    products = await StoreRepo.getAllProducts(token);
     notifyListeners();
   }
 
   getAllPrograms(String token) async {
-    programs = await ProgramRepo().getAllPrograms(token);
+    programs = await ProgramRepo.getAllPrograms(token);
     notifyListeners();
   }
 

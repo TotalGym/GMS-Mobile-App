@@ -58,7 +58,11 @@ class Trainee {
 
   @override
   String toString() {
-    return "\nTrainee name: $name,\nEmail: $contactEmail\nAttendace Details:\n $attendance\n"
-        "role: $role\nGender: $gender";
+    return "$id";
   }
+  // @override
+  // String toString() {
+  //   return "\nTrainee name: $name,\nEmail: $contactEmail\nAttendace Details:\n $attendance\n"
+  //       "role: $role\nGender: $gender";
+  // }
 }

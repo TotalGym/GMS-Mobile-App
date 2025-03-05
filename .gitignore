@@ -42,3 +42,29 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+
+# iOS related
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/Generated.xcconfig
+ios/Flutter/app.framework
+ios/Flutter/app.podspec
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/ephemeral/
+
+# Web related
+lib/generated_plugin_registrant.dart
+
+# macOS related
+*.DS_Store
+
+# Linux related
+linux/flutter/ephemeral/
+
+# Windows related
+windows/flutter/ephemeral/
+
+# CMake related
+CMakeLists.txt.user

@@ -20,14 +20,6 @@ class NotificationState {
     date = DateTime.parse(map["Date"] ?? "2025-03-31T22:00:00.000Z");
   }
 
-  getTraineeNotification(String token) async {
-    return await TraineeRepo().getTraineeNotifications(token);
-  }
-
-  getAllNotifications(String token) async {
-    return await TraineeRepo().getAllNotifications(token);
-  }
-
   @override
   String toString() {
     return "Notification type: $type, content: $content, date = $date";

@@ -3,10 +3,43 @@ import 'dart:developer';
 import 'package:gmn/data/models/content/notification/notification.dart';
 import 'package:gmn/data/models/user/trainee/trainee.dart';
 import 'package:gmn/data/network/dio_helper.dart';
+import 'package:gmn/data/repositories/repo.dart';
 
-class TraineeRepo {
-  Future<Trainee> getTrainee(String token) async {
-    Map data = await DioHelper.io.get(token, Trainee.profile, '', '');
+class TraineeRepo extends Repo<Trainee> {
+  TraineeRepo.fromMap(Map map) {
+    totalCount = map['totalCount'];
+    page = map['page'];
+    limit = map['limit'];
+    next =
+        map['next'] != null ? Map<String, dynamic>.from(map['next']) : {"": ""};
+    items = map["items"];
+  }
+
+  static Future<TraineeRepo> getTrainees(
+      String token, Map<String, dynamic> queryParameter) async {
+    Map responce =
+        await DioHelper.io.get(token, Trainee.mName, "", queryParameter);
+    Map data = responce["data"];
+
+    List<Trainee> trainees = loadTrainees(data);
+
+    Map traineeRepoMap = {
+      'totalCount': data['totalCount'],
+      'page': data['page'],
+      'limit': data['limit'],
+      'next': data['next'],
+      'items': trainees,
+    };
+
+    TraineeRepo traineeRepo = TraineeRepo.fromMap(traineeRepoMap);
+
+    return traineeRepo;
+  }
+
+  static Future<Trainee> getTrainee(
+      String token, Map<String, dynamic> queryParameter) async {
+    Map data =
+        await DioHelper.io.get(token, Trainee.profile, '', queryParameter);
 
     log("trainee_repo-> return value is: $data");
 
@@ -15,39 +48,62 @@ class TraineeRepo {
     return trainee;
   }
 
-  Future<List<Trainee>> getAllTrainees(String token) async {
-    Map data = await DioHelper.io.get(token, Trainee.mName, '', '');
-
-    log("trainee_repo -> getAllTrainees data from get is: $data");
-
-    List traineesMapList = data['data']['results'];
+  static List<Trainee> loadTrainees(Map data) {
+    List traineesMapList = data['results'];
 
     List<Trainee> trainees = traineesMapList.map((e) {
       return Trainee.fromMap(e);
     }).toList();
 
-    log("trainee_repo -> getAllTainees: $trainees");
-
     return trainees;
   }
 
-  Future<List<NotificationState>> getTraineeNotifications(String token) async {
-    Map data = await DioHelper.io
-        .get(token, NotificationState.mTraineeNotificationsName, '', '');
-    List<Map> notificationsMapList = data["results"];
+  static Future<TraineeRepo> getTraineeNotifications(
+      String token, Map<String, dynamic> queryParameter) async {
+    Map respnce = await DioHelper.io.get(
+        token, NotificationState.mTraineeNotificationsName, '', queryParameter);
+    Map data = respnce["data"];
 
-    List<NotificationState> notificationsList = [];
-    notificationsList = notificationsMapList.map((e) {
-      return NotificationState.fromMap(e);
-    }).toList();
+    List<NotificationState> notifications =
+        loadNotifications(data, NotificationState.mTraineeNotificationsName);
 
-    return notificationsList;
+    Map notificationRepoMap = {
+      'totalCount': data['totalCount'],
+      'page': data['page'],
+      'limit': data['limit'],
+      'next': data['next'],
+      'items': notifications,
+    };
+
+    TraineeRepo notificationRepo = TraineeRepo.fromMap(notificationRepoMap);
+
+    return notificationRepo;
   }
 
-  Future<List<NotificationState>>? getAllNotifications(String token) async {
-    Map response =
-        await DioHelper.io.get(token, NotificationState.mName, "", "");
-    List notificationsMapList = response["data"]["results"];
+  static Future<TraineeRepo> getCoachNotifications(
+      String token, Map<String, dynamic> queryParameter) async {
+    Map responce = await DioHelper.io
+        .get(token, NotificationState.mName, '', queryParameter);
+    Map data = responce["data"];
+
+    List<NotificationState> notifications =
+        loadNotifications(data, NotificationState.mName);
+
+    Map notificationRepoMap = {
+      'totalCount': data['totalCount'],
+      'page': data['page'],
+      'limit': data['limit'],
+      'next': data['next'],
+      'items': notifications,
+    };
+
+    TraineeRepo traineeRepo = TraineeRepo.fromMap(notificationRepoMap);
+
+    return traineeRepo;
+  }
+
+  static List<NotificationState> loadNotifications(Map data, String modelName) {
+    List<Map> notificationsMapList = data["results"];
 
     List<NotificationState> notificationsList = [];
     notificationsList = notificationsMapList.map((e) {

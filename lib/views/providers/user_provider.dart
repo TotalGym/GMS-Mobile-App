@@ -1,18 +1,15 @@
 import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
-import 'package:gmn/data/models/user/trainee/trainee.dart';
 import 'package:gmn/data/models/user/user.dart';
 import 'package:gmn/data/repositories/shared_preferences_helper.dart';
-import 'package:gmn/data/repositories/user_repos/trainee_repo.dart';
 import 'package:gmn/data/repositories/user_repos/user_repo.dart';
 
 class UserProvider extends ChangeNotifier {
   User? user;
   String? token;
-  bool? isLoggedIn;
-  Trainee? traineeProfile;
   bool? hasToken;
+  bool? isLoggedIn;
 
   Future<void> checkIfLoggedIn() async {
     String? token = await SharedPreferencesHelper.instance.getTokenFromGlobal();
@@ -28,8 +25,6 @@ class UserProvider extends ChangeNotifier {
 
       log("UserProvider-> checkIfLoggedIn user: ${user!.email}");
       this.token = user!.token;
-
-      traineeProfile = await getTraineeProfile(token);
     }
     notifyListeners();
   }
@@ -38,17 +33,7 @@ class UserProvider extends ChangeNotifier {
     user = await UserRepo.login(email, password);
     token = await SharedPreferencesHelper.instance.getTokenFromGlobal();
     isLoggedIn = token != null;
-
-    if (isLoggedIn != null) {
-      isLoggedIn! ? traineeProfile = await getTraineeProfile(token!) : {};
-    }
     notifyListeners();
-  }
-
-  getTraineeProfile(String token) async {
-    var traineeProfile = TraineeRepo().getTrainee(token);
-    log("User_provider-> getTraineeProfile : $traineeProfile");
-    return traineeProfile;
   }
 
   logUserOut() async {

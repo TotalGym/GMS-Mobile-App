@@ -14,7 +14,7 @@ class Auth {
   }
 
   Future<Map> user(String token) async {
-    Map responce = await DioHelper.io.get(token, "$mName/user", '', '');
+    Map responce = await DioHelper.io.get(token, "$mName/user", '', {});
     return responce['data'] ?? {};
   }
 

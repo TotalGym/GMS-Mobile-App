@@ -13,15 +13,16 @@ class DioHelper {
     ),
   );
 
-  Future<Map<String, dynamic>> get(
-      String token, String model, String id, String queryParameters) async {
+  Future<Map<String, dynamic>> get(String token, String model, String id,
+      Map<String, dynamic> queryParameters) async {
     _dio.options.headers.addAll({'Authorization': "Bearer $token"});
     try {
       // ignore: avoid_log
       log("_dioHelper->get headers: ${_dio.options.headers.toString()}");
       // ignore: avoid_log
       log("This is the target link: ${ApiHelper.link(modelName: model)} from the get method withing _dio_helper");
-      Response response = await _dio.get(ApiHelper.link(modelName: model));
+      Response response = await _dio.get(ApiHelper.link(modelName: model),
+          queryParameters: queryParameters);
 
       // ignore: avoid_log
       log("DioHelper-> get Data is: ${response.data['data']}");

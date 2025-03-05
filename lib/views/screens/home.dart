@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gmn/data/models/user/user.dart';
-
 import 'package:gmn/values/app_router.dart';
-import 'package:gmn/views/providers/coach_provider.dart';
-import 'package:gmn/views/providers/notification_provider.dart';
+import 'package:gmn/views/providers/profile/coach_provider.dart';
 import 'package:gmn/views/providers/program_store_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/auth/log_in.dart';
@@ -18,12 +16,32 @@ class Home extends StatelessWidget {
 
   Home({super.key, this.title, this.user});
 
+  Future<void> _showLoadingDialog(BuildContext context) async {
+    showDialog(
+      barrierColor: Colors.transparent,
+      context: context,
+      builder: (context) {
+        return SizedBox(
+          height: 20.sp,
+          width: 20.sp,
+          child: const Dialog(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            child: Center(child: CircularProgressIndicator()),
+          ),
+        );
+      },
+    );
+    await Future.delayed(const Duration(seconds: 2));
+    AppRouter.popFromWidget();
+  }
+
   @override
   Widget build(BuildContext context) {
     //ignore: avoid_log
     // log("this is from Home->build and this is the token: ${Provider.of<UserProvider>(context, listen: false).token}");
     // Provider.of<TraineeProvider>(context, listen: false).getTrainee();
-    // Provider.of<ProgramProvider>(context, listen: false).getAllPrograms();
+    // Provider.of/ProgramProvider>(context, listen: false).getAllPrograms();
     // return Consumer<TraineeProvider>(builder: (context, value, child) {
     // value.getTrainee();
     // context.read<UserProvider>().getUser("moha5gmail.com", 'moh123');
@@ -43,7 +61,6 @@ class Home extends StatelessWidget {
             builder: (context, provider, child) => Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
-              // crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text("Email is: ${user != null ? user!.email : "No Email"}"),
                 Text("id is: ${user != null ? user!.id : "No id"}"),
@@ -90,27 +107,12 @@ class Home extends StatelessWidget {
                     ),
                   ),
                 ),
-                Text(
-                    "From profile phone is: ${provider.traineeProfile != null ? provider.traineeProfile!.phoneNumber : "No phone"}"),
-                Text(
-                    "From profile attendence is: ${provider.traineeProfile != null ? provider.traineeProfile!.attendance : "No attendance"}"),
                 if (user!.role == "Coach")
                   InkWell(
                     onTap: () async {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return const Center(
-                              child: Dialog(
-                                backgroundColor: Colors.transparent,
-                                child: CircularProgressIndicator(),
-                              ),
-                            );
-                          });
+                      await _showLoadingDialog(context);
                       await Provider.of<CoachProvider>(context, listen: false)
                           .getAllTrainees(provider.token!);
-                      await Future.delayed(const Duration(seconds: 2));
-                      AppRouter.popFromWidget();
                       AppRouter.navigateToWidget(const TraineesIndex());
                     },
                     child: Container(
@@ -131,21 +133,10 @@ class Home extends StatelessWidget {
                   ),
                 InkWell(
                   onTap: () async {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return const Center(
-                            child: Dialog(
-                              backgroundColor: Colors.transparent,
-                              child: CircularProgressIndicator(),
-                            ),
-                          );
-                        });
+                    await _showLoadingDialog(context);
                     await Provider.of<ProgramStoreProvider>(context,
                             listen: false)
                         .getHomeState(provider.token!);
-                    await Future.delayed(const Duration(seconds: 2));
-                    AppRouter.popFromWidget();
                     AppRouter.navigateToWidget(const TraineesIndex());
                   },
                   child: Container(
@@ -166,24 +157,8 @@ class Home extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () async {
-                    showDialog(
-                        barrierColor: Colors.transparent,
-                        context: context,
-                        builder: (context) {
-                          return SizedBox(
-                            height: 20.sp,
-                            width: 20.sp,
-                            child: const Dialog(
-                              elevation: 0,
-                              backgroundColor: Colors.transparent,
-                              child: Center(child: CircularProgressIndicator()),
-                            ),
-                          );
-                        });
+                    await _showLoadingDialog(context);
                     await context.read<CoachProvider>().loadAll(user!.token!);
-
-                    await Future.delayed(const Duration(seconds: 2));
-                    AppRouter.popFromWidget();
                   },
                   child: Container(
                     alignment: Alignment.center,
@@ -201,8 +176,7 @@ class Home extends StatelessWidget {
                     ),
                   ),
                 ),
-                Consumer<NotificationProvider>(
-                    builder: (context, provider, child) {
+                Consumer<CoachProvider>(builder: (context, provider, child) {
                   int notificationsCount = provider.notificationsCount;
                   return notificationsCount > 0
                       ? Text("Notifications: $notificationsCount")
@@ -220,28 +194,6 @@ class Home extends StatelessWidget {
                       ? Text("Trainees count: $traineesCount")
                       : const SizedBox();
                 }),
-
-                // SizedBox(
-                //   height: 150,
-                //   width: 150,
-                //   child: CachedNetworkImage(
-                //     imageUrl:
-                //         "https://thebrandhopper.com/wp-content/uploads/2021/10/Product-Innovation.jpg",
-                //     progressIndicatorBuilder:
-                //         (context, url, downloadProgress) =>
-                //             CircularProgressIndicator(
-                //                 value: downloadProgress.progress),
-                //     errorWidget: (context, url, error) =>
-                //         const Icon(Icons.error),
-                //   ),
-                // ),
-                // ListView.builder(
-                //   itemBuilder: (context, index) {
-                //     return const Text('data');
-                //   },
-                //   itemCount: 100,
-                //   scrollDirection: Axis.vertical,
-                // )
               ],
             ),
           ),
