@@ -1,19 +1,20 @@
-import 'package:gmn/data/models/content/equipment/equipment.dart';
+import 'package:gmn/data/models/content/store/product.dart';
 import 'package:gmn/data/network/dio_helper.dart';
 import 'package:gmn/data/repositories/repo.dart';
 
-class EquipmentRepo extends Repo<Equipment> {
-  static const String mName = "equipment";
+class ProductRepo extends Repo<Product> {
+  static const String mName = "store";
 
-  EquipmentRepo.fromMap(Map map) {
+  ProductRepo.fromMap(Map map) {
     super.fromMap(map);
   }
+
   @override
   void update(Repo tempRepo) {
     super.update(tempRepo);
   }
 
-  static Future<EquipmentRepo> getAllEquipments(
+  static Future<ProductRepo> getAllProducts(
       String token, Map<String, dynamic> queryParameter) async {
     Map responce = await DioHelper.io.get(
       token,
@@ -23,7 +24,7 @@ class EquipmentRepo extends Repo<Equipment> {
     );
     Map responceData = responce["data"];
 
-    List<Equipment> equipments = await loadEquipments(responceData);
+    List<Product> equipments = await loadProducts(responceData);
 
     Map equipmentRepoMap = {
       'totalCount': responceData['totalCount'],
@@ -33,15 +34,15 @@ class EquipmentRepo extends Repo<Equipment> {
       'items': equipments,
     };
 
-    EquipmentRepo equipmentRepo = EquipmentRepo.fromMap(equipmentRepoMap);
+    ProductRepo equipmentRepo = ProductRepo.fromMap(equipmentRepoMap);
 
     return equipmentRepo;
   }
 
-  static Future<List<Equipment>> loadEquipments(Map data) async {
-    List<Equipment> equipments = [];
+  static Future<List<Product>> loadProducts(Map data) async {
+    List<Product> equipments = [];
     List equipmentsMapList = data["results"];
-    equipments = equipmentsMapList.map((e) => Equipment.fromMap(e)).toList();
+    equipments = equipmentsMapList.map((e) => Product.fromMap(e)).toList();
     return equipments;
   }
 }

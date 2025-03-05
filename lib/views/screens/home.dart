@@ -7,6 +7,9 @@ import 'package:gmn/views/providers/program_store_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/auth/log_in.dart';
 import 'package:gmn/views/screens/coach/all_trainees.dart';
+import 'package:gmn/views/screens/programs/all_programs.dart';
+import 'package:gmn/views/screens/store/all_products.dart';
+import 'package:gmn/views/widgets/dialogs/dialog.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -15,26 +18,6 @@ class Home extends StatelessWidget {
   User? user;
 
   Home({super.key, this.title, this.user});
-
-  Future<void> _showLoadingDialog(BuildContext context) async {
-    showDialog(
-      barrierColor: Colors.transparent,
-      context: context,
-      builder: (context) {
-        return SizedBox(
-          height: 20.sp,
-          width: 20.sp,
-          child: const Dialog(
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            child: Center(child: CircularProgressIndicator()),
-          ),
-        );
-      },
-    );
-    await Future.delayed(const Duration(seconds: 2));
-    AppRouter.popFromWidget();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,32 +91,81 @@ class Home extends StatelessWidget {
                   ),
                 ),
                 if (user!.role == "Coach")
-                  InkWell(
-                    onTap: () async {
-                      await _showLoadingDialog(context);
-                      await Provider.of<CoachProvider>(context, listen: false)
-                          .getAllTrainees(provider.token!);
-                      AppRouter.navigateToWidget(const TraineesIndex());
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: 150.sp,
-                      padding: EdgeInsets.all(12.sp),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(8.sp)),
-                          color: Colors.blue[800]),
-                      child: Text(
-                        "All Trainees",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14.sp,
-                            color: Colors.white),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          // showLoadingDialog(context);
+                          // ignore: use_build_context_synchronously
+
+                          AppRouter.navigateToWidget(const TraineesIndex());
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: 95.sp,
+                          padding: EdgeInsets.all(12.sp),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.sp)),
+                              color: Colors.blue[800]),
+                          child: Text(
+                            "Trainees",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14.sp,
+                                color: Colors.white),
+                          ),
+                        ),
                       ),
-                    ),
+                      InkWell(
+                        onTap: () {
+                          AppRouter.navigateToWidget(const ProductsIndex());
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: 95.sp,
+                          padding: EdgeInsets.all(12.sp),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.sp)),
+                              color: Colors.blue[800]),
+                          child: Text(
+                            "Prouducts",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14.sp,
+                                color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          AppRouter.navigateToWidget(const ProgramsIndex());
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: 95.sp,
+                          padding: EdgeInsets.all(12.sp),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.sp)),
+                              color: Colors.blue[800]),
+                          child: Text(
+                            "Programs",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14.sp,
+                                color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 InkWell(
                   onTap: () async {
-                    await _showLoadingDialog(context);
+                    showLoadingDialog(context);
+                    // ignore: use_build_context_synchronously
                     await Provider.of<ProgramStoreProvider>(context,
                             listen: false)
                         .getHomeState(provider.token!);
@@ -157,8 +189,10 @@ class Home extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () async {
-                    await _showLoadingDialog(context);
+                    showLoadingDialog(context);
+                    // ignore: use_build_context_synchronously
                     await context.read<CoachProvider>().loadAll(user!.token!);
+                    AppRouter.popFromWidget();
                   },
                   child: Container(
                     alignment: Alignment.center,
@@ -177,21 +211,10 @@ class Home extends StatelessWidget {
                   ),
                 ),
                 Consumer<CoachProvider>(builder: (context, provider, child) {
-                  int notificationsCount = provider.notificationsCount;
+                  if (provider.notifications == null) return const SizedBox();
+                  int notificationsCount = provider.notifications!.totalCount;
                   return notificationsCount > 0
                       ? Text("Notifications: $notificationsCount")
-                      : const SizedBox();
-                }),
-                Consumer<CoachProvider>(builder: (context, provider, child) {
-                  int equipmentCount = provider.equipmentsCount;
-                  return equipmentCount > 0
-                      ? Text("Equipments count: $equipmentCount")
-                      : const SizedBox();
-                }),
-                Consumer<CoachProvider>(builder: (context, provider, child) {
-                  int traineesCount = provider.traineesCount;
-                  return traineesCount > 0
-                      ? Text("Trainees count: $traineesCount")
                       : const SizedBox();
                 }),
               ],

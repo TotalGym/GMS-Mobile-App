@@ -43,6 +43,7 @@ class _LogInState extends State<LogIn> {
               // ignore: use_build_context_synchronously
               if (Provider.of<UserProvider>(context, listen: false)
                   .isLoggedIn!) {
+                // ignore: use_build_context_synchronously
                 user = context.read<UserProvider>().user;
                 AppRouter.popFromWidget();
                 AppRouter.navigateWithReplacemtnToWidget(Home(user: user));

@@ -1,32 +1,48 @@
-import 'dart:developer';
-
 import 'package:gmn/data/models/content/program/program.dart';
 import 'package:gmn/data/network/dio_helper.dart';
+import 'package:gmn/data/repositories/repo.dart';
 
-class ProgramRepo {
-  static Future<List<Program>> getAllPrograms(
-      String token, Map<String, dynamic> queryParameters) async {
-    //ignore: avoid_log
-    log("inside programRepo->getAllPrograms");
+class ProgramRepo extends Repo<Program> {
+  static const String mName = "store";
 
-    Map<String, dynamic> data = await DioHelper.io
-        .get(token, Program.mName, "nothing", queryParameters);
+  ProgramRepo.fromMap(Map map) {
+    super.fromMap(map);
+  }
 
-    //ignore: avoid_log
-    log(data['data']['results'].toString());
+  @override
+  void update(Repo tempRepo) {
+    super.update(tempRepo);
+  }
 
-    //ignore: avoid_log
-    log("inside ProgramRepo->getAllPrograms after");
+  static Future<ProgramRepo> getAllPrograms(
+      String token, Map<String, dynamic> queryParameter) async {
+    Map responce = await DioHelper.io.get(
+      token,
+      mName,
+      '',
+      queryParameter,
+    );
+    Map responceData = responce["data"];
 
-    List programMapList = data['data']['results'];
+    List<Program> equipments = await loadPrograms(responceData);
 
-    List<Program> programs = programMapList.map((e) {
-      return Program.fromMap(e);
-    }).toList();
+    Map equipmentRepoMap = {
+      'totalCount': responceData['totalCount'],
+      'page': responceData['page'],
+      'limit': responceData['limit'],
+      'next': responceData['next'],
+      'items': equipments,
+    };
 
-    //ignore: avoid_log
-    log("Programs are: $programs");
+    ProgramRepo equipmentRepo = ProgramRepo.fromMap(equipmentRepoMap);
 
-    return programs;
+    return equipmentRepo;
+  }
+
+  static Future<List<Program>> loadPrograms(Map data) async {
+    List<Program> equipments = [];
+    List equipmentsMapList = data["results"];
+    equipments = equipmentsMapList.map((e) => Program.fromMap(e)).toList();
+    return equipments;
   }
 }

@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gmn/views/providers/profile/coach_provider.dart';
+import 'package:gmn/views/providers/program_store_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
-class TraineesIndex extends StatelessWidget {
-  const TraineesIndex({super.key});
+class ProductsIndex extends StatelessWidget {
+  const ProductsIndex({super.key});
 
   @override
   Widget build(BuildContext context) {
     String? token = context.watch<UserProvider>().user!.token;
-    if (context.read<CoachProvider>().trainees == null) {
-      context.read<CoachProvider>().getAllTrainees(token!);
+    if (context.read<ProgramStoreProvider>().products == null) {
+      context.read<ProgramStoreProvider>().getAllProducts(token!);
     }
 
     return Scaffold(
-      body: Consumer<CoachProvider>(builder: (context, coachProvider, child) {
-        if (coachProvider.trainees == null) {
+      body: Consumer<ProgramStoreProvider>(
+          builder: (context, coachProvider, child) {
+        if (coachProvider.products == null) {
           return const Center(child: CircularProgressIndicator());
         }
         return Column(
@@ -30,16 +32,18 @@ class TraineesIndex extends StatelessWidget {
                   return Padding(
                     padding: EdgeInsets.all(20.sp),
                     child: Text(
-                        "Trainee id: ${coachProvider.trainees!.items![index].id}"),
+                        "Product price: ${coachProvider.products!.items![index].price}"),
                   );
                 },
                 shrinkWrap: true,
-                itemCount: coachProvider.trainees!.items!.length,
+                itemCount: coachProvider.products!.items!.length,
               ),
             ),
             InkWell(
               onTap: () {
-                context.read<CoachProvider>().getTraineesNextPage(token!);
+                context
+                    .read<ProgramStoreProvider>()
+                    .getProductsNextPage(token!);
               },
               child: Container(
                 alignment: Alignment.center,
@@ -49,14 +53,14 @@ class TraineesIndex extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(15.sp)),
                     color: Colors.blue),
                 child: const Text(
-                  "Refresh",
+                  "Load More!",
                   style: TextStyle(color: Colors.white),
                 ),
               ),
             ),
             InkWell(
               onTap: () {
-                context.read<CoachProvider>().resetTrainees();
+                context.read<ProgramStoreProvider>().resetProducts();
               },
               child: Container(
                 alignment: Alignment.center,

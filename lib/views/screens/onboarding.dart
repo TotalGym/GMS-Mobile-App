@@ -32,7 +32,9 @@ class _Onboarding extends State<OnboardingScreen> {
 
   _checkLoginState() async {
     await context.read<UserProvider>().checkIfLoggedIn();
+    // ignore: use_build_context_synchronously
     isLoggedIn = context.read<UserProvider>().isLoggedIn;
+    // ignore: use_build_context_synchronously
     user = context.read<UserProvider>().user;
 
     Future.delayed(

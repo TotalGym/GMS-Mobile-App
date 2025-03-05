@@ -1,5 +1,3 @@
-import 'package:gmn/data/repositories/user_repos/trainee_repo.dart';
-
 class NotificationState {
   static const String mName = "notification";
   static const String mTraineeNotificationsName = "traineeNotifications";
