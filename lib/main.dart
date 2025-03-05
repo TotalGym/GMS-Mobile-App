@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gmn/values/app_router.dart';
 import 'package:gmn/views/providers/coach_provider.dart';
+import 'package:gmn/views/providers/notification_provider.dart';
 import 'package:gmn/views/providers/program_store_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/onboarding.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => ProgramStoreProvider()),
           ChangeNotifierProvider(create: (context) => UserProvider()),
           ChangeNotifierProvider(create: (context) => CoachProvider()),
+          ChangeNotifierProvider(create: (context) => NotificationProvider()),
         ],
         child: MaterialApp(
           navigatorKey: AppRouter.navKey,
@@ -31,7 +33,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          home: OnboardingScreen(),
+          home: const OnboardingScreen(),
         ),
       ),
     );

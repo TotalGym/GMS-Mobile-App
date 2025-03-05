@@ -1,5 +1,5 @@
-import 'package:gmn/data/models/program/exercise.dart';
-import 'package:gmn/data/models/program_store_interface.dart';
+import 'package:gmn/data/models/content/program/exercise.dart';
+import 'package:gmn/data/models/content/program_store_interface.dart';
 
 class Program implements ProgramStore {
   static String mName = "programs";

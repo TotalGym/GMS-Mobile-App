@@ -24,7 +24,7 @@ class DioHelper {
       Response response = await dio.get(ApiHelper.link(modelName: model));
 
       // ignore: avoid_log
-      log("Data is: ${response.data['data']} inside get withing dio_helper");
+      log("DioHelper-> get Data is: ${response.data['data']}");
 
       Map<String, dynamic>? data = response.data;
       if (data != null) {

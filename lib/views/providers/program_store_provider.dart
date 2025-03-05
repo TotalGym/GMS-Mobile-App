@@ -1,9 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/widgets.dart';
-import 'package:gmn/data/models/program/program.dart';
-import 'package:gmn/data/models/program_store_interface.dart';
-import 'package:gmn/data/models/store/product.dart';
+import 'package:gmn/data/models/content/program/program.dart';
+import 'package:gmn/data/models/content/program_store_interface.dart';
+import 'package:gmn/data/models/content/store/product.dart';
 import 'package:gmn/data/repositories/program_repo.dart';
 import 'package:gmn/data/repositories/store_repo.dart';
 

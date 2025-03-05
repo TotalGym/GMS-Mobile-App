@@ -1,4 +1,4 @@
-import 'package:gmn/data/models/program_store_interface.dart';
+import 'package:gmn/data/models/content/program_store_interface.dart';
 
 class Product implements ProgramStore {
   static String mName = "store";

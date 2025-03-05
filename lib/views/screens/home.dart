@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gmn/data/models/user/user.dart';
 
 import 'package:gmn/values/app_router.dart';
 import 'package:gmn/views/providers/coach_provider.dart';
+import 'package:gmn/views/providers/notification_provider.dart';
 import 'package:gmn/views/providers/program_store_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/auth/log_in.dart';
 import 'package:gmn/views/screens/coach/all_trainees.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class Home extends StatelessWidget {
   final String? title;
+  User? user;
 
-  const Home({super.key, this.title});
+  Home({super.key, this.title, this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +31,8 @@ class Home extends StatelessWidget {
     //     .logUserIn("moha5@gmail.com", 'moh123');
     // SharePreferencesHelper();
 
+    context.read<NotificationProvider>().getNotifications(user!.token!);
+
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 100.sp, horizontal: 14.sp),
@@ -38,10 +44,8 @@ class Home extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               // crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                    "Email is: ${provider.user != null ? provider.user!.email : "No Email"}"),
-                Text(
-                    "id is: ${provider.user != null ? provider.user!.id : "No id"}"),
+                Text("Email is: ${user != null ? user!.email : "No Email"}"),
+                Text("id is: ${user != null ? user!.id : "No id"}"),
                 InkWell(
                   onTap: () {
                     String oldPassword = "admin123";
@@ -89,7 +93,7 @@ class Home extends StatelessWidget {
                     "From profile phone is: ${provider.traineeProfile != null ? provider.traineeProfile!.phoneNumber : "No phone"}"),
                 Text(
                     "From profile attendence is: ${provider.traineeProfile != null ? provider.traineeProfile!.attendance : "No attendance"}"),
-                if (provider.user!.role == "Coach")
+                if (user!.role == "Coach")
                   InkWell(
                     onTap: () async {
                       showDialog(
@@ -155,6 +159,14 @@ class Home extends StatelessWidget {
                     ),
                   ),
                 ),
+                Consumer<NotificationProvider>(
+                    builder: (context, notificationProvider, child) {
+                  int notificationsCount =
+                      notificationProvider.notificationsCount;
+                  return notificationsCount > 0
+                      ? Text("Notifications: $notificationsCount")
+                      : const SizedBox();
+                })
 
                 // SizedBox(
                 //   height: 150,

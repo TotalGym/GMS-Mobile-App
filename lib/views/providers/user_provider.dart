@@ -12,16 +12,18 @@ class UserProvider extends ChangeNotifier {
   String? token;
   bool? isLoggedIn;
   Trainee? traineeProfile;
+  bool? hasToken;
 
   Future<void> checkIfLoggedIn() async {
     String? token = await SharedPreferencesHelper.instance.getTokenFromGlobal();
-    isLoggedIn = token != null ? true : false;
-    isLoggedIn! ? getUser(token!) : {};
+    hasToken = token != null;
+    hasToken! ? await getUser(token!) : {};
+    isLoggedIn = user != null;
     notifyListeners();
   }
 
   getUser(String token) async {
-    if (isLoggedIn! && user == null) {
+    if (hasToken! && user == null) {
       user = await UserRepo.getUser(token);
 
       log("UserProvider-> checkIfLoggedIn user: ${user!.email}");

@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:gmn/data/models/store/product.dart';
+import 'package:gmn/data/models/content/store/product.dart';
 import 'package:gmn/data/network/dio_helper.dart';
 
 class StoreRepo {

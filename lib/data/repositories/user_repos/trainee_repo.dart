@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:gmn/data/models/content/notification/notification.dart';
 import 'package:gmn/data/models/user/trainee/trainee.dart';
 import 'package:gmn/data/network/dio_helper.dart';
 
@@ -28,5 +29,31 @@ class TraineeRepo {
     log("trainee_repo -> getAllTainees: $trainees");
 
     return trainees;
+  }
+
+  Future<List<NotificationState>> getTraineeNotifications(String token) async {
+    Map data = await DioHelper.io
+        .get(token, NotificationState.mTraineeNotificationsName, '', '');
+    List<Map> notificationsMapList = data["results"];
+
+    List<NotificationState> notificationsList = [];
+    notificationsList = notificationsMapList.map((e) {
+      return NotificationState.fromMap(e);
+    }).toList();
+
+    return notificationsList;
+  }
+
+  Future<List<NotificationState>>? getAllNotifications(String token) async {
+    Map response =
+        await DioHelper.io.get(token, NotificationState.mName, "", "");
+    List notificationsMapList = response["data"]["results"];
+
+    List<NotificationState> notificationsList = [];
+    notificationsList = notificationsMapList.map((e) {
+      return NotificationState.fromMap(e);
+    }).toList();
+
+    return notificationsList;
   }
 }

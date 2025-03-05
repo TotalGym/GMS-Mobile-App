@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gmn/data/models/user/user.dart';
 import 'package:gmn/values/app_router.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/home.dart';
@@ -15,6 +16,7 @@ class LogIn extends StatefulWidget {
 }
 
 class _LogInState extends State<LogIn> {
+  User? user;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,9 +39,14 @@ class _LogInState extends State<LogIn> {
                   .logUserIn("test@test.com", 'test123');
 
               // ignore: use_build_context_synchronously
-              Provider.of<UserProvider>(context, listen: false).isLoggedIn!
-                  ? AppRouter.navigateWithReplacemtnToWidget(const Home())
-                  : AppRouter.navigateWithReplacemtnToWidget(const LogIn());
+              if (Provider.of<UserProvider>(context, listen: false)
+                  .isLoggedIn!) {
+                user = context.read<UserProvider>().user;
+                AppRouter.popFromWidget();
+                AppRouter.navigateWithReplacemtnToWidget(Home(user: user));
+              } else {
+                AppRouter.navigateWithReplacemtnToWidget(const LogIn());
+              }
             },
             child: Container(
               alignment: Alignment.center,
