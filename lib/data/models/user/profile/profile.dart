@@ -1,8 +1,8 @@
 import 'package:gmn/data/models/user/extentions/attendance.dart';
 
-class Trainee {
+class Profile {
   static String profile = "profile";
-  static String mName = "trainee";
+  static String trainee = "trainee";
 
   String? id;
   List? attendance = [];
@@ -17,8 +17,9 @@ class Trainee {
   List? assignedCoaches;
   String? gender;
   List? selectedPrograms;
+  DateTime? createdAt;
 
-  Trainee.fromMap(Map<String, dynamic> map) {
+  Profile.fromMap(Map<String, dynamic> map) {
     if (map.isNotEmpty) {
       id = map["_id"];
       attendance = Attendance.getAttendanceList(map["attendance"]);
@@ -33,6 +34,8 @@ class Trainee {
       assignedCoaches = map["assignedCoach"] ?? [];
       gender = map["gender"] ?? "unknown";
       selectedPrograms = map["selectedPrograms"];
+      createdAt =
+          DateTime.parse(map["createdAt"] ?? '1970-12-31T13:04:49.970Z');
     }
   }
   Map<String, dynamic>? getProgressMap(Map? map) {

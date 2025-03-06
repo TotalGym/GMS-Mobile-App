@@ -12,14 +12,14 @@ class NotificationRepo extends Repo<NotificationState> {
     items = map["items"];
   }
 
-  static Future<NotificationRepo> getTraineeNotifications(
+  static Future<NotificationRepo> getProfileNotifications(
       String token, Map<String, dynamic> queryParameter) async {
     Map respnce = await DioHelper.io.get(
-        token, NotificationState.mTraineeNotificationsName, '', queryParameter);
+        token, NotificationState.mProfileNotificationsName, '', queryParameter);
     Map data = respnce["data"];
 
     List<NotificationState> notifications =
-        loadNotifications(data, NotificationState.mTraineeNotificationsName);
+        loadNotifications(data, NotificationState.mProfileNotificationsName);
 
     Map notificationRepoMap = {
       'totalCount': data['totalCount'],

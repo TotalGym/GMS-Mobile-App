@@ -1,6 +1,6 @@
 class NotificationState {
   static const String mName = "notification";
-  static const String mTraineeNotificationsName = "traineeNotifications";
+  static const String mProfileNotificationsName = "traineeNotifications";
 
   String? id;
   String? userID;

@@ -1,24 +1,23 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:gmn/data/repositories/content/equipment_repo.dart';
 import 'package:gmn/data/repositories/user_repos/notification_repo.dart';
-import 'package:gmn/data/repositories/user_repos/trainee_repo.dart';
+import 'package:gmn/data/repositories/user_repos/profile_repo.dart';
 
 class CoachProvider extends ChangeNotifier {
-  TraineeRepo? trainees;
-  int traineesPage = 1;
+  ProfileRepo? traineeProfiles;
+  int traineeProfilesPage = 1;
 
   EquipmentRepo? equipments;
   int equipmentsPage = 1;
 
-  getAllTrainees(String token) async {
-    if (trainees == null) {
-      trainees = await TraineeRepo.getTrainees(token, {"page": traineesPage});
+  getAllProfiles(String token) async {
+    if (traineeProfiles == null) {
+      traineeProfiles =
+          await ProfileRepo.getProfiles(token, {"page": traineeProfilesPage});
     } else {
-      TraineeRepo tempTrainess =
-          await TraineeRepo.getTrainees(token, {"page": traineesPage});
-      trainees!.update(tempTrainess);
+      ProfileRepo tempTrainess =
+          await ProfileRepo.getProfiles(token, {"page": traineeProfilesPage});
+      traineeProfiles!.update(tempTrainess);
     }
     notifyListeners();
   }
@@ -56,21 +55,21 @@ class CoachProvider extends ChangeNotifier {
 
   loadAll(String token) async {
     await getAllEquipments(token);
-    await getAllTrainees(token);
+    await getAllProfiles(token);
     await getNotifications(token);
   }
 
-  void getTraineesNextPage(String token) async {
-    if (trainees!.next == null) {
+  void getProfilesNextPage(String token) async {
+    if (traineeProfiles!.next == null) {
       return;
     }
-    traineesPage++;
-    await getAllTrainees(token);
+    traineeProfilesPage++;
+    await getAllProfiles(token);
   }
 
-  void resetTrainees() {
-    trainees = null;
-    traineesPage = 1;
+  void resetProfiles() {
+    traineeProfiles = null;
+    traineeProfilesPage = 1;
     notifyListeners();
   }
 

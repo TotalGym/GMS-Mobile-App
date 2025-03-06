@@ -3,8 +3,10 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:gmn/data/models/user/profile/profile.dart';
 import 'package:gmn/data/models/user/user.dart';
 import 'package:gmn/values/app_router.dart';
+import 'package:gmn/views/providers/profile/profile_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/auth/log_in.dart';
 import 'package:gmn/views/screens/home.dart';
@@ -33,9 +35,16 @@ class _Onboarding extends State<OnboardingScreen> {
   _checkLoginState() async {
     await context.read<UserProvider>().checkIfLoggedIn();
     // ignore: use_build_context_synchronously
-    isLoggedIn = context.read<UserProvider>().isLoggedIn;
     // ignore: use_build_context_synchronously
     user = context.read<UserProvider>().user;
+    if (user != null) {
+      if (user!.token != null) {
+        // ignore: use_build_context_synchronously
+        await context.read<ProfileProvider>().getProfile(user!.token!);
+        // ignore: use_build_context_synchronously
+        isLoggedIn = context.read<UserProvider>().isLoggedIn;
+      }
+    }
 
     Future.delayed(
       const Duration(seconds: 3),
@@ -44,7 +53,7 @@ class _Onboarding extends State<OnboardingScreen> {
           isLoggedIn == null
               ? AppRouter.navigateWithReplacemtnToWidget(const LogIn())
               : AppRouter.navigateWithReplacemtnToWidget(
-                  isLoggedIn! ? Home(user: user) : const LogIn());
+                  isLoggedIn! ? const Home() : const LogIn());
         }
       },
     );

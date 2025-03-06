@@ -24,10 +24,6 @@ class User {
     }
   }
 
-  // User.login(String email, String password) {
-  //    login(email, password);
-  // }
-
   chagePassword(String oldPassword, String newPssword) async {
     Auth().changePassword(
       token!,

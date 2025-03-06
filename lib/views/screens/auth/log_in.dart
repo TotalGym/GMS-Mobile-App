@@ -4,6 +4,7 @@ import 'package:gmn/data/models/user/user.dart';
 import 'package:gmn/values/app_router.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/home.dart';
+import 'package:gmn/views/widgets/dialogs/dialog.dart';
 import 'package:provider/provider.dart';
 
 class LogIn extends StatefulWidget {
@@ -27,16 +28,7 @@ class _LogInState extends State<LogIn> {
           const Text("LogIn"),
           InkWell(
             onTap: () async {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return const Center(
-                      child: Dialog(
-                        backgroundColor: Colors.transparent,
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
-                  });
+              showLoadingDialog(context);
               await Provider.of<UserProvider>(context, listen: false)
                   .logUserIn("test@test.com", 'test123');
 
@@ -46,7 +38,7 @@ class _LogInState extends State<LogIn> {
                 // ignore: use_build_context_synchronously
                 user = context.read<UserProvider>().user;
                 AppRouter.popFromWidget();
-                AppRouter.navigateWithReplacemtnToWidget(Home(user: user));
+                AppRouter.navigateWithReplacemtnToWidget(const Home());
               } else {
                 AppRouter.navigateWithReplacemtnToWidget(const LogIn());
               }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gmn/values/app_router.dart';
 import 'package:gmn/views/providers/profile/coach_provider.dart';
@@ -10,6 +11,7 @@ import 'package:provider/provider.dart';
 
 void main() async {
   runApp(const MyApp());
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 }
 
 class MyApp extends StatelessWidget {
@@ -18,6 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
+      designSize: const Size(412, 892),
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => ProgramStoreProvider()),

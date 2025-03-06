@@ -1,10 +1,10 @@
 import 'dart:developer';
-import 'package:gmn/data/models/user/trainee/trainee.dart';
+import 'package:gmn/data/models/user/profile/profile.dart';
 import 'package:gmn/data/network/dio_helper.dart';
 import 'package:gmn/data/repositories/repo.dart';
 
-class TraineeRepo extends Repo<Trainee> {
-  TraineeRepo.fromMap(Map map) {
+class ProfileRepo extends Repo<Profile> {
+  ProfileRepo.fromMap(Map map) {
     super.fromMap(map);
   }
 
@@ -13,13 +13,13 @@ class TraineeRepo extends Repo<Trainee> {
     super.update(tempRepo);
   }
 
-  static Future<TraineeRepo> getTrainees(
+  static Future<ProfileRepo> getProfiles(
       String token, Map<String, dynamic> queryParameter) async {
     Map responce =
-        await DioHelper.io.get(token, Trainee.mName, "", queryParameter);
+        await DioHelper.io.get(token, Profile.trainee, "", queryParameter);
     Map data = responce["data"];
 
-    List<Trainee> trainees = loadTrainees(data);
+    List<Profile> trainees = loadProfiles(data);
 
     Map traineeRepoMap = {
       'totalCount': data['totalCount'],
@@ -29,28 +29,28 @@ class TraineeRepo extends Repo<Trainee> {
       'items': trainees,
     };
 
-    TraineeRepo traineeRepo = TraineeRepo.fromMap(traineeRepoMap);
+    ProfileRepo traineeRepo = ProfileRepo.fromMap(traineeRepoMap);
 
     return traineeRepo;
   }
 
-  static Future<Trainee> getTrainee(
+  static Future<Profile> getProfile(
       String token, Map<String, dynamic> queryParameter) async {
     Map data =
-        await DioHelper.io.get(token, Trainee.profile, '', queryParameter);
+        await DioHelper.io.get(token, Profile.profile, '', queryParameter);
 
-    log("trainee_repo-> return value is: $data");
+    log("profile_repo -> return value is: $data");
 
-    Trainee trainee = Trainee.fromMap(data['data']);
+    Profile trainee = Profile.fromMap(data['data']);
 
     return trainee;
   }
 
-  static List<Trainee> loadTrainees(Map data) {
+  static List<Profile> loadProfiles(Map data) {
     List traineesMapList = data['results'];
 
-    List<Trainee> trainees = traineesMapList.map((e) {
-      return Trainee.fromMap(e);
+    List<Profile> trainees = traineesMapList.map((e) {
+      return Profile.fromMap(e);
     }).toList();
 
     return trainees;
