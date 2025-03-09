@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:gmn/data/models/user/user.dart';
-import 'package:gmn/data/repositories/shared_preferences_helper.dart';
+import 'package:gmn/data/helpers/shared_preferences_helper.dart';
 import 'package:gmn/data/repositories/user_repos/user_repo.dart';
 
 class UserProvider extends ChangeNotifier {

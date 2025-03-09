@@ -34,15 +34,21 @@ class _Onboarding extends State<OnboardingScreen> {
 
   _checkLoginState() async {
     await context.read<UserProvider>().checkIfLoggedIn();
-    // ignore: use_build_context_synchronously
+
     // ignore: use_build_context_synchronously
     user = context.read<UserProvider>().user;
+
     if (user != null) {
       if (user!.token != null) {
         // ignore: use_build_context_synchronously
         await context.read<ProfileProvider>().getProfile(user!.token!);
+
         // ignore: use_build_context_synchronously
-        isLoggedIn = context.read<UserProvider>().isLoggedIn;
+        Profile? profile = context.read<ProfileProvider>().profile;
+        if (profile != null) {
+          // ignore: use_build_context_synchronously
+          isLoggedIn = context.read<UserProvider>().isLoggedIn;
+        }
       }
     }
 

@@ -1,0 +1,199 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gmn/data/helpers/date_formatter_helper.dart';
+import 'package:gmn/data/models/user/profile/profile.dart';
+import 'package:gmn/values/app_router.dart';
+import 'package:gmn/values/colors.dart';
+import 'package:gmn/views/providers/profile/profile_provider.dart';
+import 'package:gmn/views/screens/home.dart';
+import 'package:gmn/views/widgets/scoop_app/scaffold.dart';
+import 'package:provider/provider.dart';
+
+class ProfileView extends StatelessWidget {
+  final Profile? profile;
+  const ProfileView({
+    super.key,
+    this.profile,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AppScaffold.build(context, _isPersonalProfile());
+  }
+
+  _isPersonalProfile() {
+    return profile == null
+        ? Consumer<ProfileProvider>(
+            builder: (context, provider, child) => _body(provider.profile!),
+          )
+        : _body(profile!);
+  }
+
+  _body(Profile profile) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 20.sp),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                profile.name![0].toUpperCase() +
+                    profile.name!.substring(1).toLowerCase(),
+                style: TextStyle(
+                    color: AppColors.relax, fontSize: 32.sp, height: 1.sp),
+              ),
+              profile.role == "Coach"
+                  ? Text(
+                      'Welcome to your Profile..',
+                      style: TextStyle(
+                          color: AppColors.relax,
+                          fontSize: 26.sp,
+                          height: 2.sp),
+                    )
+                  : Padding(
+                      padding: EdgeInsets.only(top: 14.sp),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Member Since: ',
+                            style: TextStyle(
+                                color: AppColors.background,
+                                fontSize: 16.sp,
+                                height: 1.sp),
+                          ),
+                          Text(
+                            DateFormatterHelper.fromString(
+                                    profile.createdAt!.toLocal().toString())
+                                .toString(),
+                            style: TextStyle(
+                                color: AppColors.relax,
+                                fontSize: 18.sp,
+                                height: 1.sp),
+                          )
+                        ],
+                      ),
+                    ),
+            ],
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.symmetric(vertical: 50.sp, horizontal: 14.sp),
+          height: 675.sp,
+          width: 384.sp,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(24.sp),
+            gradient: const LinearGradient(
+              colors: [
+                AppColors.theme1Alpha,
+                AppColors.themeAlph,
+                AppColors.theme2Alpha
+              ],
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+            ),
+          ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 17.sp),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  _profileField("Email", profile.contactEmail),
+                  _profileField("Phone", profile.phoneNumber),
+                  _profileField("Gender", profile.gender),
+                  _profileField("Role", profile.role),
+                  _profileField("Status", profile.status),
+                  _profileField("Membership", profile.membership),
+                  const Spacer(),
+                  _profileButton("Progress", const Home()),
+                  _profileButton("Attendance", const Home()),
+                ]),
+          ),
+        ),
+      ],
+    );
+  }
+
+  _profileField(String name, dynamic value) {
+    return Padding(
+      padding: EdgeInsets.all(10.sp),
+      child: Row(
+        children: [
+          Text(
+            "$name: ",
+            style: TextStyle(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.bold,
+              color: AppColors.background,
+            ),
+          ),
+          SizedBox(width: 14.sp),
+          value is Map
+              ? Column(
+                  children: [
+                    Text(
+                      DateFormatterHelper.fromString(value["startDate"] ?? "")
+                          .toString(),
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.vibrantColor,
+                      ),
+                    ),
+                    Text(
+                      DateFormatterHelper.fromString(value["startDate"] ?? "")
+                          .toString(),
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.vibrantColor,
+                      ),
+                    ),
+                  ],
+                )
+              : Text(
+                  "$value",
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.vibrantColor,
+                  ),
+                )
+        ],
+      ),
+    );
+  }
+
+  _profileButton(String text, Widget distination) {
+    return InkWell(
+      onTap: () => AppRouter.navigateToWidget(distination),
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 6.sp),
+        height: 108.sp,
+        width: 350.sp,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24.sp),
+          gradient: const LinearGradient(
+            colors: [AppColors.theme1, AppColors.theme2],
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+          ),
+        ),
+        child: Center(
+          child: Text(
+            text,
+            style: TextStyle(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.bold,
+              color: AppColors.background,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:gmn/data/models/user/auth.dart';
 import 'package:gmn/data/models/user/user.dart';
-import 'package:gmn/data/repositories/shared_preferences_helper.dart';
+import 'package:gmn/data/helpers/shared_preferences_helper.dart';
 
 class UserRepo {
   static login(String email, String password) async {

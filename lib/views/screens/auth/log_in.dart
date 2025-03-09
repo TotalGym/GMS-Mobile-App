@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gmn/data/models/user/user.dart';
 import 'package:gmn/values/app_router.dart';
+import 'package:gmn/views/providers/profile/profile_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/home.dart';
 import 'package:gmn/views/widgets/dialogs/dialog.dart';
@@ -37,8 +38,15 @@ class _LogInState extends State<LogIn> {
                   .isLoggedIn!) {
                 // ignore: use_build_context_synchronously
                 user = context.read<UserProvider>().user;
-                AppRouter.popFromWidget();
-                AppRouter.navigateWithReplacemtnToWidget(const Home());
+
+                // ignore: use_build_context_synchronously
+                await context.read<ProfileProvider>().getProfile(user!.token!);
+
+                // ignore: use_build_context_synchronously
+                if (context.read<ProfileProvider>().profile != null) {
+                  AppRouter.popFromWidget();
+                  AppRouter.navigateWithReplacemtnToWidget(const Home());
+                }
               } else {
                 AppRouter.navigateWithReplacemtnToWidget(const LogIn());
               }

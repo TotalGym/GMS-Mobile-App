@@ -3,7 +3,7 @@ import 'package:gmn/data/network/dio_helper.dart';
 import 'package:gmn/data/repositories/repo.dart';
 
 class ProgramRepo extends Repo<Program> {
-  static const String mName = "store";
+  static const String mName = "programs";
 
   ProgramRepo.fromMap(Map map) {
     super.fromMap(map);
@@ -16,33 +16,28 @@ class ProgramRepo extends Repo<Program> {
 
   static Future<ProgramRepo> getAllPrograms(
       String token, Map<String, dynamic> queryParameter) async {
-    Map responce = await DioHelper.io.get(
-      token,
-      mName,
-      '',
-      queryParameter,
-    );
+    Map responce = await DioHelper.io.get(token, mName, '', queryParameter);
     Map responceData = responce["data"];
 
-    List<Program> equipments = await loadPrograms(responceData);
+    List<Program> programs = await loadPrograms(responceData);
 
-    Map equipmentRepoMap = {
+    Map programRepoMap = {
       'totalCount': responceData['totalCount'],
       'page': responceData['page'],
       'limit': responceData['limit'],
       'next': responceData['next'],
-      'items': equipments,
+      'items': programs,
     };
 
-    ProgramRepo equipmentRepo = ProgramRepo.fromMap(equipmentRepoMap);
+    ProgramRepo equipmentRepo = ProgramRepo.fromMap(programRepoMap);
 
     return equipmentRepo;
   }
 
   static Future<List<Program>> loadPrograms(Map data) async {
-    List<Program> equipments = [];
-    List equipmentsMapList = data["results"];
-    equipments = equipmentsMapList.map((e) => Program.fromMap(e)).toList();
-    return equipments;
+    List<Program> programs = [];
+    List programMapList = data["results"];
+    programs = programMapList.map((e) => Program.fromMap(e)).toList();
+    return programs;
   }
 }

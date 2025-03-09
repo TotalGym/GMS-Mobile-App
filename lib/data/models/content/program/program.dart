@@ -5,29 +5,25 @@ class Program implements ProgramStore {
   static String mName = "programs";
 
   String? id;
+  String? name;
   List<Exercise>? exercises = [];
   String? description;
   num? monthlyPrice;
   num? annualPrice;
   String? image;
   List? schedual = [];
-
-  Program(
-    this.id,
-    this.schedual, {
-    this.exercises,
-    this.description = 'No Description',
-    this.image = 'No source available',
-  });
+  List? registeredTrainees = [];
 
   Program.fromMap(Map<String, dynamic> map) {
     id = map["_id"];
+    name = map["programName"];
     exercises = Exercise.getExercisesList(map["exercises"] ?? []);
     description = map["description"];
     monthlyPrice = map["monthlyPrice"];
     annualPrice = map["annuallyPrice"];
     image = map["image"];
     schedual = map["schedule"];
+    registeredTrainees = map["registeredTrainees"];
   }
 
   Map<String, dynamic> toMap() {
@@ -42,7 +38,7 @@ class Program implements ProgramStore {
 
   @override
   String toString() {
-    return "Program description: $description, of ${{
+    return "Program: $name, description: $description, of ${{
       exercises ?? []
     }.length} exercises ";
   }
