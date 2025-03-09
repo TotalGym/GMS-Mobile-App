@@ -59,12 +59,13 @@ class CoachProvider extends ChangeNotifier {
     await getNotifications(token);
   }
 
-  void getProfilesNextPage(String token) async {
+  Future<void> getProfilesNextPage(String token) async {
     if (traineeProfiles!.next == null) {
       return;
     }
     traineeProfilesPage++;
     await getAllProfiles(token);
+    return;
   }
 
   void resetProfiles() {

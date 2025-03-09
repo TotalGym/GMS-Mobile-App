@@ -14,7 +14,7 @@ class Profile {
   String? status;
   Map? membership;
   Map<String, dynamic>? progress;
-  List? assignedCoaches;
+  Map? assignedCoach;
   String? gender;
   List? selectedPrograms;
   DateTime? createdAt;
@@ -31,7 +31,7 @@ class Profile {
       status = map["status"] ?? "new";
       membership = map["membership"] ?? {};
       progress = getProgressMap(map["progress"]);
-      assignedCoaches = map["assignedCoach"] ?? [];
+      assignedCoach = map["assignedCoach"] ?? [];
       gender = map["gender"] ?? "unknown";
       selectedPrograms = map["selectedPrograms"];
       createdAt =

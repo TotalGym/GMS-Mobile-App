@@ -8,6 +8,7 @@ import 'package:gmn/views/providers/profile/coach_provider.dart';
 import 'package:gmn/views/providers/profile/profile_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/profile/profile.dart';
+import 'package:gmn/views/widgets/dialogs/dialog.dart';
 import 'package:gmn/views/widgets/scoop_app/scaffold.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +23,7 @@ class ProfilesIndex extends StatelessWidget {
       context.read<CoachProvider>().getAllProfiles(token!);
     }
 
-    return AppScaffold.build(context, _body());
+    return AppScaffold.build(context, _body(), screenTitle: "Profiles");
   }
 
   _body() {

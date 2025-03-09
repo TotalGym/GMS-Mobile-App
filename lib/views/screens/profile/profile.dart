@@ -18,7 +18,8 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold.build(context, _isPersonalProfile());
+    return AppScaffold.build(context, _isPersonalProfile(),
+        screenTitle: "Profile");
   }
 
   _isPersonalProfile() {
@@ -52,7 +53,7 @@ class ProfileView extends StatelessWidget {
                       style: TextStyle(
                           color: AppColors.relax,
                           fontSize: 26.sp,
-                          height: 2.sp),
+                          height: 1.5.sp),
                     )
                   : Padding(
                       padding: EdgeInsets.only(top: 14.sp),
@@ -82,7 +83,7 @@ class ProfileView extends StatelessWidget {
         ),
         Container(
           padding: EdgeInsets.symmetric(vertical: 50.sp, horizontal: 14.sp),
-          height: 675.sp,
+          height: 700.sp,
           width: 384.sp,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(24.sp),
@@ -105,6 +106,8 @@ class ProfileView extends StatelessWidget {
                   _profileField("Email", profile.contactEmail),
                   _profileField("Phone", profile.phoneNumber),
                   _profileField("Gender", profile.gender),
+                  if (profile.role == "Trainee")
+                    _profileField("Coach", profile.assignedCoach),
                   _profileField("Role", profile.role),
                   _profileField("Status", profile.status),
                   _profileField("Membership", profile.membership),
@@ -120,7 +123,7 @@ class ProfileView extends StatelessWidget {
 
   _profileField(String name, dynamic value) {
     return Padding(
-      padding: EdgeInsets.all(10.sp),
+      padding: EdgeInsets.all(7.sp),
       child: Row(
         children: [
           Text(

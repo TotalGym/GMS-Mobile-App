@@ -4,7 +4,8 @@ import 'package:gmn/values/colors.dart';
 import 'package:gmn/views/widgets/scoop_app/app_par.dart';
 
 class AppScaffold {
-  static Scaffold build(BuildContext context, Widget body) {
+  static Scaffold build(BuildContext context, Widget body,
+      {required String screenTitle}) {
     return Scaffold(
       backgroundColor: null,
       extendBodyBehindAppBar: true,
@@ -20,7 +21,7 @@ class AppScaffold {
         child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 14.sp), child: body),
       ),
-      appBar: TopBar(),
+      appBar: TopBar(screenTitle: screenTitle),
       drawer: Container(
         height: 100,
         width: 100,

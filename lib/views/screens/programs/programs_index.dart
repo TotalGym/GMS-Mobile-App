@@ -20,7 +20,7 @@ class ProgramsIndex extends StatelessWidget {
       context.read<ProgramStoreProvider>().getAllPrograms(token!);
     }
 
-    return AppScaffold.build(context, _body());
+    return AppScaffold.build(context, _body(), screenTitle: "Programs");
   }
 
   _body() {
@@ -46,8 +46,8 @@ class ProgramsIndex extends StatelessWidget {
                             ),
                           )
                         : InkWell(
-                            onTap: () {
-                              context
+                            onTap: () async {
+                              await context
                                   .read<ProgramStoreProvider>()
                                   .getProgramsNextPage(token!);
                             },

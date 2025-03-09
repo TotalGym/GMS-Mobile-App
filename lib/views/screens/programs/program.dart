@@ -15,7 +15,7 @@ class ProgramView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold.build(context, _body(program));
+    return AppScaffold.build(context, _body(program), screenTitle: "Program");
   }
 
   _body(Program program) {
@@ -137,19 +137,19 @@ class ProgramView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.all(8.sp),
+            padding: EdgeInsets.all(4.sp),
             child: Text(
               "Exercises",
               style: TextStyle(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.bold,
                   color: AppColors.background,
-                  height: 0.1.sp),
+                  height: 0.5.sp),
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 6.sp),
-            height: 100,
+            // margin: EdgeInsets.only(top: 6.sp),
+            height: 90.sp,
             child: ListView.builder(
               itemBuilder: (context, index) => _exercise(exercises[index]),
               itemCount: exercises.length,
@@ -165,18 +165,76 @@ class ProgramView extends StatelessWidget {
   _exercise(Exercise exercise) {
     return Container(
       height: 90.sp,
-      width: 115,
+      width: 115.sp,
       margin: EdgeInsets.symmetric(horizontal: 10.sp),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24.sp),
+        borderRadius: BorderRadius.circular(12.sp),
         gradient: const LinearGradient(
           colors: [
-            AppColors.theme1Alpha,
-            AppColors.themeAlph,
-            AppColors.theme2Alpha
+            Color.fromARGB(84, 32, 106, 210),
+            Color.fromARGB(84, 124, 17, 177)
           ],
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
+          begin: Alignment.bottomLeft,
+          end: Alignment.topRight,
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              exercise.name,
+              style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.theme1,
+                  height: 0.1.sp),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  exercise.repetitions.toString(),
+                  style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.vibrantColor,
+                      height: 0.1.sp),
+                ),
+                Text(
+                  "Repetitions",
+                  style: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.background,
+                      height: 0.1.sp),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  exercise.sets.toString(),
+                  style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.vibrantColor,
+                      height: 0.1.sp),
+                ),
+                Text(
+                  "Sets       ",
+                  style: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.background,
+                      height: 0.1.sp),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

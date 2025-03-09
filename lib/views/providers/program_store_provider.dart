@@ -57,12 +57,13 @@ class ProgramStoreProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getProgramsNextPage(String token) async {
+  Future<void> getProgramsNextPage(String token) async {
     if (programs!.next == null) {
       return;
     }
     programsPage++;
     await getAllPrograms(token);
+    return;
   }
 
   void resetPrograms() {
