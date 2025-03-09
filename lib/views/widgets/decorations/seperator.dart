@@ -6,8 +6,8 @@ seperator(
     {double height = 2.0,
     double width = 330.0,
     double marginLeft = 25.0,
-    double marginTop = 8,
-    double marginBottom = 8,
+    double marginTop = 12,
+    double marginBottom = 12,
     double marginRight = 25}) {
   return Container(
     margin: EdgeInsets.only(

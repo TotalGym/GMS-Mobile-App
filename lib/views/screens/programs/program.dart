@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gmn/data/helpers/date_formatter_helper.dart';
 import 'package:gmn/data/models/content/program/exercise.dart';
 import 'package:gmn/data/models/content/program/program.dart';
+import 'package:gmn/values/app_router.dart';
 import 'package:gmn/values/colors.dart';
 import 'package:gmn/views/widgets/decorations/seperator.dart';
 import 'package:gmn/views/widgets/scoop_app/scaffold.dart';
@@ -19,11 +21,13 @@ class ProgramView extends StatelessWidget {
   }
 
   _body(Program program) {
+    BuildContext context = AppRouter.navKey.currentContext!;
     return SizedBox(
+      height: MediaQuery.of(context).size.height - 20.sp,
       child: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.only(top: 18.sp),
-          height: 675.sp,
+          // height: 675.sp,
           width: 384.sp,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(24.sp),
@@ -112,8 +116,18 @@ class ProgramView extends StatelessWidget {
                   ),
                 ),
                 seperator(),
-                _exercises(program.exercises!)
-
+                _exercises(program.exercises!),
+                seperator(),
+                _schedule(program.schedual!), seperator(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        _price("Monthly", program.monthlyPrice!),
+                        _price("Annual", program.annualPrice!)
+                      ]),
+                ),
                 // _profileField("Email", profile.contactEmail),
                 // _profileField("Phone", profile.phoneNumber),
                 // _profileField("Gender", profile.gender),
@@ -148,7 +162,7 @@ class ProgramView extends StatelessWidget {
             ),
           ),
           Container(
-            // margin: EdgeInsets.only(top: 6.sp),
+            margin: EdgeInsets.only(top: 4.sp),
             height: 90.sp,
             child: ListView.builder(
               itemBuilder: (context, index) => _exercise(exercises[index]),
@@ -236,6 +250,159 @@ class ProgramView extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  _schedule(List schedule) {
+    return SizedBox(
+      height: 85.h,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.all(4.sp),
+            child: Text(
+              "Schedule",
+              style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.background,
+                  height: 0.5.sp),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 4.sp),
+            height: 60.sp,
+            child: ListView.builder(
+              itemBuilder: (context, index) => _scheduleItem(schedule[index]),
+              itemCount: schedule.length,
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  _scheduleItem(Map exercise) {
+    return Container(
+      height: 100.h,
+      width: 150.w,
+      margin: EdgeInsets.symmetric(horizontal: 8.sp),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12.sp),
+        gradient: const LinearGradient(
+          colors: [
+            Color.fromARGB(84, 32, 106, 210),
+            Color.fromARGB(84, 124, 17, 177)
+          ],
+          begin: Alignment.bottomLeft,
+          end: Alignment.topRight,
+        ),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            exercise['day'].toString(),
+            style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.bold,
+                color: AppColors.theme1,
+                height: 0.1.sp),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                DateFormatterHelper.timeFromString(exercise['startTime']),
+                style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.vibrantColor,
+                    height: 0.1.sp),
+              ),
+              Text(
+                "-",
+                style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.vibrantColor,
+                    height: 0.1.sp),
+              ),
+              Text(
+                DateFormatterHelper.timeFromString(exercise['endTime']),
+                style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.vibrantColor,
+                    height: 0.1.sp),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  _price(String type, num price) {
+    return Container(
+      padding: EdgeInsets.only(top: 14.sp),
+      height: 165.h,
+      width: 140.w,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12.sp),
+        gradient: const LinearGradient(
+          colors: [
+            Color.fromARGB(84, 32, 106, 210),
+            Color.fromARGB(84, 124, 17, 177)
+          ],
+          begin: Alignment.bottomLeft,
+          end: Alignment.topRight,
+        ),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            type,
+            style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.bold,
+                color: AppColors.theme1,
+                height: 0.1.sp),
+          ),
+          // const SizedBox(
+          //   height: 100,
+          // ),
+
+          Padding(
+            padding: EdgeInsets.only(top: 22.sp),
+            child: Text(
+              price.toString(),
+              style: TextStyle(
+                  fontSize: 40.sp,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.accent,
+                  height: 2.sp),
+            ),
+          ),
+          const Spacer(),
+          Container(
+            height: 24.h,
+            width: 140.sp,
+            decoration: BoxDecoration(
+              borderRadius:
+                  BorderRadius.vertical(bottom: Radius.circular(12.sp)),
+              color: AppColors.accent,
+            ),
+          )
+        ],
       ),
     );
   }

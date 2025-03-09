@@ -67,7 +67,7 @@ class ProfileView extends StatelessWidget {
                                 height: 1.sp),
                           ),
                           Text(
-                            DateFormatterHelper.fromString(
+                            DateFormatterHelper.dateFromString(
                                     profile.createdAt!.toLocal().toString())
                                 .toString(),
                             style: TextStyle(
@@ -139,7 +139,8 @@ class ProfileView extends StatelessWidget {
               ? Column(
                   children: [
                     Text(
-                      DateFormatterHelper.fromString(value["startDate"] ?? "")
+                      DateFormatterHelper.dateFromString(
+                              value["startDate"] ?? "")
                           .toString(),
                       style: TextStyle(
                         fontSize: 16.sp,
@@ -148,7 +149,8 @@ class ProfileView extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      DateFormatterHelper.fromString(value["startDate"] ?? "")
+                      DateFormatterHelper.dateFromString(
+                              value["startDate"] ?? "")
                           .toString(),
                       style: TextStyle(
                         fontSize: 16.sp,

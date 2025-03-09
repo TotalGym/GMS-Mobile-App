@@ -8,7 +8,6 @@ import 'package:gmn/views/providers/profile/coach_provider.dart';
 import 'package:gmn/views/providers/profile/profile_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/profile/profile.dart';
-import 'package:gmn/views/widgets/dialogs/dialog.dart';
 import 'package:gmn/views/widgets/scoop_app/scaffold.dart';
 import 'package:provider/provider.dart';
 
@@ -178,7 +177,7 @@ class ProfilesIndex extends StatelessWidget {
                               height: 1.sp),
                         ),
                         Text(
-                          DateFormatterHelper.fromString(
+                          DateFormatterHelper.dateFromString(
                                   profile.createdAt!.toLocal().toString())
                               .toString(),
                           style: TextStyle(

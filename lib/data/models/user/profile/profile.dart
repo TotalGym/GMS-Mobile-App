@@ -31,7 +31,7 @@ class Profile {
       status = map["status"] ?? "new";
       membership = map["membership"] ?? {};
       progress = getProgressMap(map["progress"]);
-      assignedCoach = map["assignedCoach"] ?? [];
+      assignedCoach = map["assignedCoach"] ?? {};
       gender = map["gender"] ?? "unknown";
       selectedPrograms = map["selectedPrograms"];
       createdAt =

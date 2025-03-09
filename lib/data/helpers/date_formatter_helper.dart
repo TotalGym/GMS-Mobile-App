@@ -1,11 +1,10 @@
 class DateFormatterHelper {
-  late DateTime localDate;
-  late String day;
-  late String month;
-  late String year;
-  late String formattedDate;
-
-  DateFormatterHelper.fromString(String date) {
+  static String dateFromString(String date) {
+    late DateTime localDate;
+    late String day;
+    late String month;
+    late String year;
+    late String formattedDate;
     try {
       localDate = DateTime.parse(date).toLocal();
       day = localDate.day.toString();
@@ -15,14 +14,31 @@ class DateFormatterHelper {
     } catch (e) {
       formattedDate = "Invalid Date";
     }
-  }
-
-  @override
-  String toString() {
     return formattedDate;
   }
 
-  String _getMonthName(int month) {
+  static String timeFromString(String time) {
+    late String hour;
+    late String minute;
+    late String formattedTime;
+    try {
+      DateTime localTime = DateTime.parse("1970-01-01T$time:00Z").toLocal();
+      hour = localTime.hour.toString();
+      minute = localTime.minute.toString();
+      bool isPM = int.parse(hour) >= 12;
+      String period = isPM ? "PM" : "AM";
+      int hourInt = int.parse(time.split(":")[0]) % 12;
+      hourInt = hourInt == 0 ? 12 : hourInt; // handle midnight and noon
+      hour = hourInt.toString();
+      formattedTime = "$hour:$minute $period";
+    } catch (e) {
+      formattedTime = time;
+    }
+
+    return formattedTime;
+  }
+
+  static String _getMonthName(int month) {
     const List<String> months = [
       'January',
       'February',
@@ -40,7 +56,7 @@ class DateFormatterHelper {
     return months[month - 1];
   }
 
-  String _getDaySuffix(int day) {
+  static String _getDaySuffix(int day) {
     if (day >= 11 && day <= 13) {
       return 'th';
     }
