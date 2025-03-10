@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:gmn/data/models/user/user.dart';
 import 'package:gmn/data/helpers/shared_preferences_helper.dart';
 import 'package:gmn/data/repositories/user_repos/user_repo.dart';
+import 'package:gmn/values/app_router.dart';
+import 'package:gmn/views/screens/auth/log_in.dart';
 
 class UserProvider extends ChangeNotifier {
   User? user;
@@ -15,16 +17,17 @@ class UserProvider extends ChangeNotifier {
     String? token = await SharedPreferencesHelper.instance.getTokenFromGlobal();
     hasToken = token != null;
     hasToken! ? await getUser(token!) : {};
-    isLoggedIn = user != null;
+    isLoggedIn = user != null && user!.token != null;
     notifyListeners();
   }
 
   getUser(String token) async {
     if (hasToken! && user == null) {
       user = await UserRepo.getUser(token);
-
-      log("UserProvider-> checkIfLoggedIn user: ${user!.email}");
-      this.token = user!.token;
+      if (user != null) {
+        log("UserProvider-> checkIfLoggedIn user: ${user!.email}");
+        this.token = user!.token;
+      }
     }
     notifyListeners();
   }
@@ -37,10 +40,13 @@ class UserProvider extends ChangeNotifier {
   }
 
   logUserOut() async {
+    AppRouter.navigateWithReplacemtnToWidget(const LogIn());
     await UserRepo.logOut();
     user = null;
     token = null;
+    hasToken = false;
     isLoggedIn = false;
+
     notifyListeners();
   }
 

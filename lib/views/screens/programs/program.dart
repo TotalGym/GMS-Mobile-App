@@ -77,7 +77,9 @@ class ProgramView extends StatelessWidget {
                                 style: TextStyle(fontSize: 16.sp),
                               ),
                               Text(
-                                program.name!,
+                                program.name.toString().length > 10
+                                    ? "${program.name.toString().substring(0, 9)}.."
+                                    : program.name.toString(),
                                 style: TextStyle(
                                     fontSize: 24.sp,
                                     color: AppColors.vibrantColor),
@@ -199,7 +201,9 @@ class ProgramView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              exercise.name,
+              exercise.name.toString().length > 10
+                  ? "${exercise.name.toString().substring(0, 9)}.."
+                  : exercise.name.toString(),
               style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.bold,

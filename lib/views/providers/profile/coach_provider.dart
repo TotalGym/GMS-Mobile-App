@@ -74,7 +74,7 @@ class CoachProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getEquipmentsNextPage(String token) async {
+  Future<void> getEquipmentsNextPage(String token) async {
     if (equipments!.next == null) {
       return;
     }

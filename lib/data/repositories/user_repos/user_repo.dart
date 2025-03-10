@@ -8,9 +8,11 @@ class UserRepo {
   static login(String email, String password) async {
     Map userMap = await Auth.login(email, password);
     User user = User.fromMap(userMap);
-    // SharePreferencesHelper().setTokenToGlobal(user.token ?? "");
-    SharedPreferencesHelper.instance.setTokenToGlobal(user.token ?? "");
-    return user;
+    if (user.token != null && user.email != null) {
+      SharedPreferencesHelper.instance.setTokenToGlobal(user.token ?? "");
+      return user;
+    }
+    return null;
   }
 
   static getUser(String token) async {
@@ -19,8 +21,10 @@ class UserRepo {
 
     User user = User.fromMap(userMap);
     log("User-> getUser user: ${user.email}");
-
-    return user;
+    if (user.token != null) {
+      return user;
+    }
+    return null;
   }
 
   static logOut() async {

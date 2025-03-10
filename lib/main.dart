@@ -6,7 +6,7 @@ import 'package:gmn/views/providers/profile/coach_provider.dart';
 import 'package:gmn/views/providers/profile/profile_provider.dart';
 import 'package:gmn/views/providers/program_store_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
-import 'package:gmn/views/screens/onboarding.dart';
+import 'package:gmn/views/screens/splash.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          home: const OnboardingScreen(),
+          home: const SplashScreen(),
         ),
       ),
     );

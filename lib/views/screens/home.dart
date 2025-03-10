@@ -6,6 +6,7 @@ import 'package:gmn/views/providers/profile/profile_provider.dart';
 import 'package:gmn/views/providers/program_store_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/auth/log_in.dart';
+import 'package:gmn/views/screens/equipments/equipments_index.dart';
 import 'package:gmn/views/screens/profile/profiles_index.dart';
 import 'package:gmn/views/screens/profile/profile.dart';
 import 'package:gmn/views/screens/programs/programs_index.dart';
@@ -75,9 +76,8 @@ class Home extends StatelessWidget {
                     ),
                   ),
                   InkWell(
-                    onTap: () {
+                    onTap: () async {
                       provider.logUserOut();
-                      AppRouter.navigateWithReplacemtnToWidget(const LogIn());
                     },
                     child: Container(
                       alignment: Alignment.center,
@@ -100,6 +100,30 @@ class Home extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
+                        InkWell(
+                          onTap: () {
+                            // showLoadingDialog(context);
+                            // ignore: use_build_context_synchronously
+
+                            AppRouter.navigateToWidget(const EquipmentsIndex());
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: 95.sp,
+                            padding: EdgeInsets.all(12.sp),
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8.sp)),
+                                color: Colors.blue[800]),
+                            child: Text(
+                              "Equipment",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14.sp,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
                         InkWell(
                           onTap: () {
                             // showLoadingDialog(context);

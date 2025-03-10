@@ -20,7 +20,7 @@ class User {
       role = userData["role"];
       id = userData["id"];
     } catch (e) {
-      log("Did not create a user in User.fromMap. Error: $e", level: 0);
+      log("Did not create user -> user.fromMap() Error:${e.toString()}");
     }
   }
 

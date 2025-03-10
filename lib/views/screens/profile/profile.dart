@@ -42,10 +42,11 @@ class ProfileView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                profile.name![0].toUpperCase() +
-                    profile.name!.substring(1).toLowerCase(),
+                profile.name.toString().length > 26
+                    ? "${profile.name.toString().substring(0, 26)}.."
+                    : profile.name.toString(),
                 style: TextStyle(
-                    color: AppColors.relax, fontSize: 32.sp, height: 1.sp),
+                    color: AppColors.relax, fontSize: 27.sp, height: 1.sp),
               ),
               profile.role == "Coach"
                   ? Text(
@@ -161,7 +162,9 @@ class ProfileView extends StatelessWidget {
                   ],
                 )
               : Text(
-                  "$value",
+                  value.toString().length > 40
+                      ? "${value.toString().substring(0, 38)}.."
+                      : value.toString(),
                   style: TextStyle(
                     fontSize: 18.sp,
                     fontWeight: FontWeight.bold,

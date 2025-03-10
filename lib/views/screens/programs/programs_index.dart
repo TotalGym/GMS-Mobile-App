@@ -6,6 +6,7 @@ import 'package:gmn/values/colors.dart';
 import 'package:gmn/views/providers/program_store_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/programs/program.dart';
+import 'package:gmn/views/widgets/dialogs/dialog.dart';
 import 'package:gmn/views/widgets/scoop_app/scaffold.dart';
 import 'package:provider/provider.dart';
 
@@ -33,6 +34,9 @@ class ProgramsIndex extends StatelessWidget {
         }
         return CustomScrollView(
           slivers: [
+            SliverList(delegate: SliverChildBuilderDelegate((context, index) {
+              return Text(provider.programs!.totalCount.toString());
+            })),
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
@@ -47,9 +51,11 @@ class ProgramsIndex extends StatelessWidget {
                           )
                         : InkWell(
                             onTap: () async {
+                              showLoadingDialog(context);
                               await context
                                   .read<ProgramStoreProvider>()
                                   .getProgramsNextPage(token!);
+                              AppRouter.popFromWidget();
                             },
                             child: Container(
                               alignment: Alignment.center,
@@ -101,8 +107,9 @@ class ProgramsIndex extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    program.name![0].toUpperCase() +
-                        program.name!.substring(1).toLowerCase(),
+                    program.name.toString().length > 10
+                        ? "${program.name.toString().substring(0, 9)[0]}.."
+                        : program.name.toString(),
                     style: TextStyle(
                         fontSize: 24.sp,
                         fontWeight: FontWeight.bold,

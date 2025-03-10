@@ -8,6 +8,7 @@ import 'package:gmn/views/providers/profile/coach_provider.dart';
 import 'package:gmn/views/providers/profile/profile_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/profile/profile.dart';
+import 'package:gmn/views/widgets/dialogs/dialog.dart';
 import 'package:gmn/views/widgets/scoop_app/scaffold.dart';
 import 'package:provider/provider.dart';
 
@@ -47,7 +48,9 @@ class ProfilesIndex extends StatelessWidget {
                       style: TextStyle(color: AppColors.relax, fontSize: 22.sp),
                     ),
                     Text(
-                      coachName,
+                      coachName.toString().length > 10
+                          ? "${context.toString().substring(0, 9)}.."
+                          : coachName.toString(),
                       style:
                           TextStyle(color: AppColors.theme1, fontSize: 24.sp),
                     )
@@ -68,10 +71,12 @@ class ProfilesIndex extends StatelessWidget {
                             ),
                           )
                         : InkWell(
-                            onTap: () {
-                              context
+                            onTap: () async {
+                              showLoadingDialog(context);
+                              await context
                                   .read<CoachProvider>()
                                   .getProfilesNextPage(token!);
+                              AppRouter.popFromWidget();
                             },
                             child: Container(
                               alignment: Alignment.center,
@@ -146,10 +151,11 @@ class ProfilesIndex extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      profile.name![0].toUpperCase() +
-                          profile.name!.substring(1).toLowerCase(),
+                      profile.name.toString().length > 25
+                          ? "${profile.name.toString().substring(0, 24)}.."
+                          : profile.name.toString(),
                       style: TextStyle(
-                          fontSize: 24.sp,
+                          fontSize: 18.sp,
                           fontWeight: FontWeight.bold,
                           color: AppColors.vibrantColor,
                           height: 1.sp),
@@ -157,7 +163,7 @@ class ProfilesIndex extends StatelessWidget {
                     Text(
                       profile.status ?? "No status",
                       style: TextStyle(
-                        fontSize: 16.sp,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.bold,
                         color: AppColors.vibrantColor,
                         height: 1.sp,
