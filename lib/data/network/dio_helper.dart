@@ -79,11 +79,11 @@ class DioHelper {
       if (response.data["success"] == true) {
         return response.data;
       } else {
-        return {};
+        return {"success": false};
       }
     } catch (e) {
       log("put Function failed to get responce: $e");
-      return Future(() => {});
+      return {"success": false};
     }
   }
 }

@@ -50,10 +50,12 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  changePassword(String oldPassword, String newPassword) async {
-    await user?.chagePassword(
+  Future<bool> changePassword(String oldPassword, String newPassword) async {
+    bool success = false;
+    success = await user!.chagePassword(
       oldPassword,
       newPassword,
     );
+    return success;
   }
 }

@@ -24,12 +24,14 @@ class User {
     }
   }
 
-  chagePassword(String oldPassword, String newPssword) async {
-    Auth().changePassword(
+  Future<bool> chagePassword(String oldPassword, String newPssword) async {
+    bool success = false;
+    success = await Auth().changePassword(
       token!,
       oldPassword,
       newPssword,
       id,
     );
+    return success;
   }
 }

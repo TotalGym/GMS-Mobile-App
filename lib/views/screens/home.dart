@@ -5,6 +5,7 @@ import 'package:gmn/views/providers/profile/coach_provider.dart';
 import 'package:gmn/views/providers/profile/profile_provider.dart';
 import 'package:gmn/views/providers/program_store_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
+import 'package:gmn/views/screens/auth/change_password.dart';
 import 'package:gmn/views/screens/auth/log_in.dart';
 import 'package:gmn/views/screens/equipments/equipments_index.dart';
 import 'package:gmn/views/screens/profile/profiles_index.dart';
@@ -96,7 +97,7 @@ class Home extends StatelessWidget {
                       ),
                     ),
                   ),
-                  if (provider.user!.role == "Coach")
+                  if (provider.user != null && provider.user!.role == "Coach")
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -257,6 +258,30 @@ class Home extends StatelessWidget {
                         builder: (context, provider, child) {
                           return Text(
                             "Profile",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14.sp,
+                                color: Colors.white),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      AppRouter.navigateToWidget(const ChangePassword());
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: 150.sp,
+                      padding: EdgeInsets.all(12.sp),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8.sp)),
+                          color: Colors.yellow[900]),
+                      child: Consumer<ProfileProvider>(
+                        builder: (context, provider, child) {
+                          return Text(
+                            "Change Password",
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 14.sp,

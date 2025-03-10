@@ -18,7 +18,7 @@ class Auth {
     return responce['data'] ?? {};
   }
 
-  void changePassword(
+  Future<bool> changePassword(
       String token, String oldPassword, String newPassword, id) async {
     Map response = await DioHelper.io.put(
       token,
@@ -27,6 +27,7 @@ class Auth {
       "",
     );
     log("auth->changePassword response is: $response");
+    return response["success"];
   }
 
   void forgotPassword(String email) {}

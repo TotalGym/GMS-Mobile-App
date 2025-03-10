@@ -35,12 +35,8 @@ class _Splash extends State<SplashScreen> {
     _checkLoginState();
   }
 
-  _isConnected() async {
-    return await ConnectionTest.isConnected();
-  }
-
   _checkLoginState() async {
-    if (_isConnected()) {
+    if (await ConnectionTest.isConnected()) {
       await context.read<UserProvider>().checkIfLoggedIn();
 
       // ignore: use_build_context_synchronously
