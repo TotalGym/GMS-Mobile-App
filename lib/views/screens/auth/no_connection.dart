@@ -1,18 +1,8 @@
-import 'dart:async';
 // ignore: unused_import
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:gmn/data/models/user/profile/profile.dart';
-import 'package:gmn/data/models/user/user.dart';
-import 'package:gmn/data/network/connection_test.dart';
-import 'package:gmn/values/app_router.dart';
 import 'package:gmn/values/colors.dart';
-import 'package:gmn/views/providers/profile/profile_provider.dart';
-import 'package:gmn/views/providers/user_provider.dart';
-import 'package:gmn/views/screens/auth/log_in.dart';
-import 'package:gmn/views/screens/home.dart';
-import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class NoConnectionScreen extends StatefulWidget {

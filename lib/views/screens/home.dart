@@ -6,7 +6,6 @@ import 'package:gmn/views/providers/profile/profile_provider.dart';
 import 'package:gmn/views/providers/program_store_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/auth/change_password.dart';
-import 'package:gmn/views/screens/auth/log_in.dart';
 import 'package:gmn/views/screens/equipments/equipments_index.dart';
 import 'package:gmn/views/screens/profile/profiles_index.dart';
 import 'package:gmn/views/screens/profile/profile.dart';

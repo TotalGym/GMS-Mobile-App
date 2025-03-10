@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gmn/data/models/user/user.dart';
 import 'package:gmn/values/app_router.dart';
 import 'package:gmn/values/colors.dart';
-import 'package:gmn/views/providers/profile/profile_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
-import 'package:gmn/views/screens/home.dart';
 import 'package:gmn/views/widgets/dialogs/dialog.dart';
 import 'package:gmn/views/widgets/snack_bars/auth_snack_bars.dart';
 import 'package:provider/provider.dart';
