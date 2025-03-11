@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gmn/values/app_router.dart';
 import 'package:gmn/views/providers/profile/coach_provider.dart';
+import 'package:gmn/views/providers/profile/notifications_provider.dart';
 import 'package:gmn/views/providers/profile/profile_provider.dart';
 import 'package:gmn/views/providers/program_store_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/auth/change_password.dart';
 import 'package:gmn/views/screens/equipments/equipments_index.dart';
+import 'package:gmn/views/screens/notifications/notifications_index.dart';
 import 'package:gmn/views/screens/profile/profiles_index.dart';
 import 'package:gmn/views/screens/profile/profile.dart';
 import 'package:gmn/views/screens/programs/programs_index.dart';
 import 'package:gmn/views/screens/store/all_products.dart';
-import 'package:gmn/views/widgets/dialogs/dialog.dart';
+import 'package:gmn/views/widgets/dialogs/show_loading_dialog.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -194,7 +196,7 @@ class Home extends StatelessWidget {
                     ),
                   InkWell(
                     onTap: () async {
-                      showLoadingDialog(context);
+                      showLoadingDialog();
                       // ignore: use_build_context_synchronously
                       await Provider.of<ProgramStoreProvider>(context,
                               listen: false)
@@ -219,7 +221,7 @@ class Home extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () async {
-                      showLoadingDialog(context);
+                      showLoadingDialog();
                       // ignore: use_build_context_synchronously
                       await context
                           .read<CoachProvider>()
@@ -290,7 +292,32 @@ class Home extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Consumer<CoachProvider>(builder: (context, provider, child) {
+                  InkWell(
+                    onTap: () async {
+                      AppRouter.navigateToWidget(const NotificationsIndex());
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: 150.sp,
+                      padding: EdgeInsets.all(12.sp),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8.sp)),
+                          color: Colors.yellow[900]),
+                      child: Consumer<ProfileProvider>(
+                        builder: (context, provider, child) {
+                          return Text(
+                            "Notifications",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14.sp,
+                                color: Colors.white),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  Consumer<NotificationProvider>(
+                      builder: (context, provider, child) {
                     if (provider.notifications == null) return const SizedBox();
                     int notificationsCount = provider.notifications!.totalCount;
                     return notificationsCount > 0

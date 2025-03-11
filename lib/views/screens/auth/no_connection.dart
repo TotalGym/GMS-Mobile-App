@@ -33,7 +33,10 @@ class _NoConnection extends State<NoConnectionScreen> {
           ),
         ),
         child: const Center(
-          child: Icon(Icons.offline_bolt),
+          child: Icon(
+            Icons.wifi_off,
+            size: 60,
+          ),
         ),
       ),
     );

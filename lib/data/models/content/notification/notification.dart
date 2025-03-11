@@ -8,6 +8,7 @@ class NotificationState {
   String? type;
   String? content;
   DateTime? date;
+  bool viewByUser = false;
 
   NotificationState.fromMap(Map map) {
     id = map["_id"] ?? "NA";

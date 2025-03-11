@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gmn/data/repositories/content/equipment_repo.dart';
-import 'package:gmn/data/repositories/user_repos/notification_repo.dart';
 import 'package:gmn/data/repositories/user_repos/profile_repo.dart';
 
 class CoachProvider extends ChangeNotifier {
@@ -34,29 +33,9 @@ class CoachProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  NotificationRepo? notifications;
-  int notificationsPage = 1;
-
-  getNotifications(String token) async {
-    if (notifications == null) {
-      notifications = await NotificationRepo.getCoachNotifications(token, {
-        "page": notificationsPage,
-      });
-    } else {
-      NotificationRepo tempNotifications =
-          await NotificationRepo.getCoachNotifications(token, {
-        "page": notificationsPage,
-      });
-      notifications!.update(tempNotifications);
-    }
-
-    notifyListeners();
-  }
-
   loadAll(String token) async {
     await getAllEquipments(token);
     await getAllProfiles(token);
-    await getNotifications(token);
   }
 
   Future<void> getProfilesNextPage(String token) async {
@@ -88,17 +67,8 @@ class CoachProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getNotificationsNextPage(String token) async {
-    if (notifications!.next == null) {
-      return;
-    }
-    notificationsPage++;
-    await getNotifications(token);
-  }
-
-  void resetNotifications() {
-    notifications = null;
-    notificationsPage = 1;
-    notifyListeners();
+  void reset() {
+    resetEquipments();
+    resetProfiles();
   }
 }

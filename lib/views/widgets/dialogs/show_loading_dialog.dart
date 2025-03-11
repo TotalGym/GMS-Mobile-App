@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gmn/values/app_router.dart';
 import 'package:gmn/values/colors.dart';
 
-void showLoadingDialog(BuildContext context) {
+void showLoadingDialog() {
+  BuildContext context = AppRouter.navKey.currentContext!;
   showDialog(
     barrierDismissible: false,
     barrierColor: Colors.transparent,

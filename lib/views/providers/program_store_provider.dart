@@ -71,4 +71,9 @@ class ProgramStoreProvider extends ChangeNotifier {
     programsPage = 1;
     notifyListeners();
   }
+
+  void reset() {
+    resetProducts();
+    resetPrograms();
+  }
 }

@@ -38,6 +38,27 @@ class DateFormatterHelper {
     return formattedTime;
   }
 
+  static String timeFromDateTime(DateTime dateTime) {
+    late String hour;
+    late String minute;
+    late String formattedTime;
+    try {
+      DateTime localTime = dateTime.toLocal();
+      hour = localTime.hour.toString().padLeft(2, '0');
+      minute = localTime.minute.toString().padLeft(2, '0');
+      bool isPM = localTime.hour >= 12;
+      String period = isPM ? "PM" : "AM";
+      int hourInt = localTime.hour % 12;
+      hourInt = hourInt == 0 ? 12 : hourInt; // handle midnight and noon
+      hour = hourInt.toString();
+      formattedTime = "$hour:$minute $period";
+    } catch (e) {
+      formattedTime = "Invalid Time";
+    }
+
+    return formattedTime;
+  }
+
   static String _getMonthName(int month) {
     const List<String> months = [
       'January',

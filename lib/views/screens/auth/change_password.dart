@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gmn/values/app_router.dart';
 import 'package:gmn/values/colors.dart';
 import 'package:gmn/views/providers/user_provider.dart';
-import 'package:gmn/views/widgets/dialogs/dialog.dart';
+import 'package:gmn/views/widgets/dialogs/show_loading_dialog.dart';
 import 'package:gmn/views/widgets/snack_bars/auth_snack_bars.dart';
 import 'package:provider/provider.dart';
 
@@ -71,7 +71,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         InkWell(
                           onTap: () async {
                             if (_formkey.currentState!.validate()) {
-                              showLoadingDialog(context);
+                              showLoadingDialog();
                               bool success = await _changePassword(
                                   oldPasswordController.text,
                                   newPasswordController.text);

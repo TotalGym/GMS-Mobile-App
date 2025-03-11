@@ -48,25 +48,32 @@ class _Splash extends State<SplashScreen> {
       } else if (user!.token == null) {
         await _continue();
       }
-      // ignore: use_build_context_synchronously
-      await context.read<ProfileProvider>().getProfile(user!.token!);
-
-      // ignore: use_build_context_synchronously
-      Profile? profile = context.read<ProfileProvider>().profile;
-      if (profile != null) {
+      if (user != null && user!.token != null) {
         // ignore: use_build_context_synchronously
-        isLoggedIn = context.read<UserProvider>().isLoggedIn ?? false;
-        _continue();
+        await context.read<ProfileProvider>().getProfile(user!.token!);
+
+        // ignore: use_build_context_synchronously
+        Profile? profile = context.read<ProfileProvider>().profile;
+        if (profile != null) {
+          // ignore: use_build_context_synchronously
+          isLoggedIn = context.read<UserProvider>().isLoggedIn ?? false;
+          _continue();
+        }
       }
     } else {
-      AppRouter.navigateWithReplacemtnToWidget(const NoConnectionScreen());
+      Future.delayed(
+        const Duration(seconds: 2),
+        () {
+          AppRouter.navigateWithReplacemtnToWidget(const NoConnectionScreen());
+        },
+      );
     }
   }
 
   _continue() async {
     Future.delayed(
       //Duration is temporary
-      const Duration(seconds: 3),
+      const Duration(seconds: 2),
       () {
         if (mounted) {
           AppRouter.navigateWithReplacemtnToWidget(

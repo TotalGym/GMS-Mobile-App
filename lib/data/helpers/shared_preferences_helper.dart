@@ -23,4 +23,33 @@ class SharedPreferencesHelper {
     await getSharePreferencesInstance();
     return _sp!.getString("token");
   }
+
+  addNewString(String key, String value) async {
+    await getSharePreferencesInstance();
+    _sp!.setString(key, value);
+  }
+
+  addNewStringList(String key, List<String> value) async {
+    await getSharePreferencesInstance();
+    _sp!.setStringList(key, value);
+  }
+
+  getStringList(String key) async {
+    await getSharePreferencesInstance();
+    return _sp!.getStringList(key);
+  }
+
+  addViewedNotificationID(String id) async {
+    await getSharePreferencesInstance();
+    _sp!.getStringList('notifications_ids') == null
+        ? addNewStringList('notifications_ids', [])
+        : _addNewNotificationID(id);
+  }
+
+  _addNewNotificationID(String id) async {
+    await getSharePreferencesInstance();
+    List<String> ids = _sp!.getStringList('notifications_ids') ?? [];
+    ids.contains(id) ? {} : ids.add(id);
+    _sp!.setStringList('notifications_ids', ids);
+  }
 }

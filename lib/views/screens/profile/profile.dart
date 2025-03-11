@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gmn/data/helpers/date_formatter_helper.dart';
 import 'package:gmn/data/models/user/profile/profile.dart';
-import 'package:gmn/values/app_router.dart';
 import 'package:gmn/values/colors.dart';
 import 'package:gmn/views/providers/profile/profile_provider.dart';
-import 'package:gmn/views/screens/home.dart';
+import 'package:gmn/views/widgets/dialogs/profile/profile_dialogs.dart';
 import 'package:gmn/views/widgets/scoop_app/scaffold.dart';
 import 'package:provider/provider.dart';
 
@@ -113,8 +112,10 @@ class ProfileView extends StatelessWidget {
                   _profileField("Status", profile.status),
                   _profileField("Membership", profile.membership),
                   const Spacer(),
-                  _profileButton("Progress", const Home()),
-                  _profileButton("Attendance", const Home()),
+                  _profileButton(
+                      "Progress", showProgressDialog, profile.progress),
+                  _profileButton(
+                      "Attendance", showAttendaceDialog, profile.attendance),
                 ]),
           ),
         ),
@@ -176,9 +177,9 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-  _profileButton(String text, Widget distination) {
+  _profileButton(String text, Function dialog, data) {
     return InkWell(
-      onTap: () => AppRouter.navigateToWidget(distination),
+      onTap: () => dialog(data),
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 6.sp),
         height: 108.sp,

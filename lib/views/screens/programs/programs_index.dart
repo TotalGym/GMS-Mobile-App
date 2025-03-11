@@ -6,7 +6,7 @@ import 'package:gmn/values/colors.dart';
 import 'package:gmn/views/providers/program_store_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/programs/program.dart';
-import 'package:gmn/views/widgets/dialogs/dialog.dart';
+import 'package:gmn/views/widgets/dialogs/show_loading_dialog.dart';
 import 'package:gmn/views/widgets/scoop_app/scaffold.dart';
 import 'package:provider/provider.dart';
 
@@ -30,13 +30,10 @@ class ProgramsIndex extends StatelessWidget {
     return Consumer<ProgramStoreProvider>(
       builder: (context, provider, child) {
         if (provider.programs == null) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: Text("Nothing Arrived Yet.."));
         }
         return CustomScrollView(
           slivers: [
-            SliverList(delegate: SliverChildBuilderDelegate((context, index) {
-              return Text(provider.programs!.totalCount.toString());
-            })),
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
@@ -51,7 +48,7 @@ class ProgramsIndex extends StatelessWidget {
                           )
                         : InkWell(
                             onTap: () async {
-                              showLoadingDialog(context);
+                              showLoadingDialog();
                               await context
                                   .read<ProgramStoreProvider>()
                                   .getProgramsNextPage(token!);

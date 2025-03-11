@@ -1,11 +1,18 @@
 import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:gmn/data/models/user/profile/profile.dart';
 import 'package:gmn/data/models/user/user.dart';
 import 'package:gmn/data/helpers/shared_preferences_helper.dart';
 import 'package:gmn/data/repositories/user_repos/user_repo.dart';
 import 'package:gmn/values/app_router.dart';
+import 'package:gmn/views/providers/profile/coach_provider.dart';
+import 'package:gmn/views/providers/profile/notifications_provider.dart';
+import 'package:gmn/views/providers/profile/profile_provider.dart';
+import 'package:gmn/views/providers/program_store_provider.dart';
 import 'package:gmn/views/screens/auth/log_in.dart';
+import 'package:provider/provider.dart';
 
 class UserProvider extends ChangeNotifier {
   User? user;
@@ -47,6 +54,15 @@ class UserProvider extends ChangeNotifier {
     hasToken = false;
     isLoggedIn = false;
 
+    BuildContext context = AppRouter.navKey.currentContext!;
+    // ignore: use_build_context_synchronously
+    Provider.of<ProgramStoreProvider>(context, listen: false).reset();
+    // ignore: use_build_context_synchronously
+    Provider.of<CoachProvider>(context, listen: false).reset();
+    // ignore: use_build_context_synchronously
+    Provider.of<ProfileProvider>(context, listen: false).reset();
+    // ignore: use_build_context_synchronously
+    Provider.of<NotificationProvider>(context, listen: false).reset();
     notifyListeners();
   }
 

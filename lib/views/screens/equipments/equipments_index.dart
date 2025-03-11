@@ -5,7 +5,7 @@ import 'package:gmn/values/app_router.dart';
 import 'package:gmn/values/colors.dart';
 import 'package:gmn/views/providers/profile/coach_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
-import 'package:gmn/views/widgets/dialogs/dialog.dart';
+import 'package:gmn/views/widgets/dialogs/show_loading_dialog.dart';
 import 'package:gmn/views/widgets/scoop_app/scaffold.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +29,7 @@ class EquipmentsIndex extends StatelessWidget {
     return Consumer<CoachProvider>(
       builder: (context, provider, child) {
         if (provider.equipments == null) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: Text("Nothing Arrived Yet.."));
         }
         return CustomScrollView(
           slivers: [
@@ -58,7 +58,7 @@ class EquipmentsIndex extends StatelessWidget {
                             )
                           : InkWell(
                               onTap: () async {
-                                showLoadingDialog(context);
+                                showLoadingDialog();
                                 await context
                                     .read<CoachProvider>()
                                     .getEquipmentsNextPage(token!);

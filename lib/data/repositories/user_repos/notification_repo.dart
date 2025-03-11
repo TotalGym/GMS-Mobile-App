@@ -4,19 +4,22 @@ import 'package:gmn/data/repositories/repo.dart';
 
 class NotificationRepo extends Repo<NotificationState> {
   NotificationRepo.fromMap(Map map) {
-    totalCount = map['totalCount'];
-    page = map['page'];
-    limit = map['limit'];
-    next =
-        map['next'] != null ? Map<String, dynamic>.from(map['next']) : {"": ""};
-    items = map["items"];
+    try {
+      totalCount = map['totalCount'];
+      page = map['page'];
+      limit = map['limit'];
+      next = map['next']; // Map<String, dynamic>.from(map['next']) : null;
+      items = map["items"];
+    } catch (e) {
+      //
+    }
   }
 
   static Future<NotificationRepo> getProfileNotifications(
       String token, Map<String, dynamic> queryParameter) async {
     Map respnce = await DioHelper.io.get(
         token, NotificationState.mProfileNotificationsName, '', queryParameter);
-    Map data = respnce["data"];
+    Map data = respnce["data"] ?? {};
 
     List<NotificationState> notifications =
         loadNotifications(data, NotificationState.mProfileNotificationsName);
@@ -59,7 +62,7 @@ class NotificationRepo extends Repo<NotificationState> {
   }
 
   static List<NotificationState> loadNotifications(Map data, String modelName) {
-    List notificationsMapList = data["results"];
+    List notificationsMapList = data["results"] ?? [];
 
     List<NotificationState> notificationsList = [];
     notificationsList = notificationsMapList.map((e) {

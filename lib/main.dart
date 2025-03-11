@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gmn/values/app_router.dart';
 import 'package:gmn/views/providers/profile/coach_provider.dart';
+import 'package:gmn/views/providers/profile/notifications_provider.dart';
 import 'package:gmn/views/providers/profile/profile_provider.dart';
 import 'package:gmn/views/providers/program_store_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => UserProvider()),
           ChangeNotifierProvider(create: (context) => CoachProvider()),
           ChangeNotifierProvider(create: (context) => ProfileProvider()),
+          ChangeNotifierProvider(create: (context) => NotificationProvider()),
         ],
         child: MaterialApp(
           navigatorKey: AppRouter.navKey,
