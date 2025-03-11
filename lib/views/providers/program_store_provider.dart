@@ -43,7 +43,7 @@ class ProgramStoreProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getProductsNextPage(String token) async {
+  Future<void> getProductsNextPage(String token) async {
     if (products!.next == null) {
       return;
     }

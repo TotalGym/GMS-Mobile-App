@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gmn/values/colors.dart';
+import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/widgets/scoop_app/app_par.dart';
+import 'package:gmn/views/widgets/scoop_app/drawer.dart';
+import 'package:provider/provider.dart';
 
 class AppScaffold {
   static Scaffold build(BuildContext context, Widget body,
       {required String screenTitle}) {
+    String userType = context.watch<UserProvider>().user!.role ?? "Trainee";
     return Scaffold(
       backgroundColor: null,
       extendBodyBehindAppBar: true,
@@ -22,11 +26,7 @@ class AppScaffold {
             padding: EdgeInsets.symmetric(horizontal: 14.sp), child: body),
       ),
       appBar: TopBar(screenTitle: screenTitle),
-      drawer: Container(
-        height: 100,
-        width: 100,
-        decoration: const BoxDecoration(color: Colors.red),
-      ),
+      drawer: appDrawer(userType: userType),
     );
   }
 }

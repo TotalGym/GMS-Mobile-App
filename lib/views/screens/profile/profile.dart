@@ -4,7 +4,7 @@ import 'package:gmn/data/helpers/date_formatter_helper.dart';
 import 'package:gmn/data/models/user/profile/profile.dart';
 import 'package:gmn/values/colors.dart';
 import 'package:gmn/views/providers/profile/profile_provider.dart';
-import 'package:gmn/views/widgets/dialogs/profile/profile_dialogs.dart';
+import 'package:gmn/views/widgets/dialogs/profile/show_profile_dialogs.dart';
 import 'package:gmn/views/widgets/scoop_app/scaffold.dart';
 import 'package:provider/provider.dart';
 

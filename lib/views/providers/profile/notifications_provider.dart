@@ -6,6 +6,7 @@ import 'package:gmn/data/repositories/user_repos/notification_repo.dart';
 class NotificationProvider extends ChangeNotifier {
   NotificationRepo? notifications;
   int notificationsPage = 1;
+  bool hasNewNotifications = false;
 
   getCoachNotifications(String token) async {
     if (notifications == null) {
@@ -63,6 +64,8 @@ class NotificationProvider extends ChangeNotifier {
       if (notificationsIDsFromSP.contains(e.id)) {
         return e.viewByUser = true;
       } else {
+        hasNewNotifications = true;
+        notifyListeners();
         await SharedPreferencesHelper.instance
             .addViewedNotificationID(e.id ?? '');
         return e.viewByUser = false;
@@ -70,5 +73,10 @@ class NotificationProvider extends ChangeNotifier {
     }).toList();
 
     return notifications;
+  }
+
+  setNoNewNotifications() {
+    hasNewNotifications = false;
+    notifyListeners();
   }
 }

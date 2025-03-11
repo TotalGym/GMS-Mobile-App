@@ -8,6 +8,7 @@ import 'package:gmn/data/models/user/user.dart';
 import 'package:gmn/data/network/connection_test.dart';
 import 'package:gmn/values/app_router.dart';
 import 'package:gmn/values/colors.dart';
+import 'package:gmn/views/providers/profile/notifications_provider.dart';
 import 'package:gmn/views/providers/profile/profile_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/auth/log_in.dart';
@@ -51,12 +52,14 @@ class _Splash extends State<SplashScreen> {
       if (user != null && user!.token != null) {
         // ignore: use_build_context_synchronously
         await context.read<ProfileProvider>().getProfile(user!.token!);
-
         // ignore: use_build_context_synchronously
         Profile? profile = context.read<ProfileProvider>().profile;
         if (profile != null) {
           // ignore: use_build_context_synchronously
           isLoggedIn = context.read<UserProvider>().isLoggedIn ?? false;
+          // ignore: use_build_context_synchronously
+          _getNotifications(user!, context);
+
           _continue();
         }
       }
@@ -81,6 +84,16 @@ class _Splash extends State<SplashScreen> {
         }
       },
     );
+  }
+
+  _getNotifications(User user, BuildContext context) {
+    user.role == "Coach"
+        ? context
+            .read<NotificationProvider>()
+            .getCoachNotifications(user.token!)
+        : context
+            .read<NotificationProvider>()
+            .getProfileNotifications(user.token!);
   }
 
   @override

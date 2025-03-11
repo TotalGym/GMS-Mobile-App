@@ -120,7 +120,8 @@ class ProgramView extends StatelessWidget {
                 seperator(),
                 _exercises(program.exercises!),
                 seperator(),
-                _schedule(program.schedual!), seperator(),
+                _schedule(program.schedual!),
+                seperator(),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -130,15 +131,6 @@ class ProgramView extends StatelessWidget {
                         _price("Annual", program.annualPrice!)
                       ]),
                 ),
-                // _profileField("Email", profile.contactEmail),
-                // _profileField("Phone", profile.phoneNumber),
-                // _profileField("Gender", profile.gender),
-                // _profileField("Role", profile.role),
-                // _profileField("Status", profile.status),
-                // _profileField("Membership", profile.membership),
-                // const Spacer(),
-                // _profileButton("Progress", Home()),
-                // _profileButton("Attendance", Home()),
               ]),
         ),
       ),

@@ -52,4 +52,10 @@ class SharedPreferencesHelper {
     ids.contains(id) ? {} : ids.add(id);
     _sp!.setStringList('notifications_ids', ids);
   }
+
+  //temporarily
+  deleteNotifications() async {
+    await getSharePreferencesInstance();
+    _sp!.setStringList('notifications_ids', []);
+  }
 }
