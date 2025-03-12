@@ -13,7 +13,6 @@ import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/auth/log_in.dart';
 import 'package:gmn/views/screens/no_connection.dart';
 import 'package:gmn/views/screens/home.dart';
-import 'package:gmn/views/screens/profile/ai_chat.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable

@@ -9,7 +9,6 @@ import 'package:gmn/views/providers/program_store_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/splash.dart';
 import 'package:provider/provider.dart';
-import 'package:openai_dart/openai_dart.dart';
 
 void main() async {
   runApp(const MyApp());
