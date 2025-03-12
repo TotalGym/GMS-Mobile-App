@@ -61,7 +61,6 @@ class UserProvider extends ChangeNotifier {
     Provider.of<ProfileProvider>(context, listen: false).reset();
     // ignore: use_build_context_synchronously
     Provider.of<NotificationProvider>(context, listen: false).reset();
-    notifyListeners();
   }
 
   Future<bool> changePassword(String oldPassword, String newPassword) async {

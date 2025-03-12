@@ -10,9 +10,10 @@ import 'package:gmn/values/app_router.dart';
 import 'package:gmn/values/colors.dart';
 import 'package:gmn/views/providers/profile/notifications_provider.dart';
 import 'package:gmn/views/providers/profile/profile_provider.dart';
+import 'package:gmn/views/providers/program_store_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/auth/log_in.dart';
-import 'package:gmn/views/screens/auth/no_connection.dart';
+import 'package:gmn/views/screens/no_connection.dart';
 import 'package:gmn/views/screens/home.dart';
 import 'package:provider/provider.dart';
 
@@ -59,6 +60,8 @@ class _Splash extends State<SplashScreen> {
           isLoggedIn = context.read<UserProvider>().isLoggedIn ?? false;
           // ignore: use_build_context_synchronously
           _getNotifications(user!, context);
+          // ignore: use_build_context_synchronously
+          _getHomeState(user!, context);
 
           _continue();
         }
@@ -94,6 +97,10 @@ class _Splash extends State<SplashScreen> {
         : context
             .read<NotificationProvider>()
             .getProfileNotifications(user.token!);
+  }
+
+  _getHomeState(User user, BuildContext context) {
+    context.read<ProgramStoreProvider>().getHomeState(user.token!);
   }
 
   @override

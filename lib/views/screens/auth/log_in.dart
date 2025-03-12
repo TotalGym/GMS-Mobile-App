@@ -4,6 +4,7 @@ import 'package:gmn/data/models/user/user.dart';
 import 'package:gmn/values/app_router.dart';
 import 'package:gmn/values/colors.dart';
 import 'package:gmn/views/providers/profile/profile_provider.dart';
+import 'package:gmn/views/providers/program_store_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/home.dart';
 import 'package:gmn/views/widgets/dialogs/show_loading_dialog.dart';
@@ -140,6 +141,9 @@ class _LogInState extends State<LogIn> {
 
     // ignore: use_build_context_synchronously
     if (context.read<ProfileProvider>().profile != null) {
+      // ignore: use_build_context_synchronously
+      _getHomeState(user, context);
+
       success = true;
     }
 
@@ -168,5 +172,9 @@ class _LogInState extends State<LogIn> {
       return 'Password must be at least 6 characters';
     }
     return null;
+  }
+
+  _getHomeState(User user, BuildContext context) {
+    context.read<ProgramStoreProvider>().getHomeState(user.token!);
   }
 }

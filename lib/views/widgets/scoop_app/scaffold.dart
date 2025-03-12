@@ -14,7 +14,7 @@ class AppScaffold {
       backgroundColor: null,
       extendBodyBehindAppBar: true,
       body: Container(
-        padding: EdgeInsets.only(top: 45.sp),
+        padding: screenTitle == "Home" ? null : EdgeInsets.only(top: 45.sp),
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [AppColors.background, AppColors.background_2],
@@ -23,10 +23,15 @@ class AppScaffold {
           ),
         ),
         child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 14.sp), child: body),
+            padding: EdgeInsets.symmetric(horizontal: _ifHome(screenTitle)),
+            child: body),
       ),
       appBar: TopBar(screenTitle: screenTitle),
       drawer: appDrawer(userType: userType),
     );
+  }
+
+  static double _ifHome(String screenTitle) {
+    return screenTitle == "Home" ? 0 : 14;
   }
 }

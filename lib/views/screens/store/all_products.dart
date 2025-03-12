@@ -6,7 +6,7 @@ import 'package:gmn/values/colors.dart';
 import 'package:gmn/views/providers/program_store_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/widgets/dialogs/show_loading_dialog.dart';
-import 'package:gmn/views/widgets/dialogs/show_product_dialog.dart';
+import 'package:gmn/views/widgets/dialogs/content/show_product_dialog.dart';
 import 'package:gmn/views/widgets/scoop_app/scaffold.dart';
 import 'package:provider/provider.dart';
 

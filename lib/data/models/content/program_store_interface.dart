@@ -5,7 +5,7 @@ import 'package:gmn/data/network/dio_helper.dart';
 abstract class ProgramStore {
   static const mName = "home";
 
-  static getHomeState(String token) async {
+  static Future<Map<String, dynamic>> getHomeState(String token) async {
     Map response = await DioHelper.io.get(token, mName, '', {});
     Map data = response["data"];
     List programsMapList = data["programs"];
@@ -19,9 +19,11 @@ abstract class ProgramStore {
       return Product.fromMap(e);
     }).toList();
 
-    List<ProgramStore> homeState = [];
-    homeState.addAll(products);
-    homeState.addAll(programs);
+    Map<String, dynamic> homeState = {
+      "products": products,
+      "programs": programs,
+    };
+
     return homeState;
   }
 }

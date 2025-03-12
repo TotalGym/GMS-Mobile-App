@@ -1,7 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/widgets.dart';
+import 'package:gmn/data/models/content/program/program.dart';
 import 'package:gmn/data/models/content/program_store_interface.dart';
+import 'package:gmn/data/models/content/store/product.dart';
 import 'package:gmn/data/repositories/content/program_repo.dart';
 import 'package:gmn/data/repositories/content/product_repo.dart';
 
@@ -11,7 +13,9 @@ class ProgramStoreProvider extends ChangeNotifier {
 
   ProgramRepo? programs;
   int programsPage = 1;
-  List<ProgramStore>? homeState;
+
+  List<Product>? homeProducts;
+  List<Program>? homePrograms;
 
   Future<void> getAllProducts(String token) async {
     if (products == null) {
@@ -38,7 +42,9 @@ class ProgramStoreProvider extends ChangeNotifier {
   }
 
   getHomeState(String token) async {
-    homeState = await ProgramStore.getHomeState(token);
+    Map<String, dynamic> homeState = await ProgramStore.getHomeState(token);
+    homeProducts = homeState["products"];
+    homePrograms = homeState["programs"];
     log("ProgramStoreProvider-> getHomeSate : $homeState");
     notifyListeners();
   }

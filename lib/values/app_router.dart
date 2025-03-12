@@ -13,7 +13,6 @@ class AppRouter {
   }
 
   static navigateWithReplacemtnToWidget(Widget widget) {
-    //ignore: avoid_log
     log('navigating ');
     Navigator.of(navKey.currentContext!)
         .pushReplacement(MaterialPageRoute(builder: (context) {

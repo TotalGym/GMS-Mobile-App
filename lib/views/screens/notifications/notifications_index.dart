@@ -18,17 +18,14 @@ class NotificationsIndex extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     User? user = context.watch<UserProvider>().user;
-    if (context.read<NotificationProvider>().notifications == null) {
-      if (user!.role == "Coach") {
-        context.read<NotificationProvider>().getCoachNotifications(user.token!);
-      } else {
-        context
-            .read<NotificationProvider>()
-            .getProfileNotifications(user.token!);
-      }
+    context.read<NotificationProvider>().deleteAll();
+    if (user!.role == "Coach") {
+      context.read<NotificationProvider>().getCoachNotifications(user.token!);
+    } else {
+      context.read<NotificationProvider>().getProfileNotifications(user.token!);
     }
 
-    return AppScaffold.build(context, _body(user!.role!),
+    return AppScaffold.build(context, _body(user.role!),
         screenTitle: "Notifications");
   }
 

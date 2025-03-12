@@ -6,8 +6,10 @@ import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/auth/change_password.dart';
 import 'package:gmn/views/screens/auth/log_in.dart';
 import 'package:gmn/views/screens/equipments/equipments_index.dart';
+import 'package:gmn/views/screens/profile/ai_chat.dart';
 import 'package:gmn/views/screens/profile/profiles_index.dart';
 import 'package:gmn/views/screens/programs/programs_index.dart';
+import 'package:gmn/views/screens/store/all_products.dart';
 import 'package:provider/provider.dart';
 
 appDrawer({String userType = "Trainee"}) {
@@ -18,9 +20,11 @@ appDrawer({String userType = "Trainee"}) {
     decoration: const BoxDecoration(color: AppColors.backgroundAlpha),
     child: Column(children: [
       _drawerButton("Profile", const ProfilesIndex()),
+      _drawerButton("AI Chat", const AIChat()),
       if (isCoach) _drawerButton("Trainees", const ProfilesIndex()),
-      if (isCoach) _drawerButton("Programs", const ProgramsIndex()),
       if (isCoach) _drawerButton("Equipments", const EquipmentsIndex()),
+      if (isCoach) _drawerButton("Programs", const ProgramsIndex()),
+      if (isCoach) _drawerButton("Products", const ProductsIndex()),
       const Spacer(),
       _customColorsDrawerButton(
         "Change Password",
@@ -44,6 +48,7 @@ appDrawer({String userType = "Trainee"}) {
 Widget _drawerButton(String name, Widget destination) {
   return InkWell(
     onTap: () async {
+      AppRouter.popFromWidget();
       AppRouter.navigateToWidget(destination);
     },
     child: Container(
@@ -72,6 +77,7 @@ Widget _customColorsDrawerButton(
     String name, Widget destination, List<Color> gradientColors) {
   return InkWell(
     onTap: () async {
+      AppRouter.popFromWidget();
       AppRouter.navigateToWidget(destination);
     },
     child: Container(
@@ -103,6 +109,7 @@ Widget _logoutButton(String name, List<Color> gradientColors) {
   return InkWell(
     onTap: () async {
       AppRouter.navKey.currentContext!.read<UserProvider>().logUserOut();
+      AppRouter.popFromWidget();
       AppRouter.navigateWithReplacemtnToWidget(const LogIn());
     },
     child: Container(

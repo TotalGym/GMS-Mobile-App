@@ -53,6 +53,10 @@ class NotificationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void deleteAll() {
+    notifications = null;
+  }
+
   Future<List<NotificationState>> _checkIfViewedByUser(
       List<NotificationState> notifications) async {
     List<String?> notificationsIDsFromSP = await SharedPreferencesHelper
