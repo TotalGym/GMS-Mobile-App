@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:gmn/data/network/dio_helper.dart';
+import 'package:gmn/data/helpers/dio_helper.dart';
 
 class Auth {
   static String mName = "auth";

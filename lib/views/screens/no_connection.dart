@@ -36,11 +36,14 @@ class _NoConnection extends State<NoConnectionScreen> {
         ),
         child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Icon(
                 Icons.wifi_off,
                 size: 60,
               ),
+              const SizedBox(height: 50),
               InkWell(
                 onTap: () {
                   AppRouter.navigateWithReplacemtnToWidget(
@@ -48,7 +51,7 @@ class _NoConnection extends State<NoConnectionScreen> {
                 },
                 child: Container(
                   alignment: Alignment.center,
-                  width: 190,
+                  width: 150,
                   padding: const EdgeInsets.all(12),
                   decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(15)),

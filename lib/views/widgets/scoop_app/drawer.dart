@@ -20,7 +20,7 @@ appDrawer({String userType = "Trainee"}) {
     decoration: const BoxDecoration(color: AppColors.backgroundAlpha),
     child: Column(children: [
       _drawerButton("Profile", const ProfilesIndex()),
-      _drawerButton("AI Chat", const AIChat()),
+      _drawerButton("AI Chat", const OpenAIChat()),
       if (isCoach) _drawerButton("Trainees", const ProfilesIndex()),
       if (isCoach) _drawerButton("Equipments", const EquipmentsIndex()),
       if (isCoach) _drawerButton("Programs", const ProgramsIndex()),
@@ -109,7 +109,6 @@ Widget _logoutButton(String name, List<Color> gradientColors) {
   return InkWell(
     onTap: () async {
       AppRouter.navKey.currentContext!.read<UserProvider>().logUserOut();
-      AppRouter.popFromWidget();
       AppRouter.navigateWithReplacemtnToWidget(const LogIn());
     },
     child: Container(

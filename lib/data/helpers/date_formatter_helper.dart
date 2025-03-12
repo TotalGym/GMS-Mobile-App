@@ -17,6 +17,28 @@ class DateFormatterHelper {
     return formattedDate;
   }
 
+  static String dayFromDateTime(DateTime date) {
+    String dayOfWeek = date.weekday.toString();
+    String day = date.day.toString().padLeft(2, '0');
+    String month = date.month.toString().padLeft(2, '0');
+    String formattedDate =
+        "${_getDayOfWeekAbbreviation(dayOfWeek)} $day-$month";
+    return formattedDate;
+  }
+
+  static String _getDayOfWeekAbbreviation(String dayOfWeek) {
+    const List<String> days = [
+      'MON.',
+      'TUES.',
+      'WED.',
+      'THURS.',
+      'FRI.',
+      'SAT.',
+      'SUN.'
+    ];
+    return days[int.parse(dayOfWeek) - 1];
+  }
+
   static String timeFromString(String time) {
     late String hour;
     late String minute;

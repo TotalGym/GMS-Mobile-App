@@ -1,6 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:gmn/data/models/content/notification/notification.dart';
-import 'package:gmn/data/network/dio_helper.dart';
+import 'package:gmn/data/models/user/user.dart';
+import 'package:gmn/data/helpers/dio_helper.dart';
 import 'package:gmn/data/repositories/repo.dart';
+import 'package:gmn/values/app_router.dart';
+import 'package:gmn/views/providers/profile/notifications_provider.dart';
+import 'package:provider/provider.dart';
 
 class NotificationRepo extends Repo<NotificationState> {
   NotificationRepo.fromMap(Map map) {
@@ -70,5 +75,16 @@ class NotificationRepo extends Repo<NotificationState> {
     }).toList();
 
     return notificationsList;
+  }
+
+  static updateNotifications(User user) {
+    BuildContext context = AppRouter.navKey.currentContext!;
+    user.role == "Coach"
+        ? context
+            .read<NotificationProvider>()
+            .getCoachNotifications(user.token!)
+        : context
+            .read<NotificationProvider>()
+            .getProfileNotifications(user.token!);
   }
 }

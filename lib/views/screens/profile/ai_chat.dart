@@ -1,208 +1,278 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gmn/data/helpers/date_formatter_helper.dart';
-import 'package:gmn/data/models/user/profile/profile.dart';
+import 'package:gmn/data/repositories/ai_chat_repo.dart';
+import 'package:gmn/values/assets.dart';
 import 'package:gmn/values/colors.dart';
-import 'package:gmn/views/providers/profile/profile_provider.dart';
-import 'package:gmn/views/widgets/dialogs/profile/show_profile_dialogs.dart';
 import 'package:gmn/views/widgets/scoop_app/scaffold.dart';
-import 'package:provider/provider.dart';
+import 'package:lottie/lottie.dart';
 
-class AIChat extends StatelessWidget {
-  final Profile? profile;
-  const AIChat({
-    super.key,
-    this.profile,
-  });
+class OpenAIChat extends StatefulWidget {
+  const OpenAIChat({super.key});
+
+  @override
+  _OpenAIChatWidgetState createState() => _OpenAIChatWidgetState();
+}
+
+class _OpenAIChatWidgetState extends State<OpenAIChat> {
+  String _response = '';
+  String _prompt = '';
+  bool _isLoading = false;
+  bool _isChatStarted = false;
+
+  final _formKey = GlobalKey<FormState>();
+
+  final TextEditingController _promptController = TextEditingController();
+
+  void _getResponse(String prompt) async {
+    final result = await fetchOpenAIResponse(prompt);
+    setState(() {
+      if (result.contains('SocketException')) {
+        _response = '(!)-> Poor connectoin..\nTry again later';
+      } else if (result.contains('Exception') || result.contains('Error')) {
+        _response = '(!)-> Something went wrong..\nTry again later';
+      } else {
+        _response = result;
+      }
+      _isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold.build(context, _isPersonalProfile(),
-        screenTitle: "Profile");
+    return AppScaffold.build(context, _body(), screenTitle: "AI Chat");
   }
 
-  _isPersonalProfile() {
-    return profile == null
-        ? Consumer<ProfileProvider>(
-            builder: (context, provider, child) => _body(provider.profile!),
-          )
-        : _body(profile!);
-  }
-
-  _body(Profile profile) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 20.sp),
+  Widget _body() {
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: SingleChildScrollView(
+        child: SizedBox(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                profile.name.toString().length > 26
-                    ? "${profile.name.toString().substring(0, 26)}.."
-                    : profile.name.toString(),
-                style: TextStyle(
-                    color: AppColors.relax, fontSize: 27.sp, height: 1.sp),
+              SizedBox(
+                child: Lottie.asset(Assets.getAnimation(Assets.dumbbells)),
               ),
-              profile.role == "Coach"
-                  ? Text(
-                      'Welcome to your Profile..',
-                      style: TextStyle(
-                          color: AppColors.relax,
-                          fontSize: 26.sp,
-                          height: 1.5.sp),
-                    )
-                  : Padding(
-                      padding: EdgeInsets.only(top: 14.sp),
-                      child: Row(
+              !_isChatStarted
+                  ? Form(
+                      key: _formKey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text(
-                            'Member Since: ',
-                            style: TextStyle(
-                                color: AppColors.background,
-                                fontSize: 16.sp,
-                                height: 1.sp),
+                          TextFormField(
+                            controller: _promptController,
+                            decoration: const InputDecoration(
+                              hintText: 'Say hello or something!',
+                              hintStyle: TextStyle(color: Colors.grey),
+                            ),
+                            keyboardType: TextInputType.text,
+                            validator: (value) => _promptValidator(value),
                           ),
-                          Text(
-                            DateFormatterHelper.dateFromString(
-                                    profile.createdAt!.toLocal().toString())
-                                .toString(),
-                            style: TextStyle(
-                                color: AppColors.relax,
-                                fontSize: 18.sp,
-                                height: 1.sp),
-                          )
+                          SizedBox(height: 20.h),
+                          InkWell(
+                            onTap: () async {
+                              if (_formKey.currentState!.validate()) {
+                                setState(() {
+                                  _prompt = _promptController.text;
+                                  _isLoading = true;
+                                  _isChatStarted = true;
+                                  _promptController.text = '';
+                                });
+                                _getResponse(_prompt);
+                              }
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(top: 50.sp),
+                              alignment: Alignment.center,
+                              width: 178.w,
+                              height: 55.h,
+                              padding: EdgeInsets.all(12.sp),
+                              decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: [
+                                      AppColors.theme1,
+                                      AppColors.theme2
+                                    ],
+                                    begin: Alignment.topRight,
+                                    end: Alignment.bottomLeft,
+                                  ),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15.sp)),
+                                  color: Colors.green),
+                              child: Text(
+                                "Send",
+                                style: TextStyle(
+                                    fontSize: 16.sp,
+                                    color: AppColors.background),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
-                    ),
+                    )
+                  : SizedBox(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Container(
+                                alignment: Alignment.center,
+                                width: 330.w,
+                                padding: EdgeInsets.all(12.sp),
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: [
+                                      AppColors.theme1,
+                                      AppColors.theme2
+                                    ],
+                                    begin: Alignment.topRight,
+                                    end: Alignment.bottomLeft,
+                                  ),
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10.sp),
+                                    bottomLeft: Radius.circular(10.sp),
+                                    bottomRight: Radius.circular(10.sp),
+                                  ),
+                                ),
+                                child: SizedBox(
+                                  width: 300.w,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "You:",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16.sp),
+                                      ),
+                                      Text(
+                                        _prompt,
+                                        style: TextStyle(
+                                          color: AppColors.vibrantColor,
+                                          fontSize: 16.sp,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 24),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Container(
+                                alignment: Alignment.center,
+                                width: 330.w,
+                                padding: EdgeInsets.all(12.sp),
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: [
+                                      AppColors.theme1,
+                                      AppColors.theme2
+                                    ],
+                                    begin: Alignment.topRight,
+                                    end: Alignment.bottomLeft,
+                                  ),
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(10.sp),
+                                    bottomLeft: Radius.circular(10.sp),
+                                    bottomRight: Radius.circular(10.sp),
+                                  ),
+                                ),
+                                child: SizedBox(
+                                  width: 300.w,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "AI:",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16.sp),
+                                      ),
+                                      Text(
+                                        _isLoading ? "Loading.." : _response,
+                                        style: TextStyle(
+                                          color: AppColors.vibrantColor,
+                                          fontSize: 16.sp,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 24),
+                            child: InkWell(
+                              onTap: () async {
+                                setState(() {
+                                  _prompt = '';
+                                  _isChatStarted = false;
+                                });
+                                // showLoadingDialog();
+                                // bool success = await _login(
+                                //     emailController.text, passwordController.text);
+                                // AppRouter.popFromWidget();
+
+                                // success
+                                //     ? AppRouter.navigateWithReplacemtnToWidget(const Home())
+                                //     : showFailedLoginSnackBar();
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                width: 178.w,
+                                height: 55.h,
+                                padding: EdgeInsets.all(12.sp),
+                                decoration: BoxDecoration(
+                                    gradient: const LinearGradient(
+                                      colors: [
+                                        AppColors.theme1,
+                                        AppColors.theme2
+                                      ],
+                                      begin: Alignment.topRight,
+                                      end: Alignment.bottomLeft,
+                                    ),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(15.sp)),
+                                    color: Colors.green),
+                                child: Text(
+                                  "New",
+                                  style: TextStyle(
+                                      fontSize: 16.sp,
+                                      color: AppColors.background),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
             ],
           ),
         ),
-        Container(
-          padding: EdgeInsets.symmetric(vertical: 50.sp, horizontal: 14.sp),
-          height: 700.sp,
-          width: 384.sp,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(24.sp),
-            gradient: const LinearGradient(
-              colors: [
-                AppColors.theme1Alpha,
-                AppColors.themeAlph,
-                AppColors.theme2Alpha
-              ],
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-            ),
-          ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 17.sp),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  _profileField("Email", profile.contactEmail),
-                  _profileField("Phone", profile.phoneNumber),
-                  _profileField("Gender", profile.gender),
-                  if (profile.role == "Trainee")
-                    _profileField("Coach", profile.assignedCoach),
-                  _profileField("Role", profile.role),
-                  _profileField("Status", profile.status),
-                  _profileField("Membership", profile.membership),
-                  const Spacer(),
-                  _profileButton(
-                      "Progress", showProgressDialog, profile.progress),
-                  _profileButton(
-                      "Attendance", showAttendaceDialog, profile.attendance),
-                ]),
-          ),
-        ),
-      ],
-    );
-  }
-
-  _profileField(String name, dynamic value) {
-    return Padding(
-      padding: EdgeInsets.all(7.sp),
-      child: Row(
-        children: [
-          Text(
-            "$name: ",
-            style: TextStyle(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.bold,
-              color: AppColors.background,
-            ),
-          ),
-          SizedBox(width: 14.sp),
-          value is Map
-              ? Column(
-                  children: [
-                    Text(
-                      DateFormatterHelper.dateFromString(
-                              value["startDate"] ?? "")
-                          .toString(),
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.vibrantColor,
-                      ),
-                    ),
-                    Text(
-                      DateFormatterHelper.dateFromString(
-                              value["startDate"] ?? "")
-                          .toString(),
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.vibrantColor,
-                      ),
-                    ),
-                  ],
-                )
-              : Text(
-                  value.toString().length > 40
-                      ? "${value.toString().substring(0, 38)}.."
-                      : value.toString(),
-                  style: TextStyle(
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.vibrantColor,
-                  ),
-                )
-        ],
       ),
     );
   }
 
-  _profileButton(String text, Function dialog, data) {
-    return InkWell(
-      onTap: () => dialog(data),
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 6.sp),
-        height: 108.sp,
-        width: 350.sp,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24.sp),
-          gradient: const LinearGradient(
-            colors: [AppColors.theme1, AppColors.theme2],
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-          ),
-        ),
-        child: Center(
-          child: Text(
-            text,
-            style: TextStyle(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.bold,
-              color: AppColors.background,
-            ),
-          ),
-        ),
-      ),
-    );
+  String? _promptValidator(String? prompt) {
+    if (prompt == null || prompt.isEmpty) {
+      return 'Sure you don\'t have something to say?!';
+    }
+
+    return null;
   }
 }

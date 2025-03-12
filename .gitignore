@@ -43,6 +43,8 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+#Secret key
+lib/values/open_ai.dart
 
 # iOS related
 ios/Flutter/Flutter.framework

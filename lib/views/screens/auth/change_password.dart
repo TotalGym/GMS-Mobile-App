@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gmn/values/app_router.dart';
+import 'package:gmn/values/assets.dart';
 import 'package:gmn/values/colors.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/widgets/dialogs/show_loading_dialog.dart';
 import 'package:gmn/views/widgets/snack_bars/auth_snack_bars.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class ChangePassword extends StatefulWidget {
@@ -37,10 +39,10 @@ class _ChangePasswordState extends State<ChangePassword> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Image.asset("assets/images/login_intro.png"),
+              Lottie.asset(Assets.getAnimation(Assets.login)),
               Padding(
                 padding:
-                    EdgeInsets.symmetric(horizontal: 50.sp, vertical: 120.h),
+                    EdgeInsets.symmetric(horizontal: 50.sp, vertical: 30.h),
                 child: SizedBox(
                   child: Form(
                     key: _formkey,

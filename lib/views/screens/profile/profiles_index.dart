@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gmn/data/helpers/date_formatter_helper.dart';
 import 'package:gmn/data/models/user/profile/profile.dart';
 import 'package:gmn/values/app_router.dart';
+import 'package:gmn/values/assets.dart';
 import 'package:gmn/values/colors.dart';
 import 'package:gmn/views/providers/profile/coach_provider.dart';
 import 'package:gmn/views/providers/profile/profile_provider.dart';
@@ -10,6 +11,7 @@ import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/profile/profile.dart';
 import 'package:gmn/views/widgets/dialogs/show_loading_dialog.dart';
 import 'package:gmn/views/widgets/scoop_app/scaffold.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -33,7 +35,8 @@ class ProfilesIndex extends StatelessWidget {
     return Consumer<CoachProvider>(
       builder: (context, provider, child) {
         if (provider.traineeProfiles == null) {
-          return const Center(child: Text("Nothing Arrived Yet.."));
+          return Center(
+              child: Lottie.asset(Assets.getAnimation(Assets.emptyBox)));
         }
         return CustomScrollView(
           slivers: [

@@ -1,5 +1,5 @@
 import 'package:gmn/data/models/content/equipment/equipment.dart';
-import 'package:gmn/data/network/dio_helper.dart';
+import 'package:gmn/data/helpers/dio_helper.dart';
 import 'package:gmn/data/repositories/repo.dart';
 
 class EquipmentRepo extends Repo<Equipment> {

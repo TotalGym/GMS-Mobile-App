@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gmn/values/app_router.dart';
+import 'package:gmn/values/assets.dart';
 import 'package:gmn/values/colors.dart';
 import 'package:gmn/views/providers/profile/notifications_provider.dart';
 import 'package:gmn/views/screens/notifications/notifications_index.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class TopBar extends AppBar {
@@ -44,11 +46,12 @@ class TopBar extends AppBar {
           context.read<NotificationProvider>().setNoNewNotifications();
           AppRouter.navigateToWidget(const NotificationsIndex());
         },
-        icon: Icon(Icons.notifications,
-            size: 25,
-            color: context.watch<NotificationProvider>().hasNewNotifications
-                ? AppColors.accent
-                : AppColors.theme1),
+        icon: context.watch<NotificationProvider>().hasNewNotifications
+            ? SizedBox(
+                child:
+                    Lottie.asset(Assets.getAnimation(Assets.bellNotification)))
+            : const Icon(Icons.notifications,
+                size: 25, color: AppColors.theme1),
       )
     ];
   }

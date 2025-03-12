@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'package:gmn/data/models/user/profile/profile.dart';
-import 'package:gmn/data/network/dio_helper.dart';
+import 'package:gmn/data/helpers/dio_helper.dart';
 import 'package:gmn/data/repositories/repo.dart';
 
 class ProfileRepo extends Repo<Profile> {

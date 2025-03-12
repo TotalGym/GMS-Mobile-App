@@ -6,7 +6,7 @@ class AppColors {
   static const Color background = Color(0xFF06101F); //  background color
   static const Color background_2 = Color(0xFF585F69); //  background_2 color
   static const Color theme1 = Color(0xFF2069D2); //  theme_1 color
-  static const Color relax = Color(0xFF3454CE); //  relax color
+  static const Color relax = Color.fromARGB(255, 92, 166, 255); //  relax color
   static const Color accent = Color(0xFF139E09); //  accent color
 
   static const Color background_2Alpha =

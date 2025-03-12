@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gmn/data/models/user/user.dart';
+import 'package:gmn/data/repositories/user_repos/notification_repo.dart';
 import 'package:gmn/values/app_router.dart';
+import 'package:gmn/values/assets.dart';
 import 'package:gmn/values/colors.dart';
 import 'package:gmn/views/providers/profile/profile_provider.dart';
 import 'package:gmn/views/providers/program_store_provider.dart';
@@ -9,6 +11,7 @@ import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/home.dart';
 import 'package:gmn/views/widgets/dialogs/show_loading_dialog.dart';
 import 'package:gmn/views/widgets/snack_bars/auth_snack_bars.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class LogIn extends StatefulWidget {
@@ -42,10 +45,10 @@ class _LogInState extends State<LogIn> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Image.asset("assets/images/login_intro.png"),
+              Lottie.asset(Assets.getAnimation(Assets.login)),
               Padding(
                 padding:
-                    EdgeInsets.symmetric(horizontal: 50.sp, vertical: 120.h),
+                    EdgeInsets.symmetric(horizontal: 50.sp, vertical: 30.h),
                 child: SizedBox(
                   child: Form(
                     key: _formKey,
@@ -143,6 +146,7 @@ class _LogInState extends State<LogIn> {
     if (context.read<ProfileProvider>().profile != null) {
       // ignore: use_build_context_synchronously
       _getHomeState(user, context);
+      NotificationRepo.updateNotifications(user);
 
       success = true;
     }

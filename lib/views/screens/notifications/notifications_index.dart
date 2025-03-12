@@ -4,11 +4,13 @@ import 'package:gmn/data/helpers/date_formatter_helper.dart';
 import 'package:gmn/data/models/content/notification/notification.dart';
 import 'package:gmn/data/models/user/user.dart';
 import 'package:gmn/values/app_router.dart';
+import 'package:gmn/values/assets.dart';
 import 'package:gmn/values/colors.dart';
 import 'package:gmn/views/providers/profile/notifications_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/widgets/dialogs/show_loading_dialog.dart';
 import 'package:gmn/views/widgets/scoop_app/scaffold.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -36,56 +38,65 @@ class NotificationsIndex extends StatelessWidget {
       builder: (context, provider, child) {
         if (provider.notifications == null ||
             provider.notifications!.items == null) {
-          return const Center(child: Text("Nothing Arrived Yet.."));
+          return Center(
+              child:
+                  Lottie.asset(Assets.getAnimation(Assets.mptyNotifications)));
         }
-        return CustomScrollView(
-          slivers: [
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  if (index == provider.notifications!.items!.length) {
-                    return provider.notifications!.next == null
-                        ? const Center(
-                            child: Text(
-                              "No more!",
-                              style: TextStyle(
-                                  fontSize: 12, color: AppColors.background),
-                            ),
-                          )
-                        : InkWell(
-                            onTap: () async {
-                              showLoadingDialog();
-                              userRole == "Coach"
-                                  ? await context
-                                      .read<NotificationProvider>()
-                                      .getCoachNotificationsNextPage(token!)
-                                  : await context
-                                      .read<NotificationProvider>()
-                                      .getProfileNotificationsNextPage(token!);
-                              AppRouter.popFromWidget();
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: 150.sp,
-                              padding: EdgeInsets.all(12.sp),
-                              decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15.sp)),
-                                  color: Colors.blue),
-                              child: const Text(
-                                "More..",
-                                style: TextStyle(color: Colors.white),
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 36),
+          child: CustomScrollView(
+            slivers: [
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    if (index == provider.notifications!.items!.length) {
+                      return provider.notifications!.next == null
+                          ? const Center(
+                              child: Text(
+                                "No more!",
+                                style: TextStyle(
+                                    fontSize: 12, color: AppColors.background),
                               ),
-                            ),
-                          );
-                  }
-                  return _notificationListItem(
-                      provider.notifications!.items![index]);
-                },
-                childCount: provider.notifications!.items!.length + 1,
+                            )
+                          : InkWell(
+                              onTap: () async {
+                                showLoadingDialog();
+                                userRole == "Coach"
+                                    ? await context
+                                        .read<NotificationProvider>()
+                                        .getCoachNotificationsNextPage(token!)
+                                    : await context
+                                        .read<NotificationProvider>()
+                                        .getProfileNotificationsNextPage(
+                                            token!);
+                                AppRouter.popFromWidget();
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                width: 150.sp,
+                                padding: EdgeInsets.all(12.sp),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(15.sp)),
+                                    color: Colors.blue),
+                                child: const Text(
+                                  "More..",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            );
+                    }
+                    // Reverse the index order
+                    final reversedIndex =
+                        provider.notifications!.items!.length - index - 1;
+                    return _notificationListItem(
+                        provider.notifications!.items![reversedIndex]);
+                  },
+                  childCount: provider.notifications!.items!.length + 1,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );

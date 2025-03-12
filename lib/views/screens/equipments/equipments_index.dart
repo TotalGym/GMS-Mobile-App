@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gmn/data/models/content/equipment/equipment.dart';
 import 'package:gmn/values/app_router.dart';
+import 'package:gmn/values/assets.dart';
 import 'package:gmn/values/colors.dart';
 import 'package:gmn/views/providers/profile/coach_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/widgets/dialogs/show_loading_dialog.dart';
 import 'package:gmn/views/widgets/scoop_app/scaffold.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class EquipmentsIndex extends StatelessWidget {
@@ -29,7 +31,8 @@ class EquipmentsIndex extends StatelessWidget {
     return Consumer<CoachProvider>(
       builder: (context, provider, child) {
         if (provider.equipments == null) {
-          return const Center(child: Text("Nothing Arrived Yet.."));
+          return Center(
+              child: Lottie.asset(Assets.getAnimation(Assets.emptyBox)));
         }
         return CustomScrollView(
           slivers: [

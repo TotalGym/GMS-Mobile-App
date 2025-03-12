@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gmn/data/helpers/date_formatter_helper.dart';
-import 'package:gmn/data/helpers/shared_preferences_helper.dart';
 import 'package:gmn/data/models/content/store/product.dart';
-import 'package:gmn/data/models/user/profile/profile.dart';
 import 'package:gmn/values/app_router.dart';
 import 'package:gmn/values/colors.dart';
 import 'package:gmn/views/providers/profile/profile_provider.dart';
@@ -27,203 +25,196 @@ class Home extends StatelessWidget {
   }
 
   _body() {
-    return Consumer<UserProvider>(builder: (context, provider, child) {
-      return SingleChildScrollView(
-        child: SizedBox(
-          width: double.infinity,
-          child: Consumer<UserProvider>(
-            builder: (context, provider, child) => Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
+    return SingleChildScrollView(
+      child: SizedBox(
+        width: double.infinity,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Stack(
+              alignment: AlignmentDirectional.bottomCenter,
               children: [
-                Stack(
-                  alignment: AlignmentDirectional.bottomCenter,
-                  children: [
-                    SizedBox(
-                      height: 415.sp,
-                      width: 412.sp,
-                      child: Image.asset(
-                        'assets/images/home_bkg.png',
-                        fit: BoxFit.cover,
-                        height: 256,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 50.sp, left: 60.sp),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            "WELCOME,",
-                            style: TextStyle(
-                                fontSize: 34.sp,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        bottom: 14.sp,
-                      ),
-                      child: Text(
-                        provider.user!.name.toString().length > 20
-                            ? "${provider.user!.name.toString().substring(0, 19)}.."
-                                .toUpperCase()
-                            : provider.user!.name.toString().toUpperCase(),
-                        style: TextStyle(
-                            fontSize: 26.sp,
-                            color: AppColors.vibrantColor,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ],
+                SizedBox(
+                  height: 415.sp,
+                  width: 412.sp,
+                  child: Image.asset(
+                    'assets/images/home_bkg.png',
+                    fit: BoxFit.cover,
+                    height: 256,
+                  ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 14.sp),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  padding: EdgeInsets.only(bottom: 50.sp, left: 60.sp),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          const Text(
-                            "Your Membership ends on",
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: Colors.white,
-                            ),
-                          ),
-                          const SizedBox(width: 6),
-                          Text(
-                            _getMemberShipEndDate(),
-                            style: TextStyle(
-                                fontSize: 15.sp, color: AppColors.theme1),
-                          ),
-                        ],
+                      Text(
+                        "WELCOME,",
+                        style: TextStyle(
+                            fontSize: 34.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
                       ),
-                      seperator(
-                        marginLeft: 0,
-                        width: 375.w,
-                        marginTop: 4.h,
-                        height: 3,
-                      )
                     ],
                   ),
                 ),
-                Consumer<ProgramStoreProvider>(
-                  builder: (context, provider, child) {
-                    return SizedBox(
-                      height: 370.h,
-                      width: 384,
-                      child: Column(
-                        children: [
-                          const Row(
-                            children: [
-                              Text(
-                                "Programs",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                          provider.homePrograms != null
-                              ? Container(
-                                  height: 335.h,
-                                  width: 384.w,
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 16),
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: provider.homePrograms!.length,
-                                    itemBuilder: (context, index) {
-                                      return _programListItem(
-                                          provider.homePrograms![index]);
-                                    },
-                                  ),
-                                )
-                              : const Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-                Consumer<ProgramStoreProvider>(
-                  builder: (context, provider, child) {
-                    return SizedBox(
-                      height: 370.h,
-                      width: 384,
-                      child: Column(
-                        children: [
-                          const Row(
-                            children: [
-                              Text(
-                                "Products",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                          provider.homeProducts != null
-                              ? Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 9),
-                                  height: 140.h,
-                                  width: 384.w,
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: provider.homeProducts!.length,
-                                    itemBuilder: (context, index) {
-                                      return _productListItem(
-                                          provider.homeProducts![index]);
-                                    },
-                                  ),
-                                )
-                              : const Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-                InkWell(
-                  onTap: () async {
-                    await SharedPreferencesHelper.instance
-                        .deleteNotifications();
-                  },
-                  child: Container(
-                    alignment: Alignment.center,
-                    width: 190.sp,
-                    padding: EdgeInsets.all(12.sp),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(15.sp)),
-                        color: Colors.blue),
+                Padding(
+                  padding:
+                      EdgeInsets.only(bottom: 260.h, right: 250, left: 14.w),
+                  child: SizedBox(
+                    height: 100.h,
+                    width: 135.w,
                     child: Text(
-                      "Delete Notifications",
+                      DateFormatterHelper.dayFromDateTime(DateTime.now()),
+                      overflow: TextOverflow.visible,
                       style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14.sp,
-                          color: Colors.white),
+                          fontSize: 42.sp,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.italic,
+                          height: 1.2),
                     ),
                   ),
                 ),
+                Consumer<UserProvider>(builder: (context, provider, child) {
+                  return Padding(
+                    padding: EdgeInsets.only(
+                      bottom: 14.sp,
+                    ),
+                    child: Text(
+                      provider.user!.name.toString().length > 20
+                          ? "${provider.user!.name.toString().substring(0, 19)}.."
+                              .toUpperCase()
+                          : provider.user!.name.toString().toUpperCase(),
+                      style: TextStyle(
+                          fontSize: 26.sp,
+                          color: AppColors.vibrantColor,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  );
+                }),
               ],
             ),
-          ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 14.sp),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Text(
+                        "Your Membership ends on",
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        _getMemberShipEndDate(),
+                        style:
+                            TextStyle(fontSize: 15.sp, color: AppColors.theme1),
+                      ),
+                    ],
+                  ),
+                  seperator(
+                    marginLeft: 0,
+                    width: 375.w,
+                    marginTop: 4.h,
+                    height: 3,
+                  )
+                ],
+              ),
+            ),
+            Consumer<ProgramStoreProvider>(
+              builder: (context, provider, child) {
+                return SizedBox(
+                  height: 370.h,
+                  width: 384,
+                  child: Column(
+                    children: [
+                      const Row(
+                        children: [
+                          Text(
+                            "Programs",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      provider.homePrograms != null
+                          ? Container(
+                              height: 335.h,
+                              width: 384.w,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: provider.homePrograms!.length,
+                                itemBuilder: (context, index) {
+                                  return _programListItem(
+                                      provider.homePrograms![index]);
+                                },
+                              ),
+                            )
+                          : const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                    ],
+                  ),
+                );
+              },
+            ),
+            Consumer<ProgramStoreProvider>(
+              builder: (context, provider, child) {
+                return SizedBox(
+                  // height: 370.h,
+                  width: 384,
+                  child: Column(
+                    children: [
+                      const Row(
+                        children: [
+                          Text(
+                            "Products",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      provider.homeProducts != null
+                          ? Container(
+                              margin: const EdgeInsets.symmetric(vertical: 9),
+                              height: 140.h,
+                              width: 384.w,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: provider.homeProducts!.length,
+                                itemBuilder: (context, index) {
+                                  return _productListItem(
+                                      provider.homeProducts![index]);
+                                },
+                              ),
+                            )
+                          : const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
         ),
-      );
-    });
+      ),
+    );
   }
 
   _programListItem(Program program) {
@@ -354,7 +345,7 @@ class Home extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 8),
       child: ClipRRect(
-        borderRadius: BorderRadius.all(Radius.circular(12)),
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
         child: Stack(
           alignment: AlignmentDirectional.topCenter,
           children: [
@@ -386,10 +377,6 @@ class Home extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  _getDate() {
-    return;
   }
 
   _getMemberShipEndDate() {

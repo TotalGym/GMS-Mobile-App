@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gmn/data/helpers/date_formatter_helper.dart';
 import 'package:gmn/data/models/user/profile/profile.dart';
+import 'package:gmn/values/app_router.dart';
 import 'package:gmn/values/colors.dart';
 import 'package:gmn/views/providers/profile/profile_provider.dart';
-import 'package:gmn/views/widgets/dialogs/profile/show_profile_dialogs.dart';
+import 'package:gmn/views/widgets/dialogs/profile/show_attendance_dialog.dart';
+import 'package:gmn/views/widgets/dialogs/profile/show_progress_dialog.dart';
 import 'package:gmn/views/widgets/scoop_app/scaffold.dart';
 import 'package:provider/provider.dart';
 
@@ -30,6 +32,9 @@ class ProfileView extends StatelessWidget {
   }
 
   _body(Profile profile) {
+    String? role =
+        AppRouter.navKey.currentContext!.read<ProfileProvider>().profile!.role;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,7 +67,7 @@ class ProfileView extends StatelessWidget {
                           Text(
                             'Member Since: ',
                             style: TextStyle(
-                                color: AppColors.background,
+                                color: Colors.white,
                                 fontSize: 16.sp,
                                 height: 1.sp),
                           ),
@@ -107,13 +112,14 @@ class ProfileView extends StatelessWidget {
                   _profileField("Phone", profile.phoneNumber),
                   _profileField("Gender", profile.gender),
                   if (profile.role == "Trainee")
-                    _profileField("Coach", profile.assignedCoach),
+                    _profileField("Coach", profile.assignedCoach!['name']),
                   _profileField("Role", profile.role),
                   _profileField("Status", profile.status),
                   _profileField("Membership", profile.membership),
                   const Spacer(),
-                  _profileButton(
-                      "Progress", showProgressDialog, profile.progress),
+                  if (role == "Coach")
+                    _profileButton(
+                        "Progress", showProgressDialog, profile.progress),
                   _profileButton(
                       "Attendance", showAttendaceDialog, profile.attendance),
                 ]),
@@ -133,7 +139,7 @@ class ProfileView extends StatelessWidget {
             style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.bold,
-              color: AppColors.background,
+              color: Colors.white,
             ),
           ),
           SizedBox(width: 14.sp),
@@ -182,10 +188,10 @@ class ProfileView extends StatelessWidget {
       onTap: () => dialog(data),
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 6.sp),
-        height: 108.sp,
+        height: 90.sp,
         width: 350.sp,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24.sp),
+          borderRadius: BorderRadius.circular(10.sp),
           gradient: const LinearGradient(
             colors: [AppColors.theme1, AppColors.theme2],
             begin: Alignment.topRight,

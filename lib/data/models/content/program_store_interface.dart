@@ -1,6 +1,6 @@
 import 'package:gmn/data/models/content/program/program.dart';
 import 'package:gmn/data/models/content/store/product.dart';
-import 'package:gmn/data/network/dio_helper.dart';
+import 'package:gmn/data/helpers/dio_helper.dart';
 
 abstract class ProgramStore {
   static const mName = "home";
