@@ -8,7 +8,7 @@ class NotificationProvider extends ChangeNotifier {
   int notificationsPage = 1;
   bool hasNewNotifications = false;
 
-  bool isLoading = true;
+  bool isLoading = false;
 
   getCoachNotifications(String token) async {
     if (notifications == null) {
@@ -44,6 +44,8 @@ class NotificationProvider extends ChangeNotifier {
   }
 
   getProfileNotifications(String token) async {
+    isLoading = true;
+    notifyListeners();
     if (notifications == null) {
       notifications = await NotificationRepo.getProfileNotifications(token, {
         "page": notificationsPage,

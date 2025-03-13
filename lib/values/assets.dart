@@ -1,5 +1,6 @@
 class Assets {
-  static String mptyNotifications = 'empty_notifications.json';
+  static String emptyNotifications = 'empty_notifications.json';
+  static String loadingNotifications = 'loading_notification.json';
   static String emptyBox = 'empty_box.json';
   static String loading = 'loading.json';
   static String login = 'login.json';

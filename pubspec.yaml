@@ -85,6 +85,7 @@ flutter:
     - assets/animations/login.json
     - assets/animations/dumbbells.json
     - assets/animations/bell_notification.json
+    - assets/animations/loading_notification.json
     
 
   # An image asset can refer to one or more resolution-specific "variants", see
