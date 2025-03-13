@@ -20,7 +20,9 @@ abstract class Repo<T> {
     page = tempRepo.page;
     limit = tempRepo.limit;
     next = tempRepo.next;
-    items!.addAll(Iterable.castFrom(tempRepo.items!));
+    try {
+      items!.addAll(Iterable.castFrom(tempRepo.items!));
+    } catch (e) {}
   }
 
   Map<String, dynamic> toMap() {

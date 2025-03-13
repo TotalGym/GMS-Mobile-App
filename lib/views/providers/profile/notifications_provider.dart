@@ -44,8 +44,6 @@ class NotificationProvider extends ChangeNotifier {
   }
 
   getProfileNotifications(String token) async {
-    isLoading = true;
-    notifyListeners();
     if (notifications == null) {
       notifications = await NotificationRepo.getProfileNotifications(token, {
         "page": notificationsPage,
@@ -57,7 +55,11 @@ class NotificationProvider extends ChangeNotifier {
       });
       notifications!.update(tempNotifications);
     }
-    notifications!.items = await _checkIfViewedByUser(notifications!.items!);
+    try {
+      notifications!.items = await _checkIfViewedByUser(notifications!.items!);
+    } catch (e) {
+      notifications!.items = [];
+    }
     isLoading = false;
     notifyListeners();
   }
@@ -70,6 +72,7 @@ class NotificationProvider extends ChangeNotifier {
 
   void deleteAll() {
     notifications = null;
+    isLoading = true;
   }
 
   Future<List<NotificationState>> _checkIfViewedByUser(

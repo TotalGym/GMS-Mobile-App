@@ -44,7 +44,7 @@ class DioHelper {
 
       if (fileInfo != null &&
           fileInfo.validTill.isAfter(DateTime.now()) &&
-          !cacheKey.contains("otification")) {
+          !_isNotification(cacheKey)) {
         String cachedData = await fileInfo.file.readAsString();
         log("Loaded from cache: $cachedData");
         return jsonDecode(cachedData);
@@ -79,7 +79,7 @@ class DioHelper {
                 jsonEncode(data),
               ),
             ),
-            maxAge: const Duration(minutes: 25));
+            maxAge: const Duration(minutes: 30));
 
         return data;
       } else {
@@ -137,5 +137,18 @@ class DioHelper {
       log("put Function failed to get responce: $e");
       return {"success": false};
     }
+  }
+
+//This method checks if the cacheKey contains a notifications requist
+//if the user is online.. the method prevents him from showing cached notification
+//however he can show thim when offline.
+  _isNotification(String cacheKey) {
+    bool online = AppRouter.navKey.currentContext!.read<UserProvider>().online;
+    if (!cacheKey.contains("otification")) {
+      if (online) {
+        return true;
+      }
+    }
+    return false;
   }
 }

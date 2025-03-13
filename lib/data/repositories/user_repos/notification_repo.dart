@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:gmn/data/models/content/notification/notification.dart';
 import 'package:gmn/data/models/user/user.dart';
@@ -22,9 +24,15 @@ class NotificationRepo extends Repo<NotificationState> {
 
   static Future<NotificationRepo> getProfileNotifications(
       String token, Map<String, dynamic> queryParameter) async {
-    Map respnce = await DioHelper.io.get(
+    Map responce = await DioHelper.io.get(
         token, NotificationState.mProfileNotificationsName, '', queryParameter);
-    Map data = respnce["data"] ?? {};
+    log("notification Repo responce[data] is: ${responce["data"]}");
+    Map data;
+    try {
+      data = responce["data"];
+    } catch (e) {
+      data = {};
+    }
 
     List<NotificationState> notifications =
         loadNotifications(data, NotificationState.mProfileNotificationsName);
@@ -47,7 +55,13 @@ class NotificationRepo extends Repo<NotificationState> {
       String token, Map<String, dynamic> queryParameter) async {
     Map responce = await DioHelper.io
         .get(token, NotificationState.mName, '', queryParameter);
-    Map data = responce["data"];
+
+    Map data;
+    try {
+      data = responce["data"];
+    } catch (e) {
+      data = {};
+    }
 
     List<NotificationState> notifications =
         loadNotifications(data, NotificationState.mName);

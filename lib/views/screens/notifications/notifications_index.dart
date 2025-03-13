@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gmn/data/helpers/date_formatter_helper.dart';
 import 'package:gmn/data/models/content/notification/notification.dart';
-import 'package:gmn/data/models/user/profile/profile.dart';
 import 'package:gmn/data/models/user/user.dart';
 import 'package:gmn/values/app_router.dart';
 import 'package:gmn/values/assets.dart';
@@ -37,15 +36,15 @@ class NotificationsIndex extends StatelessWidget {
     String? token = context.read<UserProvider>().user!.token;
     return Consumer<NotificationProvider>(
       builder: (context, provider, child) {
+        if (provider.isLoading) {
+          return Center(
+            child: Lottie.asset(
+              Assets.getAnimation(Assets.loadingNotifications),
+            ),
+          );
+        }
         if (provider.notifications == null ||
-            provider.notifications!.items == null) {
-          if (provider.isLoading) {
-            return Center(
-              child: Lottie.asset(
-                Assets.getAnimation(Assets.loadingNotifications),
-              ),
-            );
-          }
+            provider.notifications!.items!.isEmpty) {
           return Center(
             child: Lottie.asset(
               Assets.getAnimation(Assets.emptyNotifications),
