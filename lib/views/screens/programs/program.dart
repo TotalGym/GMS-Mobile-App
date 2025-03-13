@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gmn/data/helpers/date_formatter_helper.dart';
 import 'package:gmn/data/models/content/program/exercise.dart';
@@ -54,10 +56,19 @@ class ProgramView extends StatelessWidget {
                       SizedBox(
                         height: 256.sp,
                         width: 384.sp,
-                        child: Image.network(
-                          program.image!,
+                        child: CachedNetworkImage(
+                          imageUrl: program.image!,
                           fit: BoxFit.cover,
-                          height: 256,
+                          placeholder: (context, url) => const SizedBox(
+                              height: 20, child: CircularProgressIndicator()),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                          cacheManager: CacheManager(
+                            Config(
+                              program.image!,
+                              stalePeriod: const Duration(hours: 3),
+                            ),
+                          ),
                         ),
                       ),
                       Container(

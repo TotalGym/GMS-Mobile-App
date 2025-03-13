@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gmn/data/models/content/store/product.dart';
 import 'package:gmn/values/app_router.dart';
@@ -125,9 +127,18 @@ class ProductsIndex extends StatelessWidget {
               child: SizedBox(
                 height: 109.sp,
                 width: 175.sp,
-                child: Image.network(
-                  product.image!,
+                child: CachedNetworkImage(
+                  imageUrl: product.image!,
                   fit: BoxFit.cover,
+                  placeholder: (context, url) => const SizedBox(
+                      height: 20, child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                  cacheManager: CacheManager(
+                    Config(
+                      product.image!,
+                      stalePeriod: const Duration(hours: 3),
+                    ),
+                  ),
                 ),
               ),
             ),

@@ -8,6 +8,8 @@ class NotificationProvider extends ChangeNotifier {
   int notificationsPage = 1;
   bool hasNewNotifications = false;
 
+  bool isLoading = true;
+
   getCoachNotifications(String token) async {
     if (notifications == null) {
       notifications = await NotificationRepo.getCoachNotifications(token, {
@@ -21,6 +23,7 @@ class NotificationProvider extends ChangeNotifier {
       notifications!.update(tempNotifications);
     }
     notifications!.items = await _checkIfViewedByUser(notifications!.items!);
+    isLoading = false;
     notifyListeners();
   }
 
@@ -41,9 +44,19 @@ class NotificationProvider extends ChangeNotifier {
   }
 
   getProfileNotifications(String token) async {
-    notifications = await NotificationRepo.getProfileNotifications(token, {
-      "page": notificationsPage,
-    });
+    if (notifications == null) {
+      notifications = await NotificationRepo.getProfileNotifications(token, {
+        "page": notificationsPage,
+      });
+    } else {
+      NotificationRepo tempNotifications =
+          await NotificationRepo.getProfileNotifications(token, {
+        "page": notificationsPage,
+      });
+      notifications!.update(tempNotifications);
+    }
+    notifications!.items = await _checkIfViewedByUser(notifications!.items!);
+    isLoading = false;
     notifyListeners();
   }
 

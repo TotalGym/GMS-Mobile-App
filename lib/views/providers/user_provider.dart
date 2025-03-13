@@ -18,6 +18,13 @@ class UserProvider extends ChangeNotifier {
   bool? hasToken;
   bool? isLoggedIn;
 
+  bool online = false;
+
+  setOnline() async {
+    online = true;
+    notifyListeners();
+  }
+
   Future<void> checkIfLoggedIn() async {
     String? token = await SharedPreferencesHelper.instance.getTokenFromGlobal();
     hasToken = token != null;

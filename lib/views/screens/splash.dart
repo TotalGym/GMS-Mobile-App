@@ -11,7 +11,6 @@ import 'package:gmn/views/providers/profile/profile_provider.dart';
 import 'package:gmn/views/providers/program_store_provider.dart';
 import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/auth/log_in.dart';
-import 'package:gmn/views/screens/no_connection.dart';
 import 'package:gmn/views/screens/home.dart';
 import 'package:provider/provider.dart';
 
@@ -32,46 +31,40 @@ class _Splash extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-
     _checkLoginState();
   }
 
   _checkLoginState() async {
     if (await ConnectionTest.isConnected()) {
       // ignore: use_build_context_synchronously
-      await context.read<UserProvider>().checkIfLoggedIn();
+      await context.read<UserProvider>().setOnline();
+    }
+    // ignore: use_build_context_synchronously
+    await context.read<UserProvider>().checkIfLoggedIn();
 
+    // ignore: use_build_context_synchronously
+    user = context.read<UserProvider>().user;
+
+    if (user == null) {
+      await _continue();
+    } else if (user!.token == null) {
+      await _continue();
+    }
+    if (user != null && user!.token != null) {
       // ignore: use_build_context_synchronously
-      user = context.read<UserProvider>().user;
-
-      if (user == null) {
-        await _continue();
-      } else if (user!.token == null) {
-        await _continue();
-      }
-      if (user != null && user!.token != null) {
+      await context.read<ProfileProvider>().getProfile(user!.token!);
+      // ignore: use_build_context_synchronously
+      Profile? profile = context.read<ProfileProvider>().profile;
+      if (profile != null) {
         // ignore: use_build_context_synchronously
-        await context.read<ProfileProvider>().getProfile(user!.token!);
+        isLoggedIn = context.read<UserProvider>().isLoggedIn ?? false;
         // ignore: use_build_context_synchronously
-        Profile? profile = context.read<ProfileProvider>().profile;
-        if (profile != null) {
-          // ignore: use_build_context_synchronously
-          isLoggedIn = context.read<UserProvider>().isLoggedIn ?? false;
-          // ignore: use_build_context_synchronously
-          NotificationRepo.updateNotifications(user!);
-          // ignore: use_build_context_synchronously
-          _getHomeState(user!, context);
+        NotificationRepo.updateNotifications(user!);
+        // ignore: use_build_context_synchronously
+        _getHomeState(user!, context);
 
-          _continue();
-        }
+        _continue();
       }
-    } else {
-      Future.delayed(
-        const Duration(seconds: 2),
-        () {
-          AppRouter.navigateWithReplacemtnToWidget(const NoConnectionScreen());
-        },
-      );
     }
   }
 

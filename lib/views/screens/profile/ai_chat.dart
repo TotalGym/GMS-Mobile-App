@@ -10,10 +10,10 @@ class OpenAIChat extends StatefulWidget {
   const OpenAIChat({super.key});
 
   @override
-  _OpenAIChatWidgetState createState() => _OpenAIChatWidgetState();
+  OpenAIChatWidgetState createState() => OpenAIChatWidgetState();
 }
 
-class _OpenAIChatWidgetState extends State<OpenAIChat> {
+class OpenAIChatWidgetState extends State<OpenAIChat> {
   String _response = '';
   String _prompt = '';
   bool _isLoading = false;

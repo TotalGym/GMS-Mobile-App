@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gmn/values/app_router.dart';
 import 'package:gmn/values/colors.dart';
-import 'package:gmn/views/providers/user_provider.dart';
 import 'package:gmn/views/screens/auth/change_password.dart';
-import 'package:gmn/views/screens/auth/log_in.dart';
 import 'package:gmn/views/screens/equipments/equipments_index.dart';
 import 'package:gmn/views/screens/profile/ai_chat.dart';
 import 'package:gmn/views/screens/profile/profiles_index.dart';
+import 'package:gmn/views/screens/profile/profile.dart';
 import 'package:gmn/views/screens/programs/programs_index.dart';
 import 'package:gmn/views/screens/store/all_products.dart';
-import 'package:provider/provider.dart';
+import 'package:gmn/views/widgets/dialogs/logout_dialog.dart';
 
 appDrawer({String userType = "Trainee"}) {
   final bool isCoach = userType == "Coach";
@@ -19,7 +18,7 @@ appDrawer({String userType = "Trainee"}) {
     width: 220.w,
     decoration: const BoxDecoration(color: AppColors.backgroundAlpha),
     child: Column(children: [
-      _drawerButton("Profile", const ProfilesIndex()),
+      _drawerButton("Profile", const ProfileView()),
       _drawerButton("AI Chat", const OpenAIChat()),
       if (isCoach) _drawerButton("Trainees", const ProfilesIndex()),
       if (isCoach) _drawerButton("Equipments", const EquipmentsIndex()),
@@ -108,8 +107,7 @@ Widget _customColorsDrawerButton(
 Widget _logoutButton(String name, List<Color> gradientColors) {
   return InkWell(
     onTap: () async {
-      AppRouter.navKey.currentContext!.read<UserProvider>().logUserOut();
-      AppRouter.navigateWithReplacemtnToWidget(const LogIn());
+      showLogoutDialog();
     },
     child: Container(
       margin: EdgeInsets.symmetric(vertical: 8.5.sp),

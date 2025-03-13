@@ -31,7 +31,7 @@ class DateFormatterHelper {
       'MON.',
       'TUES.',
       'WED.',
-      'THURS.',
+      'THUR.',
       'FRI.',
       'SAT.',
       'SUN.'

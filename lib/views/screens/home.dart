@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gmn/data/helpers/date_formatter_helper.dart';
 import 'package:gmn/data/models/content/store/product.dart';
@@ -241,9 +243,19 @@ class Home extends StatelessWidget {
                   SizedBox(
                     height: 150.h,
                     width: 226.sp,
-                    child: Image.network(
-                      program.image!,
+                    child: CachedNetworkImage(
+                      imageUrl: program.image!,
                       fit: BoxFit.cover,
+                      placeholder: (context, url) => const SizedBox(
+                          height: 20, child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                      cacheManager: CacheManager(
+                        Config(
+                          program.image!,
+                          stalePeriod: const Duration(hours: 3),
+                        ),
+                      ),
                     ),
                   ),
                   Container(
@@ -352,9 +364,18 @@ class Home extends StatelessWidget {
             SizedBox(
               height: 140.h,
               width: 226.w,
-              child: Image.network(
-                product.image!,
+              child: CachedNetworkImage(
+                imageUrl: product.image!,
                 fit: BoxFit.cover,
+                placeholder: (context, url) => const SizedBox(
+                    height: 20, child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+                cacheManager: CacheManager(
+                  Config(
+                    product.image!,
+                    stalePeriod: const Duration(hours: 3),
+                  ),
+                ),
               ),
             ),
             Container(
